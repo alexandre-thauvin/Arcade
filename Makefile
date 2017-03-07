@@ -5,37 +5,89 @@
 ## Login   <thauvi_a@epitech.net>
 ##
 ## Started on  Mon Mar  6 14:29:08 2017 Alexandre Thauvin
-## Last update Mon Mar  6 14:39:19 2017 Alexandre Thauvin
+## Last update Tue Mar  7 16:00:47 2017 Paul THEIS
 ##
 
-NAME		= arcade
+DEBUG			=		yes
 
-PATH		= games/sources/
+VERSION		=		0.1
 
-SRCS		=
+NAME			=		philo
 
-OBJS		= $(SRCS:.cpp=.o)
+SRCS			=		main.c
 
-GCC		= g++
+GAMES			=		games/
 
-RM		= rm -rf
+GFX				=		lib/
 
-CXXFLAGS	= -Wall -Werror -W -Wextra -I ./games/includes
+CC				=		gcc
+AR				=		ar
+RM				=		rm -Rf
 
+ifeq ($(DEBUG), yes)
+CFLAGS		=		-W -Wall -Wextra -g -pg
+else
+CFLAGS		=		-W -Wall -Wextra -Werror
+endif
+CFLAGS	 	+=	-I./include
 
-$(NAME): $(OBJS)
-	$(GCC) $(OBJS) -o $(NAME) $(CXXFLAGS)
+GREEN			=		\033[1;32m
+YELLOW		=		\033[1;33m
+BLUE			=		\033[1;34m
+WHITE			=		\033[0m
 
-all: $(NAME)
+OBJDIR		=		obj
+SRCDIR		=		src
+SRCDIRS		=		$(shell find $(SRCDIR) -type d | sed 's/$(SRCDIR)/./g' )
+OBJS			=		$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, \
+							$(addprefix $(SRCDIR)/, $(SRCS)))
 
-clean:
-	$(RM) $(OBJS)
-	$(RM) games/sources/*~
-	$(RM) games/sources/*#
+name			:		buildrepo project_compil
 
-fclean: clean
-	$(RM) $(NAME)
+project_compil	:	$(OBJS)
+				@$(CC) $(OBJS) $(LIB) -o $(NAME) $(LDFLAGS)
+				@echo "$(GREEN)\n<--->\t ♩♪♫ $(NAME) $(YELLOW)" \
+				" Compiled Sucesfully $(WHITE)\n"
 
-re: fclean all
+all				:		name
 
-.PHONY:         all clean fclean re
+clean			:
+							$(RM) $(OBJDIR)
+
+fclean		:		clean
+							$(RM) $(NAME) $(LIBDIR)
+
+re				:		fclean all
+
+val				:
+							@make re && valgrind ./$(NAME)
+
+val+			:
+							@make re && valgrind --leak-check=full ./$(NAME)
+
+exe				:
+							@make re && LD_PRELOAD=libriceferee.so ./$(NAME) -p 7 -e 15
+
+.PHONY		:		all clean fclean re
+
+$(OBJDIR)/%.o	: 	$(SRCDIR)/%.c
+				@$(CC) -c $< -o $@ $(CFLAGS)
+				@echo "$(BLUE)<SRC> \t [√] $<\t$(WHITE)"
+
+$(OBJDIR)/$(BASICDIR)/%.o: $(BASICDIR)/%.c
+				@$(CC) -c $< -o $@ $(CFLAGS)
+				@echo "$(YELLOW)<LIB> \t [√] $<\t$(WHITE)"
+
+buildrepo	:
+							@$(call make-repo)
+							@echo "$(GREEN)\n<--->\t ♩♪♫ $(NAME) $(YELLOW)" \
+							" Repository Init $(WHITE)\n"
+print-%		:
+							@echo '$*=$($*)'
+
+define make-repo
+				for dir in $(SRCDIRS); \
+				do \
+				mkdir -p $(OBJDIR)/$$dir; \
+					done
+endef
