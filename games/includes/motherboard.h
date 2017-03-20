@@ -6,12 +6,16 @@
 #define ARCADE_MOTHERBOARD_H
 
 #include <vector>
+#include <cstddef>
+#include "tools.h"
+
+
+#define WIDTH (60)
 
 class 		motherboard{
  public:
-  int 	getHeight();
-  move	getMove();
-  void	start();
+  virtual void		pop() = 0;
+  virtual void		move_player() = 0;
   enum 	move{
     STOP = 0,
     LEFT,
@@ -19,15 +23,16 @@ class 		motherboard{
     TOP,
     DOWN
   };
- private:
+ protected:
   move			mv;
+  //move 			buff;
+  int 			head_x;
+  int 			head_y;
   int 			height;
-  int 			f_x;
-  int 			f_y;
-  std::vector<int>	body;
-  int 			**map;
-  bool 			status;
-  bool 			frut;&
+  unsigned int		score;
+  size_t                size;
+  char 			**map;
+  bool 			state;
 };
 
 #endif //ARCADE_MOTHERBOARD_H
