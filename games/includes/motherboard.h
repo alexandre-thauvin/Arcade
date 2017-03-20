@@ -16,6 +16,7 @@ class 		motherboard{
  public:
   virtual void		pop() = 0;
   virtual void		move_player() = 0;
+  virtual void 		check_death() = 0;
   enum 	move{
     STOP = 0,
     LEFT,
@@ -28,9 +29,7 @@ class 		motherboard{
   //move 			buff;
   int 			head_x;
   int 			head_y;
-  int 			height;
   unsigned int		score;
-  size_t                size;
   char 			**map;
   bool 			state;
 };
