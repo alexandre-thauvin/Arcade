@@ -10,13 +10,14 @@
 #include "tools.h"
 
 
-#define WIDTH (60)
+#define WIDTH (30)
 
 class 		motherboard{
  public:
   virtual void		pop() = 0;
   virtual void		move_player() = 0;
-  virtual void 		check_death() = 0;
+  virtual bool 		check_death() = 0;
+  virtual void 		update_key(move) = 0; //fonction a appelé en passant un enum en fonction de la key recup
   enum 	move{
     STOP = 0,
     LEFT,
@@ -26,7 +27,6 @@ class 		motherboard{
   };
  protected:
   move			mv;
-  //move 			buff;
   int 			head_x;
   int 			head_y;
   unsigned int		score;

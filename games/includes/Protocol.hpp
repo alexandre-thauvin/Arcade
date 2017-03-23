@@ -25,6 +25,7 @@ namespace		arcade
       ILLEGAL		= 8,		// THE INSTRUCTION WAS ILLEGAL
       PLAY		= 9		// PLAY A ROUND
     };
+
   enum class		TileType : uint16_t
     {
       EMPTY		= 0,		// TILE WHERE THE CHARACTER CAN GO
@@ -50,6 +51,7 @@ namespace		arcade
     uint16_t		x;
     uint16_t		y;
   } __attribute__((packed));
+
   struct		WhereAmI
   {
     CommandType		type;

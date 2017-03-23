@@ -4,6 +4,3 @@
 
 #include "../includes/motherboard.h"
 
-motherboard::move motherboard::getMove() {
-  return this->mv;
-}

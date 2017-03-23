@@ -14,9 +14,11 @@ class Snake: public motherboard {
   ~Snake(){};
   void 		move_player();
   void 		pop();
-  void 		check_death();
+  bool 		check_death();
+  void 		update_key(move);
+  void 		s_fill_map();
  private:
-  size_t                size;
+  size_t       	size;
   bool 		frut;
   int 		frut_x;
   int 		frut_y;
