@@ -5,14 +5,14 @@
 #include <cstdlib>
 #include "Snake.h"
 
-char 	**ma2d(char **dest)
+int 	**ma2d(int **dest)
 {
   int	z = 0;
-  if ((dest = (char **)malloc((WIDTH + 1) * sizeof(char*))) == NULL)
+  if ((dest = (int **)malloc((WIDTH + 1) * sizeof(int*))) == NULL)
     exit(1);
   while (z < WIDTH)
    {
-     if ((dest[z] = (char *)malloc((WIDTH + 1) * sizeof(char))) == NULL)
+     if ((dest[z] = (int *)malloc((WIDTH + 1) * sizeof(int))) == NULL)
        exit(1);
      z++;
    }

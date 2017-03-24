@@ -22,7 +22,7 @@ class 		motherboard{
     STOP = 0,
     LEFT,
     RIGHT,
-    TOP,
+    UP,
     DOWN
   };
  protected:
@@ -30,7 +30,6 @@ class 		motherboard{
   int 			head_x;
   int 			head_y;
   unsigned int		score;
-  char 			**map;
   bool 			state;
 };
 

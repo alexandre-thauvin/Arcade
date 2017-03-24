@@ -5,6 +5,6 @@
 #ifndef ARCADE_TOOLS_H
 #define ARCADE_TOOLS_H
 
-char	**ma2d(char **);
+int	**ma2d(int **);
 
 #endif //ARCADE_TOOLS_H
