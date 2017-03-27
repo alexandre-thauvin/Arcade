@@ -5,10 +5,13 @@
 #ifndef ARCADE_SNAKE_H
 #define ARCADE_SNAKE_H
 
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
 #include "motherboard.h"
 
 #define HEAD	(1)
-#define FRUT	(-10)
+#define FRUT	(-299)
 // Le body sera représenté par une incrementation d'une variable => 2ème boule du snake =>2 etc...
 
 
@@ -29,6 +32,7 @@ class Snake: public motherboard {
   void 		gestion();
   void 		grow_up();
   void 		move_body();
+  void 		print_map();
  private:
   int 		map[WIDTH][WIDTH];
   size_t       	size;

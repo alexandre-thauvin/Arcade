@@ -2,8 +2,6 @@
 // Created by thauvi_a on 3/20/17.
 //
 
-#include <cstdlib>
-#include <ctime>
 #include "Snake.h"
 
 void Snake::move_player() {
@@ -17,7 +15,7 @@ void Snake::move_player() {
     move_down();
 }
 
-Snake::Snake() {
+Snake::Snake(): motherboard() {
   this->mv = STOP;
   this->frut = true;
   srand(time(NULL));
@@ -31,10 +29,10 @@ Snake::Snake() {
 }
 
 void Snake::pop() {
-  if (this->frut)
-    return;
   this->frut_x = rand() % WIDTH;
   this->frut_y = rand() % WIDTH;
+  std::cout << this->frut_x << std::endl;
+  std::cout << this->frut_y << std::endl;
   this->map[this->frut_y][this->frut_x] = FRUT;
   this->frut = true;
 }
@@ -74,37 +72,64 @@ void Snake::s_fill_map() {
     this->map[this->head_y][this->head_x - i] = (int)this->size;
     this->size++;
   }
+  this->size--;
   this->tale = (int*)malloc(2 * sizeof(int));
   this->tale[0] = this->head_y;
   this->tale[1] = this->head_x - 3;
+  this->pop();
 }
 void 	Snake::gestion(){
-  Snake		*Snake = new Snake();
 
-  Snake->s_fill_map();
-  Snake->update_key(RIGHT);
-  if (!Snake->check_death());
+  this->s_fill_map();
+  print_map();
+  this->update_key(RIGHT);
+  this->move_player();
+  print_map();
+  this->update_key(RIGHT);
+  this->move_player();
+  print_map();
+  this->update_key(DOWN);
+  this->move_player();
+  print_map();
+  this->update_key(DOWN);
+  this->move_player();
+  print_map();
+  this->update_key(LEFT);
+  this->move_player();
+  print_map();
+}
+
+void 	Snake::print_map()
+{
+  std::cout << "******************************************************************" << std::endl;
+  for (int z = 0; z < WIDTH - 1 ; z++){
+    for (int j = 0; j < WIDTH - 1; j++)
+      std::cout << this->map[z][j];
+    std::cout << std::endl;
+  }
+  std::cout << "******************************************************************" << std::endl << std::endl;
 }
 
 bool Snake::eat_frut() {
   if (this->mv == RIGHT) {
-    if (this->map[this->head_y][this->head_x + 1] == FRUT || this->head_x == WIDTH - 1)
-      this->state = true;
+    if (this->map[this->head_y][this->head_x + 1] == FRUT)
+      this->frut = false;
   }
   else if (this->mv == LEFT) {
-    if (this->map[this->head_y][this->head_x - 1] == FRUT || this->head_x == 0)
-      this->state = true;
+    if (this->map[this->head_y][this->head_x - 1] == FRUT)
+      this->frut = false;
   }
   else if (this->mv == UP) {
-    if (this->map[this->head_y - 1][this->head_x] == FRUT || this->head_y == 0)
-      this->state = true;
+    if (this->map[this->head_y - 1][this->head_x] == FRUT)
+      this->frut = false;
   }
   else if (this->mv == DOWN) {
-    if (this->map[this->head_y + 1][this->head_x] == FRUT || this->head_y == WIDTH - 1)
-      this->state = true;
+    if (this->map[this->head_y + 1][this->head_x] == FRUT)
+      this->frut = false;
   }
-  if (this->state) {
+  if (this->frut) {
     this->score += 100;
+    this->pop();
     grow_up();
     return (true);
   }
@@ -112,42 +137,42 @@ bool Snake::eat_frut() {
 }
 
 void Snake::move_down() {
-  if (!check_death())
+  if (check_death())
     return;
   else {
     this->head_y++;
-    this->map[this->head_y][this->head_x] = 1;
     move_body();
+    this->map[this->head_y][this->head_x] = 1;
   }
 }
 
 void Snake::move_up() {
-  if (!check_death())
+  if (check_death())
     return;
   else {
     this->head_y--;
-    this->map[this->head_y][this->head_x] = 1;
     move_body();
+    this->map[this->head_y][this->head_x] = 1;
   }
 }
 
 void Snake::move_left() {
-  if (!check_death())
+  if (check_death())
     return;
   else {
     this->head_x--;
-    this->map[this->head_y][this->head_x] = 1;
     move_body();
+    this->map[this->head_y][this->head_x] = 1;
   }
 }
 
 void Snake::move_right() {
-  if (!check_death())
+  if (check_death())
     return;
   else {
     this->head_x++;
-    this->map[this->head_y][this->head_x] = 1;
     move_body();
+    this->map[this->head_y][this->head_x] = 1;
   }
 }
 
@@ -161,20 +186,22 @@ void Snake::grow_up() {
 }
 
 void Snake::move_body() {
-  int 	x = 0;
-  int 	y = 0;
-  this->map[this->tale[0]][this->tale[1]] = 0;
-  for (int i = (int)this->size - 1 ; i > 0 ; i--){
+  this->tale = find_tale((int)this->size, this->map);
+  std::cout << "je suis tale : " << this->tale[0] << " " << this->tale[1] << std::endl;
+
+  for (int i = (int)this->size; i > 1 ; i--){
     for (int z = 0 ; z < WIDTH ; z++)
     {
       for (int j = 0; j < WIDTH; j++) {
-	if (this->map[z][j] == i)
-	{
-	  y = z;
-	  x = j;
-	}
+	if (this->map[z][j] == i - 1)
+	  this->map[z][j] = i;
       }
     }
-    this->map[y][x] = i + 1;
   }
+  this->map[this->tale[0]][this->tale[1]] = 0;
+}
+
+int 	main(){
+  Snake	Snake;
+  Snake.gestion();
 }

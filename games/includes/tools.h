@@ -5,9 +5,10 @@
 #ifndef ARCADE_TOOLS_H
 #define ARCADE_TOOLS_H
 
-#include "motherboard.h"
+#define WIDTH (10)
 
 int	**ma2d(int **);
 int 	*find_tale(int, int [WIDTH][WIDTH]);
+void 	print_map();
 
 #endif //ARCADE_TOOLS_H
