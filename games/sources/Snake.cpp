@@ -5,6 +5,7 @@
 #include "Snake.h"
 
 void Snake::move_player() {
+  this->eat_frut();
   if (this->mv == RIGHT)
     move_right();
   else if (this->mv == LEFT)
@@ -24,13 +25,13 @@ Snake::Snake(): motherboard() {
   this->head_x = WIDTH / 2;
   this->head_y = WIDTH / 2;
   this->score = 0;
-  this->state = true;
+  this->state = false;
   this->size = 2;
 }
 
 void Snake::pop() {
-  this->frut_x = rand() % WIDTH;
-  this->frut_y = rand() % WIDTH;
+  this->frut_x = 7;
+  this->frut_y = 5;
   std::cout << this->frut_x << std::endl;
   std::cout << this->frut_y << std::endl;
   this->map[this->frut_y][this->frut_x] = FRUT;
@@ -53,6 +54,11 @@ bool Snake::check_death() {
   else if (this->mv == DOWN) {
     if (this->map[this->head_y + 1][this->head_x] > 1 || this->head_y == WIDTH - 1)
       this->state = true;
+  }
+  if (this->state)
+  {
+    std::cout << "LOOSE" << std::endl;
+    exit(0);
   }
   return (false);
 }
@@ -88,13 +94,13 @@ void 	Snake::gestion(){
   this->update_key(RIGHT);
   this->move_player();
   print_map();
-  this->update_key(DOWN);
+  this->update_key(RIGHT);
   this->move_player();
   print_map();
-  this->update_key(DOWN);
+  this->update_key(RIGHT);
   this->move_player();
   print_map();
-  this->update_key(LEFT);
+  this->update_key(UP);
   this->move_player();
   print_map();
 }
@@ -177,8 +183,8 @@ void Snake::move_right() {
 }
 
 void Snake::grow_up() {
-  this->size++;
   this->tale = find_tale((int)this->size, this->map);
+  this->size++;
   if (this->tale[1] != 0)
     this->map[this->tale[0]][this->tale[1] - 1] = (int)this->size;
   else
