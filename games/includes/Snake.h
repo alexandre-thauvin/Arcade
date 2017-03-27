@@ -27,8 +27,8 @@ class Snake: public motherboard {
   void 		update_key(move);
   void 		s_fill_map();
   void 		gestion();
-
-
+  void 		grow_up();
+  void 		move_body();
  private:
   int 		map[WIDTH][WIDTH];
   size_t       	size;
@@ -36,6 +36,7 @@ class Snake: public motherboard {
   move 		g_move;
   int 		frut_x;
   int 		frut_y;
+  int 		*tale;
 };
 
 

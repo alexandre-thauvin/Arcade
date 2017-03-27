@@ -3,7 +3,26 @@
 //
 
 #include <cstdlib>
-#include "Snake.h"
+#include "tools.h"
+
+int 	*find_tale(int value, int tab[WIDTH][WIDTH])
+{
+  int 	i = 0;
+  int 	j = 0;
+  int 	tabi[2];
+
+  for (i = 0 ; i < WIDTH ; i++) {
+    for (j = 0; j < WIDTH ; j++)
+    {
+      if (tab[i][j] == value) {
+	tabi[0] = i;
+	tabi[1] = j;
+	return (tabi);
+      }
+      j++;
+    }
+  }
+}
 
 int 	**ma2d(int **dest)
 {
