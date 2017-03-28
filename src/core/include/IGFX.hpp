@@ -22,7 +22,7 @@ namespace arcade
 
     virtual InputT checkInput(void) = 0;
 
-    virtual void clearScreen(void) = 0;
+    virtual void clear(void) = 0;
     virtual void draw(Drawable const& drawable) = 0;
     virtual void display(void) = 0;
   };

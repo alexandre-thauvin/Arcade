@@ -14,9 +14,11 @@ VERSION			?=		0.1
 
 PARAM			?=		
 
-NAME			=		arcade
+NAME			=		../../arcade
 
-SRCS			=		core/src/main.cpp
+SRCS			=		main.cpp \
+					Core.cpp \
+					Error.cpp
 
 GAMES			=		games/
 
@@ -24,16 +26,17 @@ CORE			=		src/core
 
 GFX			=		lib/
 
-CXX			?=		g++
+CC			=		g++
 AR			=		ar
 RM			=		rm -Rf
 
 ifeq ($(DEBUG), yes)
-CXXFLAGS		=		-W -Wall -Wextra -g -pg -ansi -pedantic
+CXXFLAGS		=		-W -Wall -Wextra -g -pg -ansi
 else
-CXXFLAGS		=		-W -Wall -Wextra -Werror -ansi -pedantic
+CXXFLAGS		=		-W -Wall -Wextra -Werror -ansi
 endif
-CPPFLAGS		+=		-I./src/core/include
+CXXFLAGS                +=		-std=c++11 -fPIC
+CXXFLAGS		+=		-I./include/
 
 LDFLAGS			+=		-ldl
 
@@ -45,13 +48,13 @@ WHITE			=		\033[0m
 OBJDIR			=		obj
 SRCDIR			=		src
 SRCDIRS			=		$(shell find $(SRCDIR) -type d | sed 's/$(SRCDIR)/./g' )
-OBJS			=		$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, \
+OBJS			=		$(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, \
 							$(addprefix $(SRCDIR)/, $(SRCS)))
 
 name			:		buildrepo project_compil
 
 project_compil		:		$(OBJS)
-					@$(CXX) $(OBJS) -o $(NAME) $(LDFLAGS)
+					$(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
 					@echo "$(GREEN)\n<--->\t ♩♪♫ $(NAME) $(YELLOW)" \
 					" Compiled Sucesfully $(WHITE)\n"
 
@@ -76,12 +79,12 @@ exe			:
 
 .PHONY			:		all clean fclean re
 
-$(OBJDIR)/%.o		:	 	$(SRCDIR)/%.c
-					@$(CC) -c $< -o $@ $(CFLAGS)
+$(OBJDIR)/%.o		:	 	$(SRCDIR)/%.cpp
+					@$(CC) -c $< -o $@ $(CXXFLAGS)
 					@echo "$(BLUE)<SRC> \t [√] $<\t$(WHITE)"
 
-$(OBJDIR)/$(BASICDIR)/%.o: 		$(BASICDIR)/%.c
-					@$(CC) -c $< -o $@ $(CFLAGS)
+$(OBJDIR)/$(BASICDIR)/%.o: 		$(BASICDIR)/%.cpp
+					@$(CC) -c $< -o $@ $(CXXFLAGS)
 					@echo "$(YELLOW)<LIB> \t [√] $<\t$(WHITE)"
 
 buildrepo		:

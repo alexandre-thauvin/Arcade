@@ -10,3 +10,19 @@
  *   Project: cpp_arcade
  * ************************************************************************** */
 
+#include "Error.hpp"
+
+arcade::ArcadeError::ArcadeError(std::string const &msg) throw()
+{
+  this->_msg = msg;
+}
+
+arcade::ArcadeError::~ArcadeError(void) throw() {}
+
+const char              *arcade::ArcadeError::what(void) const throw()
+{
+  std::string           msg;
+
+  msg = this->_msg;
+  return (msg.data());
+}

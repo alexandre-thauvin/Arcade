@@ -21,56 +21,33 @@
 # include <signal.h>
 
 # include "Protocol.hpp"
+# include "Utils.hpp"
+# include "Input.hpp"
+# include "Error.hpp"
 
-namespace arcade
-{
-    class Core
-    {
+enum                          GameState {
+  PlayState = 0,
+  MenuState = 1,
+  Pause = 2
+};
+
+namespace                       arcade {
+  class                         Core {
     public:
-        static const std::string GMXConfig;
-        static const std::string GFXConfig;
-//    public:
-//        Core(Vector2u const& gamedim);
-//        ~Core(void);
-//
-//        void init(std::string const& lib, std::string const& conf);
-//        void setLibGraphic(std::string const& lib);
-//        void setLibGames(std::string const& lib);
-//        bool play(void);
-//    private:
-//        std::map<GameState, std::function<void(float const, InputT const)> > _update;
-//        void up_menu(float const delta, InputT const in);
-//        void up_game(float const delta, InputT const in);
-//
-//        std::map<InputT, std::function<void(void)> > _input;
-//        void closeWindow(void);
-//        void prevLibGraph(void);
-//        void nextLibGraph(void);
-//        void prevLibGame(void);
-//        void nextLibGame(void);
-//        void restartGame(void);
-//        void goToMenu(void);
-//
-//        void loadScore(void);
-//
-//        Chronometer _clock;
-//        GameState _state;
-//        Vector2u _gamedim;
-//
-//        SoLoader _loader[2];
-//        IGraphic *_graphic;
-//
-//        std::string _currentGames;
-//        std::string _currentGraph;
-//        std::vector<std::string> _gamesPath;
-//        std::vector<std::string> _graphPath;
-//        std::vector<std::string> _scoreData;
-//
-//        ArcadeMenu *_menu;
-//        ArcadeGame *_game;
+                                Core(void);
+                                ~Core(void);
+      void                      init(std::string const &lib, std::string const &conf);
+      bool                      play(void);
+      void                      initLibGraphic(std::string const &lib);
+      void                      initLibGames(std::string const &lib);
+    private:
+
+        std::map<InputT, std::function<void(void)> > _input;
+       GameState                _state;
     };
+
 }
 
-void  arcade_ragequit(int n);
+void                            arcade_ragequit(int n);
 
 #endif /* !_CORE_HPP_ */

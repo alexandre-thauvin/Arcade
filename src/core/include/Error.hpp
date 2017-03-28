@@ -13,4 +13,20 @@
 #ifndef CPP_ARCADE_ERROR_HPP
 #define CPP_ARCADE_ERROR_HPP
 
+# include <iostream>
+# include <string>
+# include <exception>
+
+namespace                     arcade {
+    class                     ArcadeError : public std::exception {
+      public:
+                              ArcadeError(std::string const &msg) throw();
+          virtual             ~ArcadeError(void) throw();
+          virtual const char  *what(void) const throw();
+
+      private:
+          std::string         _msg;
+    };
+}
+
 #endif //CPP_ARCADE_ERROR_HPP
