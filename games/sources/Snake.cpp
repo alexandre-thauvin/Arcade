@@ -5,6 +5,10 @@
 #include "Snake.h"
 
 void Snake::move_player() {
+  if (check_death())
+  {
+    std::cout << "LOOSE" << std::endl;
+  }
   this->eat_frut();
   if (this->mv == RIGHT)
     move_right();
@@ -133,7 +137,7 @@ bool Snake::eat_frut() {
     if (this->map[this->head_y + 1][this->head_x] == FRUT)
       this->frut = false;
   }
-  if (this->frut) {
+  if (!this->frut) {
     this->score += 100;
     this->pop();
     grow_up();
@@ -143,43 +147,27 @@ bool Snake::eat_frut() {
 }
 
 void Snake::move_down() {
-  if (check_death())
-    return;
-  else {
     this->head_y++;
     move_body();
     this->map[this->head_y][this->head_x] = 1;
-  }
 }
 
 void Snake::move_up() {
-  if (check_death())
-    return;
-  else {
     this->head_y--;
     move_body();
     this->map[this->head_y][this->head_x] = 1;
-  }
 }
 
 void Snake::move_left() {
-  if (check_death())
-    return;
-  else {
     this->head_x--;
     move_body();
     this->map[this->head_y][this->head_x] = 1;
-  }
 }
 
 void Snake::move_right() {
-  if (check_death())
-    return;
-  else {
     this->head_x++;
     move_body();
     this->map[this->head_y][this->head_x] = 1;
-  }
 }
 
 void Snake::grow_up() {
