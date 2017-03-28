@@ -8,37 +8,48 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-#include "motherboard.h"
+#include "IGame.hpp"
+#include "tools.h"
 
+#define WIDTH	(10)
 #define HEAD	(1)
 #define FRUT	(-299)
 // Le body sera représenté par une incrementation d'une variable => 2ème boule du snake =>2 etc...
 
 
-class Snake: public motherboard {
+class Snake: public  arcade::IGames {
  public:
   Snake();
   ~Snake(){};
+  enum 	move{
+    STOP = 0,
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN
+  };
   void 		move_player();
-  void 		move_down();
-  void 		move_up();
-  void 		move_left();
-  void 		move_right();
+  void 		goDown();
+  void 		goUp();
+  void 		goLeft();
+  void 		goRight();
   void 		pop();
-  bool 		check_death();
   bool 		eat_frut();
   void 		update_key(move);
-  void 		s_fill_map();
+  void 		play();
   void 		gestion();
   void 		grow_up();
   void 		move_body();
   void 		print_map();
-  bool 		check_death();
+  size_t        getScore(void) const;
+  bool 		isPlayerAlive();
+  std::string     getGamesName(void) const;
+  void            restart(void);
  private:
+  std::string	name;
   int 		map[WIDTH][WIDTH];
   size_t       	size;
   bool 		frut;
-  move 		g_move;
   int 		frut_x;
   int 		frut_y;
   int 		*tale;
