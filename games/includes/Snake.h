@@ -33,6 +33,7 @@ class Snake: public motherboard {
   void 		grow_up();
   void 		move_body();
   void 		print_map();
+  bool 		check_death();
  private:
   int 		map[WIDTH][WIDTH];
   size_t       	size;
@@ -41,6 +42,11 @@ class Snake: public motherboard {
   int 		frut_x;
   int 		frut_y;
   int 		*tale;
+  move			mv;
+  int 			head_x;
+  int 			head_y;
+  unsigned int		score;
+  bool 			state;
 };
 
 
