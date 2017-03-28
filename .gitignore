@@ -63,3 +63,5 @@ cmake-build-debug/
 CMakeFiles/
 CMakeCache.txt/
 Supprimerait cmake_install.cmake
+Supprimerait obj/
+Supprimerait src/core/src/
