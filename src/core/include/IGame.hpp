@@ -1,4 +1,4 @@
-#ifndef _IGAMES_HPP_
+è#ifndef _IGAMES_HPP_
 # define _IGAMES_HPP_
 
 # include <string>
