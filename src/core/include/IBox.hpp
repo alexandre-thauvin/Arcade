@@ -1,3 +1,13 @@
+//
+// IBox.hpp for  in /home/aneopsy/cpp_arcade/src/core/include/
+//
+// Made by Paul THEIS
+// Login   <theis_p@epitech.eu>
+//
+// Started on  Tue Mar 28 16:38:57 2017 Paul THEIS
+// Last update Tue Mar 28 16:38:58 2017 Paul THEIS
+//
+
 #ifndef _IBOX_HPP_
 # define _IBOX_HPP_
 
