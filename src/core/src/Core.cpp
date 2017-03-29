@@ -17,7 +17,10 @@
 arcade::Core::Core(void)
 {
  _state = GameState::MenuState;
- _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::ESCAPE, InputT::None), std::bind(&arcade::Core::goUp, this)));
+ // _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::ESCAPE, InputT::None), std::bind(&arcade::Core::goQuit, this)));
+  _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::ENTER, InputT::None), std::bind(&arcade::Core::goEnter, this)));
+  _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::UP, InputT::None), std::bind(&arcade::Core::goUp, this)));
+   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::DOWN, InputT::None), std::bind(&arcade::Core::goDown, this)));
 }
 
 arcade::Core::~Core(void) {}
@@ -39,9 +42,12 @@ bool                    arcade::Core::play(void)
     arcade:InputT input;
     while (true)
     {
-        std::cout << "LOOP_PLAY: " << _state << std::endl;
         input = gfx.getInput();
         std::cout << input.unicode << std::endl;
+        if(_input.find(input) != _input.end()) {
+            _input[input]();
+        }
+
         usleep(MAIN_SLEEP);
     }
 
@@ -55,6 +61,16 @@ void                    arcade::Core::goUp(void)
 void                    arcade::Core::goDown(void)
 {
     std::cout << "Down!" << std::endl;
+}
+
+void                    arcade::Core::goQuit(void)
+{
+    std::cout << "Quit!" << std::endl;
+}
+
+void                    arcade::Core::goEnter(void)
+{
+    std::cout << "Enter!" << std::endl;
 }
 
 void                    arcade_ragequit(int x)

@@ -26,7 +26,7 @@
 # include "Error.hpp"
 # include "GFX.hpp"
 
-# define MAIN_SLEEP 1000000
+# define MAIN_SLEEP 10
 
 enum                            GameState {
   PlayState = 0,
@@ -45,6 +45,8 @@ namespace                       arcade {
       void                      initLibGames(std::string const &lib);
       void                      goUp(void);
       void                      goDown(void);
+      void                      goQuit(void);
+      void                      goEnter(void);
     private:
       std::map<InputT, std::function<void(void)> > _input;
       GameState                _state;
