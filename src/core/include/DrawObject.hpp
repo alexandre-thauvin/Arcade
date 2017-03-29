@@ -17,45 +17,6 @@
 # include "IBox.hpp"
 
 namespace                 arcade {
-    class                 Color {
-        unsigned char     red_, green_, blue_, alpha_;
-
-        Color()
-                : red_(0), green_(0), blue_(0), alpha_(0xFF) {}
-
-        Color(unsigned char red, unsigned char green, unsigned char blue,
-              unsigned char alpha = 0xFF)
-                : red_(red), green_(green), blue_(blue), alpha_(alpha) {}
-
-        Color(float red, float green, float blue, float alpha = 1.0)
-                : red_(red * 255.0 + .5), green_(green * 255.0 + .5),
-                  blue_(blue * 255.0 + .5), alpha_(alpha * 255.0 + .5) {}
-
-        Color(const Color &rhs)
-                : red_(rhs.red_), green_(rhs.green_), blue_(rhs.blue_),
-                  alpha_(rhs.alpha_) {}
-
-        unsigned char     &getRed() { return red_; }
-        unsigned char     &getGreen() { return green_; }
-        unsigned char     &getBlue() { return blue_; }
-        unsigned char     &getAlpha() { return alpha_; }
-        const unsigned char &getRed() const { return red_; }
-        const unsigned char &getGreen() const { return green_; }
-        const unsigned char &getBlue() const { return blue_; }
-        const unsigned char &getAlpha() const { return alpha_; }
-        void              setFRed(float val) { red_ = val * 255.0 + .5; }
-        void              setFGreen(float val) { green_ = val * 255.0 + .5; }
-        void              setFblue(float val) { blue_ = val * 255.0 + .5; }
-        void              setFAlpha(float val) { alpha_ = val * 255.0 + .5; }
-        float             getFRed() const { return red_ / 255.0; }
-        float             getFGreen() const { return green_ / 255.0; }
-        float             getFblue() const { return blue_ / 255.0; }
-        float             getFAlpha() const { return alpha_ / 255.0; }
-        unsigned int      rgba() {
-          return (red_ << 24) | (green_ << 16) | (blue_ << 8) | (alpha_ << 0);
-        }
-    };
-
     class                 DrawObject : public IBox {
     private:
         Color             _rgba;
