@@ -20,13 +20,14 @@ void Snake::move_player() {
     goDown();
 }
 
-Snake::Snake(){
+Snake::Snake(arcade::Vector2u const dim){
   this->mv = STOP;
+  this->dim = dim;
   this->name = "Snake";
   this->frut = true;
   srand(time(NULL));
-  this->frut_x = rand() % WIDTH;
-  this->frut_y = rand() % WIDTH;
+  this->frut_x = rand() % this->dim.x;
+  this->frut_y = rand() % this->dim.x;
   this->head_x = WIDTH / 2;
   this->head_y = WIDTH / 2;
   this->score = 0;
@@ -221,8 +222,13 @@ bool Snake::isPlayerWin(void) const {
   return true;
 }
 
+arcade::Vector2u Snake::getDimension(void) const {
+
+  return arcade::Vector2u(this->head_x, this->head_y);
+}
+
 int 	main(){
-  Snake		Snake;
+  Snake		Snake(arcade::Vector2u(30, 30));
   arcade::IGames	&I_obj = Snake;
 
   I_obj.gestion();

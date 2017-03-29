@@ -13,7 +13,7 @@ namespace                       arcade {
         virtual                 ~IGames(void) {}
 
         virtual std::string     getGamesName(void) const = 0; // get_name
-        //virtual DrawObject const  &getBackgroundTexture(void) const = 0; // see you
+        //virtual DrawObject const  &getBackgroundTexture(void) const = 0; // Paul
 
         virtual void            restart(void) = 0; // relance play
 
@@ -22,16 +22,16 @@ namespace                       arcade {
         virtual bool            isPlayerWin(void) const = 0; // check_win
         virtual size_t          getScore(void) const = 0; // get_score
         virtual Vector2u        getDimension(void) const = 0; // get WIDTH
-        virtual Vector2u        getScale(void) const = 0; // see you
+        //virtual Vector2u        getScale(void) const = 0; // snake : 1 int pour 20 px  || centipede : 1 int pour 20px
     	virtual void 		gestion()= 0;
 
-        //virtual void            updateGame(float const tick) = 0; //static += tick
+        //virtual void            updateGame(float const tick) = 0; //static += tick 20
 
-        //virtual Map const       &getMap(void) const = 0; // map.hpp
+        //virtual Map const       &getMap(void) const = 0; // Paul
 
-        //virtual void            loadTexture(void) = 0; // a voir
-        //virtual Drawable const  *getTexture(Vector2u const& pos) const = 0; // avoir
-        //virtual std::vector<DrawObject> const& getDrawableEvent(void) const = 0; // a voir
+        //virtual void            loadTexture(void) = 0; // Paul
+        //virtual Drawable const  *getTexture(Vector2u const& pos) const = 0; // Paul
+        //virtual std::vector<DrawObject> const& getDrawableEvent(void) const = 0; // Paul
 
         virtual void            move_player(void) = 0;
         virtual void            goUp(void) = 0;

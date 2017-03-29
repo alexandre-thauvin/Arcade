@@ -11,7 +11,6 @@
 #include "IGame.hpp"
 #include "tools.h"
 
-#define WIDTH	(10)
 #define HEAD	(1)
 #define FRUT	(-299)
 // Le body sera représenté par une incrementation d'une variable => 2ème boule du snake =>2 etc...
@@ -19,7 +18,7 @@
 
 class Snake: public  arcade::IGames {
  public:
-  Snake();
+  Snake(arcade::Vector2u const);
   ~Snake(){};
   enum 	move{
     STOP = 0,
@@ -28,6 +27,7 @@ class Snake: public  arcade::IGames {
     UP,
     DOWN
   };
+  arcade::Vector2u        getDimension(void) const;
   void 		move_player();
   void 		goDown();
   void 		goUp();
@@ -48,7 +48,7 @@ class Snake: public  arcade::IGames {
   bool            isPlayerWin(void) const;
  private:
   std::string	name;
-  int 		map[WIDTH][WIDTH];
+  int 		**map;
   size_t       	size;
   bool 		frut;
   int 		frut_x;
@@ -59,6 +59,7 @@ class Snake: public  arcade::IGames {
   int 			head_y;
   unsigned int		score;
   bool 			state;
+  arcade::Vector2u	dim;
 };
 
 
