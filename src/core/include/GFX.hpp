@@ -5,17 +5,21 @@
 // Login   <theis_p@epitech.eu>
 //
 // Started on  Tue Mar 28 18:16:53 2017 Paul THEIS
-// Last update Tue Mar 28 18:53:12 2017 Paul THEIS
+// Last update Wed Mar 29 18:48:26 2017 Paul THEIS
 //
 
 #ifndef _GFX_HPP
 # define _GFX_HPP
 
-# include "IGFX.hpp"
 # include <vector>
 
-namespace                       arcade
-{
+# include "IGFX.hpp"
+# include "Error.hpp"
+# include "Input.hpp"
+
+struct InputT;
+
+namespace                       arcade {
   class                         GFX : public IGFX {
     public:
                                 GFX(void);

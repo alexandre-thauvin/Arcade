@@ -5,7 +5,7 @@
 // Login   <theis_p@epitech.eu>
 //
 // Started on  Tue Mar 28 16:38:42 2017 Paul THEIS
-// Last update Tue Mar 28 18:49:42 2017 Paul THEIS
+// Last update Wed Mar 29 18:46:09 2017 Paul THEIS
 //
 
 #ifndef _IGFX_HPP_
@@ -14,9 +14,10 @@
 # include <iostream>
 # include <string>
 
-# include "Protocol.hpp"
 # include "Error.hpp"
 # include "Input.hpp"
+
+struct InputT;
 
 namespace                       arcade {
   class                         IGFX {

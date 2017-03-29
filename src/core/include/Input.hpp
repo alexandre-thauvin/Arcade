@@ -20,48 +20,46 @@ namespace                   arcade
 {
     struct                  InputT
     {
-        static const int    None = 0;
-        static const int    KeyPressed = 1;
-        static const int    KeyReleased = 2;
-        static const int    TextEntered = 3;
-        InputT(void) {
+                            InputT(void) {
           type = None;
           key = None;
           unicode = None;
         }
-        InputT(int const type, int const key, int const unicode) {
+                            InputT(int const type, int const key, int const unicode) {
           this->type = type;
           this->key = key;
           this->unicode = unicode;
         }
-        ~InputT(void) {}
+                            ~InputT(void) {}
         int                 type;
         int                 key;
         int                 unicode;
+
+        enum                InputState
+        {
+                            None,
+                            KeyPressed,
+                            KeyReleased,
+                            TextEntered
+        };
     };
 
     enum                    Input
     {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-        ESCAPE,
-        ENTER
+                            UP,
+                            DOWN,
+                            LEFT,
+                            RIGHT,
+                            ESCAPE,
+                            ENTER,
+                            SPACE
     };
-    //
-    // std::ostream& operator<<(std::ostream &os, InputT const &i){
-    //   os << "unicode: "<< i.unicode;
-    //   return os;
-    // }
-
 }
 
 namespace                   std
 {
     template<>
-    class                   less<arcade::InputT>
-    {
+    class                   less<arcade::InputT> {
     public:
         bool operator()(arcade::InputT const& lhs, arcade::InputT const& rhs)
         {

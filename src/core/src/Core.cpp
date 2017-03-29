@@ -14,13 +14,15 @@
 
 #include "Core.hpp"
 
-arcade::Core::Core(void)
-{
- _state = GameState::MenuState;
- // _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::ESCAPE, InputT::None), std::bind(&arcade::Core::goQuit, this)));
+arcade::Core::Core(void) {
+  _state = GameState::MenuState;
+  _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::ESCAPE, InputT::None), std::bind(&arcade::Core::goQuit, this)));
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::ENTER, InputT::None), std::bind(&arcade::Core::goEnter, this)));
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::UP, InputT::None), std::bind(&arcade::Core::goUp, this)));
-   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::DOWN, InputT::None), std::bind(&arcade::Core::goDown, this)));
+  _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::DOWN, InputT::None), std::bind(&arcade::Core::goDown, this)));
+  _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::LEFT, InputT::None), std::bind(&arcade::Core::goLeft, this)));
+  _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::RIGHT, InputT::None), std::bind(&arcade::Core::goRight, this)));
+  _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::SPACE, InputT::None), std::bind(&arcade::Core::goShoot, this)));
 }
 
 arcade::Core::~Core(void) {}
@@ -38,16 +40,16 @@ void arcade::Core::init(std::string const &lib, std::string const &conf)
 
 bool                    arcade::Core::play(void)
 {
-    arcade::GFX gfx;
-    arcade:InputT input;
+    arcade::GFX         gfx;
+    arcade::InputT       input;
+
+    (void)input;
     while (true)
     {
         input = gfx.getInput();
-        std::cout << input.unicode << std::endl;
         if(_input.find(input) != _input.end()) {
             _input[input]();
         }
-
         usleep(MAIN_SLEEP);
     }
 
@@ -55,12 +57,22 @@ bool                    arcade::Core::play(void)
 
 void                    arcade::Core::goUp(void)
 {
-    std::cout << "UP!" << std::endl;
+    std::cout << "Up!" << std::endl;
 }
 
 void                    arcade::Core::goDown(void)
 {
     std::cout << "Down!" << std::endl;
+}
+
+void                    arcade::Core::goLeft(void)
+{
+    std::cout << "Left!" << std::endl;
+}
+
+void                    arcade::Core::goRight(void)
+{
+    std::cout << "Right!" << std::endl;
 }
 
 void                    arcade::Core::goQuit(void)
@@ -71,6 +83,11 @@ void                    arcade::Core::goQuit(void)
 void                    arcade::Core::goEnter(void)
 {
     std::cout << "Enter!" << std::endl;
+}
+
+void                    arcade::Core::goShoot(void)
+{
+    std::cout << "Shoot!" << std::endl;
 }
 
 void                    arcade_ragequit(int x)
