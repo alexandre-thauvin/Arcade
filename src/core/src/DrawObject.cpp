@@ -59,14 +59,14 @@ bool              arcade::DrawObject::isClickable(void) const {
     return (_is_clickable);
 }
 
-void arcade::DrawObject::setClickable(bool const value) {
+void              arcade::DrawObject::setClickable(bool const value) {
   _is_clickable = value;
 }
 
-bool arcade::DrawObject::isSelectable(void) const {
+bool              arcade::DrawObject::isSelectable(void) const {
   return (_is_selectable);
 }
 
-void arcade::DrawObject::setSelectable(bool const value) {
+void              arcade::DrawObject::setSelectable(bool const value) {
   _is_selectable = value;
 }
