@@ -5,23 +5,24 @@
 #include "Snake.h"
 
 void Snake::move_player() {
-  if (check_death())
+  if (!isPlayerAlive())
   {
     std::cout << "LOOSE" << std::endl;
   }
   this->eat_frut();
   if (this->mv == RIGHT)
-    move_right();
+    goRight();
   else if (this->mv == LEFT)
-    move_left();
+    goLeft();
   else if (this->mv == UP)
-    move_up();
+    goUp();
   else if (this->mv == DOWN)
-    move_down();
+    goDown();
 }
 
-Snake::Snake(): motherboard() {
+Snake::Snake(){
   this->mv = STOP;
+  this->name = "Snake";
   this->frut = true;
   srand(time(NULL));
   this->frut_x = rand() % WIDTH;
@@ -29,7 +30,7 @@ Snake::Snake(): motherboard() {
   this->head_x = WIDTH / 2;
   this->head_y = WIDTH / 2;
   this->score = 0;
-  this->state = false;
+  this->state = true;
   this->size = 2;
 }
 
@@ -42,36 +43,36 @@ void Snake::pop() {
   this->frut = true;
 }
 
-bool Snake::check_death() {
+bool Snake::isPlayerAlive(){
   if (this->mv == RIGHT) {
     if (this->map[this->head_y][this->head_x + 1] > 1 || this->head_x == WIDTH - 1)
-      this->state = true;
+      this->state = false;
   }
     else if (this->mv == LEFT) {
     if (this->map[this->head_y][this->head_x - 1] > 1 || this->head_x == 0)
-      this->state = true;
+      this->state = false;
   }
   else if (this->mv == UP) {
     if (this->map[this->head_y - 1][this->head_x] > 1 || this->head_y == 0)
-      this->state = true;
+      this->state = false;
   }
   else if (this->mv == DOWN) {
     if (this->map[this->head_y + 1][this->head_x] > 1 || this->head_y == WIDTH - 1)
-      this->state = true;
+      this->state = false;
   }
-  if (this->state)
+  if (!this->state)
   {
     std::cout << "LOOSE" << std::endl;
     exit(0);
   }
-  return (false);
+  return (true);
 }
 
 void Snake::update_key(move mv) {
   this->mv = mv;
 }
 
-void Snake::s_fill_map() {
+void Snake::play() {
   int i;
   int z;
   for (i = 0; i < WIDTH - 1; i++)
@@ -90,7 +91,8 @@ void Snake::s_fill_map() {
 }
 void 	Snake::gestion(){
 
-  this->s_fill_map();
+  std::cout << "tu joues à : " << this->getGamesName();
+  this->play();
   print_map();
   this->update_key(RIGHT);
   this->move_player();
@@ -107,6 +109,8 @@ void 	Snake::gestion(){
   this->update_key(UP);
   this->move_player();
   print_map();
+  this->getScore();
+  this->restart();
 }
 
 void 	Snake::print_map()
@@ -146,25 +150,25 @@ bool Snake::eat_frut() {
   return false;
 }
 
-void Snake::move_down() {
+void Snake::goDown() {
     this->head_y++;
     move_body();
     this->map[this->head_y][this->head_x] = 1;
 }
 
-void Snake::move_up() {
+void Snake::goUp() {
     this->head_y--;
     move_body();
     this->map[this->head_y][this->head_x] = 1;
 }
 
-void Snake::move_left() {
+void Snake::goLeft() {
     this->head_x--;
     move_body();
     this->map[this->head_y][this->head_x] = 1;
 }
 
-void Snake::move_right() {
+void Snake::goRight() {
     this->head_x++;
     move_body();
     this->map[this->head_y][this->head_x] = 1;
@@ -193,6 +197,18 @@ void Snake::move_body() {
     }
   }
   this->map[this->tale[0]][this->tale[1]] = 0;
+}
+
+size_t Snake::getScore(void) const {
+  return this->score;
+}
+
+std::string Snake::getGamesName(void) const {
+  return this->name;
+}
+
+void Snake::restart(void) {
+  play();
 }
 
 int 	main(){

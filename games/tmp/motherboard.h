@@ -15,13 +15,7 @@
 class 		motherboard{
  public:
   motherboard(){};
-  enum 	move{
-    STOP = 0,
-    LEFT,
-    RIGHT,
-    UP,
-    DOWN
-  };
+
   virtual void		pop() = 0;
   virtual void		move_player() = 0;
   virtual void 		update_key(move) = 0; //fonction a appelé en passant un enum en fonction de la key recup
