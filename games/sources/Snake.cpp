@@ -273,3 +273,40 @@ void Snake::init() {
   this->tale[1] = this->head_x - 3;
   this->pop();
 }
+
+std::list<arcade::Vector2u> const &Snake::getPlayerPosition(void) {
+  arcade::Vector2u		vect;
+
+  for (unsigned int i = 0 ; i < this->dim.y ; i++)
+  {
+    for (unsigned int j = 0 ; j < this->dim.x; j++) {
+      if (this->map[i][j] == 1) {
+	vect.x = j;
+	vect.y = i;
+	this->snake.push_back(vect);
+      }
+    }
+
+  }
+  for (unsigned int i = 0 ; i < this->dim.y ; i++)
+  {
+    for (unsigned int j = 0 ; j < this->dim.x; j++) {
+      if (this->map[i][j] > 1) {
+	vect.x = j;
+	vect.y = i;
+	this->snake.push_back(vect);
+      }
+    }
+
+  }
+  return (this->snake);
+}
+
+bool Snake::updateGame(float const tick) {
+  static unsigned int	sum = 0;
+
+  sum += tick;
+  if (sum == 20)
+    return (true);
+  return (false);
+}
