@@ -24,8 +24,11 @@
 # include "Utils.hpp"
 # include "Input.hpp"
 # include "Error.hpp"
+# include "GFX.hpp"
 
-enum                          GameState {
+# define MAIN_SLEEP 1000000
+
+enum                            GameState {
   PlayState = 0,
   MenuState = 1,
   Pause = 2
@@ -40,14 +43,14 @@ namespace                       arcade {
       bool                      play(void);
       void                      initLibGraphic(std::string const &lib);
       void                      initLibGames(std::string const &lib);
+      void                      goUp(void);
+      void                      goDown(void);
     private:
-
-        std::map<InputT, std::function<void(void)> > _input;
-       GameState                _state;
+      std::map<InputT, std::function<void(void)> > _input;
+      GameState                _state;
     };
-
 }
 
-void                            arcade_ragequit(int n);
+void                            arcade_ragequit(int x);
 
 #endif /* !_CORE_HPP_ */

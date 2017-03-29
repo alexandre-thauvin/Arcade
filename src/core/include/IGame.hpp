@@ -5,7 +5,7 @@
 // Login   <theis_p@epitech.eu>
 //
 // Started on  Tue Mar 28 16:38:52 2017 Paul THEIS
-// Last update Tue Mar 28 16:38:53 2017 Paul THEIS
+// Last update Tue Mar 28 16:48:25 2017 Paul THEIS
 //
 
 #ifndef _IGAMES_HPP_

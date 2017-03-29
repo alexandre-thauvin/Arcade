@@ -5,7 +5,7 @@
 // Login   <theis_p@epitech.eu>
 //
 // Started on  Tue Mar 28 16:38:42 2017 Paul THEIS
-// Last update Tue Mar 28 16:38:43 2017 Paul THEIS
+// Last update Tue Mar 28 18:49:42 2017 Paul THEIS
 //
 
 #ifndef _IGFX_HPP_
@@ -18,24 +18,22 @@
 # include "Error.hpp"
 # include "Input.hpp"
 
-namespace arcade
-{
-  class IGraphic
-  {
-  public:
-    virtual ~IGraphic(void) {}
+namespace                       arcade {
+  class                         IGFX {
+      public:
+        virtual                 ~IGFX(void) {}
 
-    virtual void setTitleWindow(std::string const& title) = 0;
-    virtual void setWindowSize(Vector2u const& size) = 0;
-    virtual bool isOpen(void) const = 0;
-    virtual void close(void) = 0;
+        virtual void            setTitleWindow(std::string const& title) = 0;
+        virtual void            setWindowSize(Vector2u const &size) = 0;
+        virtual bool            isOpen(void) const = 0;
+        virtual void            close(void) = 0;
 
-    virtual InputT checkInput(void) = 0;
+        virtual InputT          getInput(void) = 0;
 
-    virtual void clear(void) = 0;
-    virtual void draw(Drawable const& drawable) = 0;
-    virtual void display(void) = 0;
-  };
+        virtual void            clear(void) = 0;
+        // virtual void            draw(Drawable const& drawable) = 0;
+        virtual void            display(void) = 0;
+      };
 }
 
 #endif /* !_IGRAPHIC_HPP_ */

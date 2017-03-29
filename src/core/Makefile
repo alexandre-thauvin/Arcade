@@ -5,20 +5,21 @@
 ## Login   <thauvi_a@epitech.net>
 ##
 ## Started on  Mon Mar  6 14:29:08 2017 Alexandre Thauvin
-## Last update Tue Mar  7 16:00:47 2017 Paul THEIS
+## Last update Tue Mar 28 18:21:18 2017 Paul THEIS
 ##
 
 DEBUG			?=		yes
 
 VERSION			?=		0.1
 
-PARAM			?=		
+PARAM			?=
 
 NAME			=		../../arcade
 
 SRCS			=		main.cpp \
 					Core.cpp \
-					Error.cpp
+					Error.cpp \
+					GFX.cpp \
 
 GAMES			=		games/
 

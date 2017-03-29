@@ -14,6 +14,7 @@
 #define CPP_ARCADE_INPUT_HPP
 # include <iostream>
 # include <string>
+# include "Core.hpp"
 
 namespace                   arcade
 {
@@ -23,14 +24,12 @@ namespace                   arcade
         static const int    KeyPressed = 1;
         static const int    KeyReleased = 2;
         static const int    TextEntered = 3;
-        InputT(void)
-        {
+        InputT(void) {
           type = None;
           key = None;
           unicode = None;
         }
-        InputT(int const type, int const key, int const unicode)
-        {
+        InputT(int const type, int const key, int const unicode) {
           this->type = type;
           this->key = key;
           this->unicode = unicode;
@@ -49,6 +48,7 @@ namespace                   arcade
         RIGHT,
         ESCAPE,
     };
+
 }
 
 namespace                   std
@@ -62,6 +62,11 @@ namespace                   std
           if (lhs.type != rhs.type)
             return (lhs.type < rhs.type);
           return (lhs.key < rhs.key);
+        }
+        std::ostream& operator<<(std::ostream &os, arcade::IntputT const &i)
+        {
+          os << "unicode: " << i.unicode;
+          return os;
         }
     };
 }

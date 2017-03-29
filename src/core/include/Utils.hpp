@@ -12,12 +12,12 @@
 
 #ifndef CPP_ARCADE_UTILS_HPP
 #define CPP_ARCADE_UTILS_HPP
-namespace arcade {
-    typedef unsigned int const t_usi_c;
-    typedef unsigned int t_usi;
+namespace                           arcade {
+    typedef unsigned int const      t_usi_c;
+    typedef unsigned int            t_usi;
 
     template<typename T>
-    struct Vector2 {
+    struct                          Vector2 {
         Vector2(void);
         Vector2(Vector2<T> const &other);
         Vector2(T const &_x, T const &_y);
