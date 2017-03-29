@@ -17,13 +17,12 @@ namespace                       arcade {
 
         virtual void            restart(void) = 0; // relance play
 
-        //virtual std::list<Vector2u> const& getPlayerPosition(void) const = 0; // head_x//head_y
+       // virtual std::list<Vector2u> const& getPlayerPosition(void) const = 0; // head_x//head_y
         virtual bool            isPlayerAlive(void) = 0; // check_death
         virtual bool            isPlayerWin(void) const = 0; // check_win
         virtual size_t          getScore(void) const = 0; // get_score
         virtual Vector2u        getDimension(void) const = 0; // get WIDTH
         //virtual Vector2u        getScale(void) const = 0; // snake : 1 int pour 20 px  || centipede : 1 int pour 20px
-    	virtual void 		gestion()= 0;
 
         //virtual void            updateGame(float const tick) = 0; //static += tick 20
 

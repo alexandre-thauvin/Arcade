@@ -8,20 +8,21 @@ void Snake::move_player() {
   if (!isPlayerAlive())
   {
     std::cout << "LOOSE" << std::endl;
+    exit(0);
   }
   this->eat_frut();
-  if (this->mv == RIGHT)
+  if (this->mv == arcade::Input::RIGHT)
     goRight();
-  else if (this->mv == LEFT)
+  else if (this->mv == arcade::Input::LEFT)
     goLeft();
-  else if (this->mv == UP)
+  else if (this->mv == arcade::Input::UP)
     goUp();
-  else if (this->mv == DOWN)
+  else if (this->mv == arcade::Input::DOWN)
     goDown();
 }
 
 Snake::Snake(arcade::Vector2u const dim){
-  this->mv = STOP;
+  this->mv = arcade::Input::STOP;
   this->dim = dim;
   this->name = "Snake";
   this->frut = true;
@@ -44,19 +45,19 @@ void Snake::pop() {
 }
 
 bool Snake::isPlayerAlive(){
-  if (this->mv == RIGHT) {
+  if (this->mv == arcade::Input::RIGHT) {
     if (this->map[this->head_y][this->head_x + 1] > 1 || this->head_x == this->dim.x - 1)
       this->state = false;
   }
-    else if (this->mv == LEFT) {
+    else if (this->mv == arcade::Input::LEFT) {
     if (this->map[this->head_y][this->head_x - 1] > 1 || this->head_x == 0)
       this->state = false;
   }
-  else if (this->mv == UP) {
+  else if (this->mv == arcade::Input::UP) {
     if (this->map[this->head_y - 1][this->head_x] > 1 || this->head_y == 0)
       this->state = false;
   }
-  else if (this->mv == DOWN) {
+  else if (this->mv == arcade::Input::DOWN) {
     if (this->map[this->head_y + 1][this->head_x] > 1 || this->head_y == this->dim.x - 1)
       this->state = false;
   }
@@ -68,57 +69,42 @@ bool Snake::isPlayerAlive(){
   return (true);
 }
 
-void Snake::update_key(move mv) {
+void Snake::update_key(arcade::Input mv) {
   this->mv = mv;
 }
 
 void Snake::play() {
-  unsigned int i;
-  unsigned int z;
-  for (i = 0; i < this->dim.x - 1; i++)
-    for (z = 0; z < this->dim.x - 1; z++)
-      this->map[i][z] = 0;
-  this->map[this->head_y][this->head_x] = HEAD;
-  for (i = 1; i < 4; i++) {
-    this->map[this->head_y][this->head_x - i] = (int)this->size;
-    this->size++;
-  }
-  this->size--;
-  this->tale = (int*)malloc(2 * sizeof(int));
-  this->tale[0] = this->head_y;
-  this->tale[1] = this->head_x - 3;
-  this->pop();
-}
-void 	Snake::gestion(){
-
+  this->init();
   std::cout << "tu joues à : " << this->getGamesName();
-  this->play();
   this->print_map();
-  this->update_key(RIGHT);
+  this->update_key(arcade::Input::RIGHT);
   this->move_player();
   this->print_map();
-  this->update_key(RIGHT);
+  this->update_key(arcade::Input::RIGHT);
   this->move_player();
   this->print_map();
-  this->update_key(RIGHT);
+  this->update_key(arcade::Input::RIGHT);
   this->move_player();
   print_map();
   //this->update_key(RIGHT);
   //this->move_player();
   //print_map();
-  this->update_key(UP);
+  this->update_key(arcade::Input::RIGHT);
+  this->move_player();
+  this->print_map();
+  this->update_key(arcade::Input::RIGHT);
   this->move_player();
   this->print_map();
   this->getScore();
-  this->restart();
+  //this->restart();
   this->isPlayerWin();
 }
 
 void 	Snake::print_map()
 {
   std::cout << "******************************************************************" << std::endl;
-  for (unsigned int z = 0; z < this->dim.x - 1 ; z++){
-    for (unsigned int j = 0; j < this->dim.x - 1; j++)
+  for (unsigned int z = 0; z < this->dim.y; z++){
+    for (unsigned int j = 0; j < this->dim.x; j++)
       std::cout << this->map[z][j];
     std::cout << std::endl;
   }
@@ -126,19 +112,19 @@ void 	Snake::print_map()
 }
 
 bool Snake::eat_frut() {
-  if (this->mv == RIGHT) {
+  if (this->mv == arcade::Input::RIGHT) {
     if (this->map[this->head_y][this->head_x + 1] == FRUT)
       this->frut = false;
   }
-  else if (this->mv == LEFT) {
+  else if (this->mv == arcade::Input::LEFT) {
     if (this->map[this->head_y][this->head_x - 1] == FRUT)
       this->frut = false;
   }
-  else if (this->mv == UP) {
+  else if (this->mv == arcade::Input::UP) {
     if (this->map[this->head_y - 1][this->head_x] == FRUT)
       this->frut = false;
   }
-  else if (this->mv == DOWN) {
+  else if (this->mv == arcade::Input::DOWN) {
     if (this->map[this->head_y + 1][this->head_x] == FRUT)
       this->frut = false;
   }
@@ -187,7 +173,7 @@ void Snake::grow_up() {
 void Snake::move_body() {
   this->tale = find_tale((int)this->size, this->map);
   for ( int i = (int)this->size; i > 1 ; i--){
-    for (unsigned int z = 0 ; z < this->dim.x ; z++)
+    for (unsigned int z = 0 ; z < this->dim.y ; z++)
     {
       for (unsigned int j = 0; j < this->dim.x; j++) {
 	if (this->map[z][j] == i - 1)
@@ -213,7 +199,7 @@ void Snake::restart(void) {
 }
 
 bool Snake::isPlayerWin(void) const {
-  for (unsigned int i = 0; i < this->dim.x ; i++)
+  for (unsigned int i = 0; i < this->dim.y ; i++)
   {
     for(unsigned int j = 0 ; j < this->dim.x ; j++) {
       if (this->map[i][j] == 0)
@@ -225,14 +211,14 @@ bool Snake::isPlayerWin(void) const {
 
 arcade::Vector2u Snake::getDimension(void) const {
 
-  return arcade::Vector2u(this->head_x, this->head_y);
+  return (this->dim);
 }
 
 int 	main(){
   Snake		Snake(arcade::Vector2u(10, 10));
   arcade::IGames	&I_obj = Snake;
 
-  I_obj.gestion();
+  I_obj.play();
 }
 
 int 	*Snake::find_tale(int value, int **tab)
@@ -242,8 +228,8 @@ int 	*Snake::find_tale(int value, int **tab)
   int 	*tabi;
 
   tabi = (int*)malloc(2 * sizeof(int));
-  for (i = 0 ; i < this->dim.x - 1 ; i++) {
-    for (j = 0; j < this->dim.x - 1; j++)
+  for (i = 0 ; i < this->dim.y; i++) {
+    for (j = 0; j < this->dim.x; j++)
     {
       if (tab[i][j] == value) {
 	tabi[0] = i;
@@ -258,9 +244,9 @@ int 	*Snake::find_tale(int value, int **tab)
 int 	**Snake::ma2d()
 {
   unsigned int	z = 0;
-  if ((this->map = (int **)malloc((this->dim.x + 1) * sizeof(int*))) == NULL)
+  if ((this->map = (int **)malloc((this->dim.x) * sizeof(int*))) == NULL)
     exit(1);
-  while (z < this->dim.x)
+  while (z < this->dim.y)
   {
     if ((this->map[z] = (int *)malloc((this->dim.x + 1) * sizeof(int))) == NULL)
       exit(1);
@@ -268,4 +254,22 @@ int 	**Snake::ma2d()
   }
   this->map[z] = NULL;
   return (this->map);
+}
+
+void Snake::init() {
+  unsigned int i;
+  unsigned int z;
+  for (i = 0; i < this->dim.x; i++)
+    for (z = 0; z < this->dim.x; z++)
+      this->map[i][z] = 0;
+  this->map[this->head_y][this->head_x] = HEAD;
+  for (i = 1; i < 4; i++) {
+    this->map[this->head_y][this->head_x - i] = (int)this->size;
+    this->size++;
+  }
+  this->size--;
+  this->tale = (int*)malloc(2 * sizeof(int));
+  this->tale[0] = this->head_y;
+  this->tale[1] = this->head_x - 3;
+  this->pop();
 }

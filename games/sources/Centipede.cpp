@@ -16,7 +16,7 @@ void Centipede::move_player() {
 
 }
 
-void Centipede::update_key(Centipede::move) {
+void Centipede::update_key(arcade::Input) {
 
 }
 

@@ -19,14 +19,9 @@ class Snake: public  arcade::IGames {
  public:
   Snake(arcade::Vector2u const);
   ~Snake(){};
-  enum 	move{
-    STOP = 0,
-    LEFT,
-    RIGHT,
-    UP,
-    DOWN
-  };
+
   arcade::Vector2u        getDimension(void) const;
+  void 		init();
   void 		move_player();
   void 		goDown();
   void 		goUp();
@@ -34,9 +29,8 @@ class Snake: public  arcade::IGames {
   void 		goRight();
   void 		pop();
   bool 		eat_frut();
-  void 		update_key(move);
+  void 		update_key(arcade::Input);
   void 		play();
-  void 		gestion();
   void 		grow_up();
   void 		move_body();
   size_t        getScore(void) const;
@@ -48,19 +42,19 @@ class Snake: public  arcade::IGames {
   int 	*find_tale(int, int **);
   void 	print_map();
  private:
-  std::string	name;
-  int 		**map;
-  size_t       	size;
-  bool 		frut;
-  int 		frut_x;
-  int 		frut_y;
-  int 		*tale;
-  move			mv;
+  std::string			name;
+  int 				**map;
+  size_t       			size;
+  bool 				frut;
+  int 				frut_x;
+  int 				frut_y;
+  int 				*tale;
+  arcade::Input			mv;
   unsigned int 			head_x;
   unsigned int 			head_y;
-  unsigned int		score;
-  bool 			state;
-  arcade::Vector2u	dim;
+  unsigned int			score;
+  bool 				state;
+  arcade::Vector2u		dim;
 };
 
 

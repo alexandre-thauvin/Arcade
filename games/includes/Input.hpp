@@ -43,6 +43,7 @@ namespace                   arcade
 
     enum                    Input
     {
+        STOP = 0,
         UP,
         DOWN,
         LEFT,
