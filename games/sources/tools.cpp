@@ -15,8 +15,6 @@ int 	*find_tale(int value, int tab[WIDTH][WIDTH])
   int 	*tabi;
 
   tabi = (int*)malloc(2 * sizeof(int));
-  std::cout << "je suis value : " << value << std::endl;
-  //print_map()
   for (i = 0 ; i < WIDTH - 1 ; i++) {
     for (j = 0; j < WIDTH - 1; j++)
     {

@@ -37,8 +37,6 @@ Snake::Snake(){
 void Snake::pop() {
   this->frut_x = 7;
   this->frut_y = 5;
-  std::cout << this->frut_x << std::endl;
-  std::cout << this->frut_y << std::endl;
   this->map[this->frut_y][this->frut_x] = FRUT;
   this->frut = true;
 }
@@ -103,14 +101,15 @@ void 	Snake::gestion(){
   this->update_key(RIGHT);
   this->move_player();
   print_map();
-  this->update_key(RIGHT);
-  this->move_player();
-  print_map();
+  //this->update_key(RIGHT);
+  //this->move_player();
+  //print_map();
   this->update_key(UP);
   this->move_player();
   print_map();
   this->getScore();
   this->restart();
+  this->isPlayerWin();
 }
 
 void 	Snake::print_map()
@@ -185,8 +184,6 @@ void Snake::grow_up() {
 
 void Snake::move_body() {
   this->tale = find_tale((int)this->size, this->map);
-  std::cout << "je suis tale : " << this->tale[0] << " " << this->tale[1] << std::endl;
-
   for (int i = (int)this->size; i > 1 ; i--){
     for (int z = 0 ; z < WIDTH ; z++)
     {
@@ -199,7 +196,9 @@ void Snake::move_body() {
   this->map[this->tale[0]][this->tale[1]] = 0;
 }
 
+
 size_t Snake::getScore(void) const {
+  std::cout << "mon score est de : " << this->score << std::endl;
   return this->score;
 }
 
@@ -211,7 +210,20 @@ void Snake::restart(void) {
   play();
 }
 
+bool Snake::isPlayerWin(void) const {
+  for (int i = 0; i < WIDTH ; i++)
+  {
+    for(int j = 0 ; j < WIDTH ; j++) {
+      if (this->map[i][j] == 0)
+	return false;
+    }
+  }
+  return true;
+}
+
 int 	main(){
-  Snake	Snake;
-  Snake.gestion();
+  Snake		Snake;
+  arcade::IGames	&I_obj = Snake;
+
+  I_obj.gestion();
 }

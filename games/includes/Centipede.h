@@ -2,25 +2,21 @@
 // Created by thauvi_a on 3/20/17.
 //
 
-#ifndef ARCADE_SNAKE_H
-#define ARCADE_SNAKE_H
-
+#ifndef ARCADE_CENTIPEDE_H
+#define ARCADE_CENTIPEDE_H
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
 #include "IGame.hpp"
-#include "tools.h"
 
 #define WIDTH	(10)
 #define HEAD	(1)
-#define FRUT	(-299)
-// Le body sera représenté par une incrementation d'une variable => 2ème boule du snake =>2 etc...
 
 
-class Snake: public  arcade::IGames {
+class Centipede : public arcade::IGames{
  public:
-  Snake();
-  ~Snake(){};
+  Centipede();
+  ~Centipede(){};
   enum 	move{
     STOP = 0,
     LEFT,
@@ -34,18 +30,17 @@ class Snake: public  arcade::IGames {
   void 		goLeft();
   void 		goRight();
   void 		pop();
-  bool 		eat_frut();
   void 		update_key(move);
   void 		play();
   void 		gestion();
-  void 		grow_up();
-  void 		move_body();
   void 		print_map();
   size_t        getScore(void) const;
   bool 		isPlayerAlive();
   std::string     getGamesName(void) const;
   void            restart(void);
   bool            isPlayerWin(void) const;
+  void		move_ia();
+
  private:
   std::string	name;
   int 		map[WIDTH][WIDTH];
@@ -62,4 +57,4 @@ class Snake: public  arcade::IGames {
 };
 
 
-#endif //ARCADE_SNAKE_H
+#endif //ARCADE_CENTIPEDE_H
