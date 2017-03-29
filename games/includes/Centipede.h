@@ -9,7 +9,6 @@
 #include <iostream>
 #include "IGame.hpp"
 
-#define WIDTH	(10)
 #define HEAD	(1)
 
 
@@ -43,7 +42,7 @@ class Centipede : public arcade::IGames{
 
  private:
   std::string	name;
-  int 		map[WIDTH][WIDTH];
+  int 		**map;
   size_t       	size;
   bool 		frut;
   int 		frut_x;

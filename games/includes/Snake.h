@@ -9,7 +9,6 @@
 #include <ctime>
 #include <iostream>
 #include "IGame.hpp"
-#include "tools.h"
 
 #define HEAD	(1)
 #define FRUT	(-299)
@@ -40,12 +39,14 @@ class Snake: public  arcade::IGames {
   void 		gestion();
   void 		grow_up();
   void 		move_body();
-  void 		print_map();
   size_t        getScore(void) const;
   bool 		isPlayerAlive();
   std::string     getGamesName(void) const;
   void            restart(void);
   bool            isPlayerWin(void) const;
+  int	**ma2d();
+  int 	*find_tale(int, int **);
+  void 	print_map();
  private:
   std::string	name;
   int 		**map;
@@ -55,8 +56,8 @@ class Snake: public  arcade::IGames {
   int 		frut_y;
   int 		*tale;
   move			mv;
-  int 			head_x;
-  int 			head_y;
+  unsigned int 			head_x;
+  unsigned int 			head_y;
   unsigned int		score;
   bool 			state;
   arcade::Vector2u	dim;

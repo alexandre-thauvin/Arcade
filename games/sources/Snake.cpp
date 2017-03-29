@@ -28,11 +28,12 @@ Snake::Snake(arcade::Vector2u const dim){
   srand(time(NULL));
   this->frut_x = rand() % this->dim.x;
   this->frut_y = rand() % this->dim.x;
-  this->head_x = WIDTH / 2;
-  this->head_y = WIDTH / 2;
+  this->head_x = this->dim.x / 2;
+  this->head_y = this->dim.x / 2;
   this->score = 0;
   this->state = true;
   this->size = 2;
+  this->map = this->ma2d();
 }
 
 void Snake::pop() {
@@ -44,7 +45,7 @@ void Snake::pop() {
 
 bool Snake::isPlayerAlive(){
   if (this->mv == RIGHT) {
-    if (this->map[this->head_y][this->head_x + 1] > 1 || this->head_x == WIDTH - 1)
+    if (this->map[this->head_y][this->head_x + 1] > 1 || this->head_x == this->dim.x - 1)
       this->state = false;
   }
     else if (this->mv == LEFT) {
@@ -56,7 +57,7 @@ bool Snake::isPlayerAlive(){
       this->state = false;
   }
   else if (this->mv == DOWN) {
-    if (this->map[this->head_y + 1][this->head_x] > 1 || this->head_y == WIDTH - 1)
+    if (this->map[this->head_y + 1][this->head_x] > 1 || this->head_y == this->dim.x - 1)
       this->state = false;
   }
   if (!this->state)
@@ -72,10 +73,10 @@ void Snake::update_key(move mv) {
 }
 
 void Snake::play() {
-  int i;
-  int z;
-  for (i = 0; i < WIDTH - 1; i++)
-    for (z = 0; z < WIDTH - 1; z++)
+  unsigned int i;
+  unsigned int z;
+  for (i = 0; i < this->dim.x - 1; i++)
+    for (z = 0; z < this->dim.x - 1; z++)
       this->map[i][z] = 0;
   this->map[this->head_y][this->head_x] = HEAD;
   for (i = 1; i < 4; i++) {
@@ -92,13 +93,13 @@ void 	Snake::gestion(){
 
   std::cout << "tu joues à : " << this->getGamesName();
   this->play();
-  print_map();
+  this->print_map();
   this->update_key(RIGHT);
   this->move_player();
-  print_map();
+  this->print_map();
   this->update_key(RIGHT);
   this->move_player();
-  print_map();
+  this->print_map();
   this->update_key(RIGHT);
   this->move_player();
   print_map();
@@ -107,7 +108,7 @@ void 	Snake::gestion(){
   //print_map();
   this->update_key(UP);
   this->move_player();
-  print_map();
+  this->print_map();
   this->getScore();
   this->restart();
   this->isPlayerWin();
@@ -116,8 +117,8 @@ void 	Snake::gestion(){
 void 	Snake::print_map()
 {
   std::cout << "******************************************************************" << std::endl;
-  for (int z = 0; z < WIDTH - 1 ; z++){
-    for (int j = 0; j < WIDTH - 1; j++)
+  for (unsigned int z = 0; z < this->dim.x - 1 ; z++){
+    for (unsigned int j = 0; j < this->dim.x - 1; j++)
       std::cout << this->map[z][j];
     std::cout << std::endl;
   }
@@ -185,10 +186,10 @@ void Snake::grow_up() {
 
 void Snake::move_body() {
   this->tale = find_tale((int)this->size, this->map);
-  for (int i = (int)this->size; i > 1 ; i--){
-    for (int z = 0 ; z < WIDTH ; z++)
+  for ( int i = (int)this->size; i > 1 ; i--){
+    for (unsigned int z = 0 ; z < this->dim.x ; z++)
     {
-      for (int j = 0; j < WIDTH; j++) {
+      for (unsigned int j = 0; j < this->dim.x; j++) {
 	if (this->map[z][j] == i - 1)
 	  this->map[z][j] = i;
       }
@@ -212,9 +213,9 @@ void Snake::restart(void) {
 }
 
 bool Snake::isPlayerWin(void) const {
-  for (int i = 0; i < WIDTH ; i++)
+  for (unsigned int i = 0; i < this->dim.x ; i++)
   {
-    for(int j = 0 ; j < WIDTH ; j++) {
+    for(unsigned int j = 0 ; j < this->dim.x ; j++) {
       if (this->map[i][j] == 0)
 	return false;
     }
@@ -228,8 +229,43 @@ arcade::Vector2u Snake::getDimension(void) const {
 }
 
 int 	main(){
-  Snake		Snake(arcade::Vector2u(30, 30));
+  Snake		Snake(arcade::Vector2u(10, 10));
   arcade::IGames	&I_obj = Snake;
 
   I_obj.gestion();
+}
+
+int 	*Snake::find_tale(int value, int **tab)
+{
+  unsigned int 	i = 0;
+  unsigned int 	j = 0;
+  int 	*tabi;
+
+  tabi = (int*)malloc(2 * sizeof(int));
+  for (i = 0 ; i < this->dim.x - 1 ; i++) {
+    for (j = 0; j < this->dim.x - 1; j++)
+    {
+      if (tab[i][j] == value) {
+	tabi[0] = i;
+	tabi[1] = j;
+	return (tabi);
+      }
+    }
+  }
+  return (tabi);
+}
+
+int 	**Snake::ma2d()
+{
+  unsigned int	z = 0;
+  if ((this->map = (int **)malloc((this->dim.x + 1) * sizeof(int*))) == NULL)
+    exit(1);
+  while (z < this->dim.x)
+  {
+    if ((this->map[z] = (int *)malloc((this->dim.x + 1) * sizeof(int))) == NULL)
+      exit(1);
+    z++;
+  }
+  this->map[z] = NULL;
+  return (this->map);
 }
