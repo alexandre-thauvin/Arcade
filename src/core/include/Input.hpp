@@ -47,7 +47,13 @@ namespace                   arcade
         LEFT,
         RIGHT,
         ESCAPE,
+        ENTER
     };
+    //
+    // std::ostream& operator<<(std::ostream &os, InputT const &i){
+    //   os << "unicode: "<< i.unicode;
+    //   return os;
+    // }
 
 }
 
@@ -62,11 +68,6 @@ namespace                   std
           if (lhs.type != rhs.type)
             return (lhs.type < rhs.type);
           return (lhs.key < rhs.key);
-        }
-        std::ostream& operator<<(std::ostream &os, arcade::IntputT const &i)
-        {
-          os << "unicode: " << i.unicode;
-          return os;
         }
     };
 }
