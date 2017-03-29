@@ -14,7 +14,7 @@ int main(int ac, char **av) {
     a = b;
     std::cout << a << std::endl;
   } catch (arcade::ArcadeError const &err) {
-    std::cerr << err.what() << std::endl;
+    std::cerr << err.error() << std::endl;
   }
   return (0);
 }

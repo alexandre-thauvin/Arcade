@@ -5,7 +5,7 @@
 // Login   <theis_p@epitech.eu>
 //
 // Started on  Tue Mar 28 16:38:52 2017 Paul THEIS
-// Last update Tue Mar 28 16:38:53 2017 Paul THEIS
+// Last update Tue Mar 28 16:48:25 2017 Paul THEIS
 //
 
 #ifndef _IGAMES_HPP_
@@ -37,7 +37,7 @@ namespace                       arcade {
         virtual Vector2u        getDimension(void) const = 0;
         virtual Vector2u        getScale(void) const = 0;
 
-        virtual void            updateGame(float const delta) = 0;
+        virtual void            updateGame(float const tick) = 0;
 
         virtual Map const       &getMap(void) const = 0;
 
