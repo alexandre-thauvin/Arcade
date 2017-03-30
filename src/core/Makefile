@@ -5,7 +5,7 @@
 ## Login   <thauvi_a@epitech.net>
 ##
 ## Started on  Mon Mar  6 14:29:08 2017 Alexandre Thauvin
-## Last update Tue Mar 28 18:21:18 2017 Paul THEIS
+## Last update Wed Mar 29 18:47:40 2017 Paul THEIS
 ##
 
 DEBUG			?=		yes
@@ -17,9 +17,10 @@ PARAM			?=
 NAME			=		../../arcade
 
 SRCS			=		main.cpp \
+                    DrawObject.cpp \
 					Core.cpp \
 					Error.cpp \
-					GFX.cpp \
+					GFX.cpp
 
 GAMES			=		games/
 

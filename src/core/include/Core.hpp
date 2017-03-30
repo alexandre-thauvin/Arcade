@@ -45,8 +45,11 @@ namespace                       arcade {
       void                      initLibGames(std::string const &lib);
       void                      goUp(void);
       void                      goDown(void);
+      void                      goLeft(void);
+      void                      goRight(void);
       void                      goQuit(void);
       void                      goEnter(void);
+      void                      goShoot(void);
     private:
       std::map<InputT, std::function<void(void)> > _input;
       GameState                _state;
