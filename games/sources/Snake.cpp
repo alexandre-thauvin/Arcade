@@ -28,13 +28,15 @@ Snake::Snake(arcade::Vector2u const dim){
   this->frut = true;
   srand(time(NULL));
   this->frut_x = rand() % this->dim.x;
-  this->frut_y = rand() % this->dim.x;
+  this->frut_y = rand() % this->dim.y;
   this->head_x = this->dim.x / 2;
   this->head_y = this->dim.x / 2;
   this->score = 0;
   this->state = true;
   this->size = 2;
-  this->map = this->ma2d();
+  this->map = new int*[this->dim.y];
+  for(unsigned int i = 0; i < this->dim.y; ++i)
+    this->map[i] = new int[this->dim.x];
 }
 
 void Snake::pop() {
@@ -225,9 +227,8 @@ int 	*Snake::find_tale(int value, int **tab)
 {
   unsigned int 	i = 0;
   unsigned int 	j = 0;
-  int 	*tabi;
 
-  tabi = (int*)malloc(2 * sizeof(int));
+  int *tabi = new int[2];
   for (i = 0 ; i < this->dim.y; i++) {
     for (j = 0; j < this->dim.x; j++)
     {
@@ -241,22 +242,7 @@ int 	*Snake::find_tale(int value, int **tab)
   return (tabi);
 }
 
-int 	**Snake::ma2d()
-{
-  unsigned int	z = 0;
-  if ((this->map = (int **)malloc((this->dim.x) * sizeof(int*))) == NULL)
-    exit(1);
-  while (z < this->dim.y)
-  {
-    if ((this->map[z] = (int *)malloc((this->dim.x + 1) * sizeof(int))) == NULL)
-      exit(1);
-    z++;
-  }
-  this->map[z] = NULL;
-  return (this->map);
-}
-
-void Snake::init() {
+void	Snake::init() {
   unsigned int i;
   unsigned int z;
   for (i = 0; i < this->dim.x; i++)
@@ -268,7 +254,7 @@ void Snake::init() {
     this->size++;
   }
   this->size--;
-  this->tale = (int*)malloc(2 * sizeof(int));
+  this->tale = new int[2];
   this->tale[0] = this->head_y;
   this->tale[1] = this->head_x - 3;
   this->pop();
