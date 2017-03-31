@@ -1,39 +1,34 @@
 
-NAME	= snake
+NAME	=	snake
 
-SRCS1	= sources/Snake.cpp
+SRC	=	sources/Snake.cpp
 
-LIB     = lib_arcade_snake.so
+LIB     =	lib_arcade_snake.so
 
-NAME1   = lib_snake.so
+OBJ	=       $(SRC:.cpp=.o)
 
-OBJS	= $(SRCS:.cpp=.o)
+GXX	=       g++
 
-OBJS1   = $(SRCS1:.cpp=.o)
+RM	=       rm -rf
 
-GXX	= g++
+CXXFLAGS=       -Wall -Werror -W -Wextra -I./includes/
 
-RM	= rm -rf
+$(NAME) :       $(OBJ)
+		$(GXX) -o $(NAME) $(CXXFLAGS) $(OBJ)
 
-CXXFLAGS	= -Wall -Werror -W -Wextra -I includes/
+lib	:       $(OBJ)
+		$(eval CFLAGS += -shared -fpic)
+		$(GXX) -o $(LIB) $(CXXFLAGS) $(OBJ)
 
+all	:       $(NAME)
 
-$(LIB): $(OBJS1)
-	$(GXX) -shared -fpic -o $(NAME1) $(CXXFLAGS) $(SRCS1)
+clean   :
+	        $(RM) $(OBJS)
+	        $(RM) $(SRCS)/*~
+	        $(RM) $(SRCS)/*#
 
-$(NAME): $(OBJS)
-	$(GXX) -o $(NAME) $(CXXFLAGS) $(SRCS)
+fclean  :       clean
+	        $(RM) $(NAME)
+		$(RM) $(LIB)
 
-lib: $(LIB)
-
-all: $(NAME)
-
-clean:
-	$(RM) $(OBJS)
-	$(RM) $(SRCS)/*~
-	$(RM) $(SRCS)/*#
-
-fclean: clean
-	$(RM) $(NAME)
-
-re: fclean all
+re      :       fclean all
