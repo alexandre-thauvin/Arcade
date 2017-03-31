@@ -4,11 +4,10 @@
 
 #include "Snake.h"
 
-void Snake::move_player() {
+bool Snake::move_player() {
   if (!isPlayerAlive())
   {
-    std::cout << "LOOSE" << std::endl;
-    exit(0);
+    return false;
   }
   this->eat_frut();
   if (this->mv == arcade::Input::RIGHT)
@@ -19,6 +18,7 @@ void Snake::move_player() {
     goUp();
   else if (this->mv == arcade::Input::DOWN)
     goDown();
+  return true;
 }
 
 Snake::Snake(arcade::Vector2u const dim){
@@ -77,7 +77,7 @@ void Snake::update_key(arcade::Input mv) {
 
 void Snake::play() {
   this->init();
-  std::cout << "tu joues à : " << this->getGamesName();
+  /*std::cout << "tu joues à : " << this->getGamesName();
   this->print_map();
   this->update_key(arcade::Input::RIGHT);
   this->move_player();
@@ -99,9 +99,9 @@ void Snake::play() {
   this->print_map();
   this->getScore();
   //this->restart();
-  this->isPlayerWin();
+  this->isPlayerWin();*/
 }
-
+/*
 void 	Snake::print_map()
 {
   std::cout << "******************************************************************" << std::endl;
@@ -111,7 +111,7 @@ void 	Snake::print_map()
     std::cout << std::endl;
   }
   std::cout << "******************************************************************" << std::endl << std::endl;
-}
+}*/
 
 bool Snake::eat_frut() {
   if (this->mv == arcade::Input::RIGHT) {
@@ -188,7 +188,7 @@ void Snake::move_body() {
 
 
 size_t Snake::getScore(void) const {
-  std::cout << "mon score est de : " << this->score << std::endl;
+  //std::cout << "mon score est de : " << this->score << std::endl;
   return this->score;
 }
 

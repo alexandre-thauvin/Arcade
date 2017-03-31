@@ -32,7 +32,7 @@ namespace                       arcade {
         //virtual Drawable const  *getTexture(Vector2u const& pos) const = 0; // Paul
         //virtual std::vector<DrawObject> const& getDrawableEvent(void) const = 0; // Paul
 
-        virtual void            move_player(void) = 0;
+        virtual bool            move_player(void) = 0;
         virtual void            goUp(void) = 0;
         virtual void            goDown(void) = 0;
         virtual void            goLeft(void) = 0;
