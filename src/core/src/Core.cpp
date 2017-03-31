@@ -23,6 +23,13 @@ arcade::Core::Core(void) {
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::LEFT, InputT::None), std::bind(&arcade::Core::goLeft, this)));
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::RIGHT, InputT::None), std::bind(&arcade::Core::goRight, this)));
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::SPACE, InputT::None), std::bind(&arcade::Core::goShoot, this)));
+
+  _gfxlib["SDL"] = "lib/sdl_path";
+  _gfxlib["OpenGL"] = "lib/OpenGL_path";
+  _gfxlib["NCurses"] = "lib/NCurses_path";
+
+  _gfxlib["snake"] = "games/nake_path";
+  _gfxlib["centipede"] = "games/centipede_path";
 }
 
 arcade::Core::~Core(void) {}

@@ -51,7 +51,9 @@ namespace                       arcade {
       void                      goEnter(void);
       void                      goShoot(void);
     private:
-      std::map<InputT, std::function<void(void)> > _input;
+      std::map<InputT, std::function<void(void)>> _input;
+      std::map<std::string, std::string> _gfxlib;
+      std::map<std::string, std::string> _gamelib;
       GameState                _state;
     };
 }

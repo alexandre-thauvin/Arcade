@@ -52,7 +52,11 @@ namespace                   arcade
                             RIGHT,
                             ESCAPE,
                             ENTER,
-                            SPACE
+                            SPACE,
+                            NEXT_LIB,
+                            PREV_LIB,
+                            NEXT_GAME,
+                            PREV_GAME
     };
 }
 
