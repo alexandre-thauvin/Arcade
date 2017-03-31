@@ -59,9 +59,11 @@ cmake-build-debug/
 Supprimerait main.c
 
 arcade
+games/snake
 cmake-build-debug/
 CMakeFiles/
 CMakeCache.txt/
 Supprimerait cmake_install.cmake
 Supprimerait obj/
 Supprimerait src/core/src/
+Supprimerait src/core/obj/
