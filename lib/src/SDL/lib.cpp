@@ -46,7 +46,7 @@ void	arcade::GfxSDL::clear() {
 }
 
 arcade::InputT	arcade::GfxSDL::getInput() {
-  
+  return (InputT(InputT::TextEntered, Input::ENTER, InputT::None));
 }
 
 void	arcade::GfxSDL::display() {

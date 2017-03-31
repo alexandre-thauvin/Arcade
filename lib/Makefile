@@ -12,7 +12,7 @@ CC		= g++-6
 
 RM		= rm -f
 
-CPPFLAGS	= -I./include/ `sdl-config --cflags --libs` -lSDL -std=c++11 -Wall -Wextra -fpic
+CPPFLAGS	= -I./include/ -I../src/core/include `sdl-config --cflags --libs` -lSDL -std=c++11 -Wall -Wextra -fpic
 
 PATHSDL		= src/SDL/
 
