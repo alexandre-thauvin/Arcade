@@ -24,14 +24,13 @@ class Snake: public  arcade::IGames {
   arcade::Vector2u        		getDimension(void) const;
   std::string     			getGamesName(void) const;
   size_t        			getScore(void) const;
-  int					**ma2d();
   int 					*find_tale(int, int **);
   bool 					eat_frut();
   bool 					isPlayerAlive();
   bool            			isPlayerWin(void) const;
   bool            			updateGame(float const tick);
   void 					init();
-  void 					move_player();
+  bool 					move_player();
   void 					goDown();
   void 					goUp();
   void 					goLeft();
@@ -42,7 +41,7 @@ class Snake: public  arcade::IGames {
   void 					grow_up();
   void 					move_body();
   void            			restart(void);
-  void 					print_map();
+  //void 					print_map();
  private:
   std::list<arcade::Vector2u>	snake;
   arcade::Vector2u		dim;
