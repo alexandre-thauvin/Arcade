@@ -3,6 +3,7 @@ NAME	= snake
 
 SRCS	= sources/*.cpp
 
+LIB     = lib_arcade_snake.so
 
 OBJS	= $(SRCS:.cpp=.o)
 

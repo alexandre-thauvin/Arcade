@@ -29,7 +29,7 @@ public:
       if (_handler == NULL) {
         std::string error = "Error: ";
         error += dlerror();
-        std::cout << "ERREUR : " << error << std::endl;
+//        std::cout << "ERREUR : " << error << std::endl;
         throw arcade::ArcadeError(error);
       }
     }
