@@ -16,8 +16,7 @@
 
 # include "Error.hpp"
 # include "Input.hpp"
-
-struct InputT;
+# include "Utils.hpp"
 
 namespace                       arcade {
   class                         IGFX {

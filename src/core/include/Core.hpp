@@ -20,11 +20,10 @@
 # include <functional>
 # include <signal.h>
 
+# include "Input.hpp"
 # include "Protocol.hpp"
 # include "Utils.hpp"
-# include "Input.hpp"
 # include "Error.hpp"
-# include "GFX.hpp"
 
 # define MAIN_SLEEP 10
 

@@ -12,9 +12,6 @@
 
 #ifndef CPP_ARCADE_INPUT_HPP
 #define CPP_ARCADE_INPUT_HPP
-# include <iostream>
-# include <string>
-# include "Core.hpp"
 
 namespace                   arcade
 {

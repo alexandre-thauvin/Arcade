@@ -14,7 +14,7 @@
 # include <vector>
 # include <map>
 # include <SDL2/SDL.h>
-# include <iostream>
+
 # include "IGFX.hpp"
 
 namespace                       arcade
