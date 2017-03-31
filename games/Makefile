@@ -1,22 +1,31 @@
 
 NAME	= snake
 
-SRCS	= sources/*.cpp
+SRCS1	= sources/Snake.cpp
 
+
+NAME1   = lib_snake.so
 
 OBJS	= $(SRCS:.cpp=.o)
 
-GCC	= g++
+OBJS1   = $(SRCS1:.cpp=.o)
+
+GXX	= g++
 
 RM	= rm -rf
 
-CXXFLAGS	= -Wall -Werror -W -Wextra -I includes/ -g
+CXXFLAGS	= -Wall -Werror -W -Wextra -I includes/
 
+
+$(LIB): $(OBJS1)
+	$(GXX) -shared -fpic -o $(NAME1) $(CXXFLAGS) $(SRCS1)
 
 $(NAME): $(OBJS)
-	$(GCC) -o $(NAME) $(CXXFLAGS) $(SRCS)
+	$(GXX) -o $(NAME) $(CXXFLAGS) $(SRCS)
 
-all:$(NAME)
+lib: $(LIB)
+
+all: $(NAME)
 
 clean:
 	$(RM) $(OBJS)
