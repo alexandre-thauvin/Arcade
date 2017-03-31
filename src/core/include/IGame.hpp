@@ -4,8 +4,8 @@
 # include <string>
 # include <list>
 # include <vector>
-# include "Input.hpp"
-# include "Utils.hpp"
+# include "../../../games/includes/Input.hpp"
+# include "../../../games/includes/Utils.hpp"
 
 namespace                       arcade {
   class                         IGames {

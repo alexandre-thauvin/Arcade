@@ -19,7 +19,7 @@ arcade::ArcadeError::ArcadeError(std::string const &msg) throw()
 
 arcade::ArcadeError::~ArcadeError(void) throw() {}
 
-const char              *arcade::ArcadeError::error(void) const throw()
+const char              *arcade::ArcadeError::what(void) const throw()
 {
   std::string           msg;
 

@@ -22,7 +22,7 @@ namespace                     arcade {
       public:
                               ArcadeError(std::string const &msg) throw();
           virtual             ~ArcadeError(void) throw();
-          virtual const char  *error(void) const throw();
+          virtual const char  *what(void) const throw();
 
       private:
           std::string         _msg;

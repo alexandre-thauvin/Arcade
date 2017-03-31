@@ -21,9 +21,11 @@
 # include <signal.h>
 
 # include "Input.hpp"
+# include "Error.hpp"
 # include "Protocol.hpp"
 # include "Utils.hpp"
-# include "Error.hpp"
+# include "IGFX.hpp"
+# include "IGame.hpp"
 
 # define MAIN_SLEEP 10
 
@@ -49,11 +51,15 @@ namespace                       arcade {
       void                      goQuit(void);
       void                      goEnter(void);
       void                      goShoot(void);
+      void                      menu(void);
+      void                      load(void);
     private:
       std::map<InputT, std::function<void(void)>> _input;
       std::map<std::string, std::string> _gfxlib;
       std::map<std::string, std::string> _gamelib;
       GameState                _state;
+      IGFX                     *_gfx;
+      IGames                   *_game;
     };
 }
 

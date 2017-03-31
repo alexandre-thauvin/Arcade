@@ -13,8 +13,9 @@ int main(int ac, char **av) {
     arcade::Vector2i b(24, 20);
     a = b;
     std::cout << a << std::endl;
+    core.load();
   } catch (arcade::ArcadeError const &err) {
-    std::cerr << err.error() << std::endl;
+    std::cerr << err.what() << std::endl;
   }
   return (0);
 }

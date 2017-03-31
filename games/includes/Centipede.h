@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-#include "IGame.hpp"
+#include "../../src/core/include/IGame.hpp"
 
 #define HEAD	(1)
 

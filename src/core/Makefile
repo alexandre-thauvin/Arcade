@@ -19,8 +19,7 @@ NAME			=		../../arcade
 SRCS			=		main.cpp \
                     DrawObject.cpp \
 					Core.cpp \
-					Error.cpp \
-					GFX.cpp
+					Error.cpp
 
 GAMES			=		games/
 
