@@ -38,6 +38,7 @@ arcade::Core::Core(void) {
   _game = NULL;
   _gameId = 0;
   _libId = 0;
+  _menuId = 0;
 }
 
 arcade::Core::~Core(void) {}
@@ -74,6 +75,8 @@ bool                    arcade::Core::play(void)
           case MenuState:
             menu();
             break;
+          default:
+            break;
         }
         _gfx->display();
         usleep(MAIN_SLEEP);
@@ -86,26 +89,26 @@ void                    arcade::Core::menu(void)
   arcade::DrawObject    a;
   arcade::Vector2i      pos;
 
-  a.setSize(Vector2u(SIZE_X - 100, 75));
-  a.setPosition(Vector2i(50, SIZE_Y - 125));
-  _gfx->draw(a);
-  a.setPosition(Vector2i(50, SIZE_Y - 250));
-  _gfx->draw(a);
-  a.setPosition(Vector2i(50, SIZE_Y - 375));
-  _gfx->draw(a);
-  a.setSize(Vector2u(SIZE_X - 100, 125));
-  a.setPosition(Vector2i(50, 50));
-  _gfx->draw(a);
+  a.setColor(arcade::Color((unsigned char)238, (unsigned char)110, (unsigned char)115));
+  for (int i = 0; i <= GameSize; ++i) {
+    a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
+    a.setPosition(Vector2i((_menuId == i) ? 30 : 50, SIZE_Y - (50 + (100 * (i + 1)))));
+    _gfx->draw(a);
+  }
 }
 
 void                    arcade::Core::goUp(void)
 {
     std::cout << "Up!" << std::endl;
+  if (_state == MenuState)
+    _menuId = (++_menuId > GameSize) ? 0 : _menuId;
 }
 
 void                    arcade::Core::goDown(void)
 {
     std::cout << "Down!" << std::endl;
+  if (_state == MenuState)
+    _menuId = (--_menuId < 0) ? GameSize : _menuId;
 }
 
 void                    arcade::Core::goLeft(void)

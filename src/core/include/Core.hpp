@@ -78,6 +78,7 @@ namespace                       arcade {
       IGames                    *_game;
       int                       _gameId;
       int                       _libId;
+      int                       _menuId;
     };
 }
 

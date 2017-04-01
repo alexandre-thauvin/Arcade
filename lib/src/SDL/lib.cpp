@@ -53,17 +53,20 @@ void	arcade::GfxSDL::close() {}
 
 arcade::InputT	arcade::GfxSDL::getInput() {
   SDL_Event event;
-  SDL_PollEvent(&event);
-  switch (event.key.keysym.sym) {
-    case SDLK_UP:
-      return (InputT(InputT::KeyPressed, Input::UP, InputT::None));
-    case SDLK_DOWN:
-      return (InputT(InputT::KeyPressed, Input::DOWN, InputT::None));
-    case SDLK_LEFT:
-      return (InputT(InputT::KeyPressed, Input::LEFT, InputT::None));
-    case SDLK_RIGHT:
-      return (InputT(InputT::KeyPressed, Input::RIGHT, InputT::None));
 
+  SDL_PollEvent(&event);
+  if (event.type == SDL_KEYUP) {
+    switch (event.key.keysym.sym) {
+      case SDLK_UP:
+        return (InputT(InputT::KeyPressed, Input::UP, InputT::None));
+      case SDLK_DOWN:
+        return (InputT(InputT::KeyPressed, Input::DOWN, InputT::None));
+      case SDLK_LEFT:
+        return (InputT(InputT::KeyPressed, Input::LEFT, InputT::None));
+      case SDLK_RIGHT:
+        return (InputT(InputT::KeyPressed, Input::RIGHT, InputT::None));
+
+    }
   }
   return (InputT(InputT::TextEntered, Input::ENTER, InputT::None));
 }
