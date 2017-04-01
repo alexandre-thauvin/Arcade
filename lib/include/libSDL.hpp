@@ -21,11 +21,11 @@ namespace                       arcade
 {
   class                         GfxSDL : public IGFX {
     public:
-                                GfxSDL(void);
+                                GfxSDL(Vector2u dim);
       virtual                   ~GfxSDL(void);
       virtual InputT            getInput(void);
       virtual void              setTitleWindow(std::string const &title);
-      virtual void              setWindowSize(Vector2u const &size);
+      virtual void              setWindowSize(Vector2u const &dim);
       virtual bool              isOpen(void) const;
       virtual void              close(void);
       virtual void              clear(void);
@@ -33,11 +33,10 @@ namespace                       arcade
       virtual void              display(void);
     private:
       std::map<int, InputT>     _input;
-      bool			_isOpen;
-      SDL_Window*		_mainWindow;
-      SDL_Renderer*		_renderer;
-      int			_mainSizeX;
-      int			_mainSizeY;
+      bool			            _isOpen;
+      SDL_Window*		        _mainWindow;
+      SDL_Renderer*		        _renderer;
+      Vector2u                  _mainSize;
     };
 }
 

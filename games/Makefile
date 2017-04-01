@@ -11,14 +11,14 @@ GXX	=       g++
 
 RM	=       rm -rf
 
-CXXFLAGS=       -Wall -Werror -W -Wextra -I./includes/
+CXXFLAGS=       -Wall -Werror -W -Wextra -I./includes/ -I../src/core/include/
 
 $(NAME) :       $(OBJ)
 		$(GXX) -o $(NAME) $(CXXFLAGS) $(OBJ)
 
-lib	:       $(OBJ)
-		$(eval CFLAGS += -shared -fpic)
-		$(GXX) -o $(LIB) $(CXXFLAGS) $(OBJ)
+lib	:
+		$(eval CXXFLAGS += -shared -fPIC)
+		$(GXX) -o $(LIB) $(CXXFLAGS) $(SRC)
 
 all	:       $(NAME)
 

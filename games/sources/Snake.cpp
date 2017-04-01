@@ -296,3 +296,9 @@ bool Snake::updateGame(float const tick) {
     return (true);
   return (false);
 }
+
+extern "C" {
+  arcade::IGames *createGame(arcade::Vector2u dim) {
+    return (new Snake(dim));
+  }
+}

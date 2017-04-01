@@ -18,8 +18,7 @@ NAME			=		../../arcade
 
 SRCS			=		main.cpp \
                     DrawObject.cpp \
-					Core.cpp \
-					Error.cpp
+					Core.cpp
 
 GAMES			=		games/
 
@@ -36,7 +35,7 @@ CXXFLAGS		=		-W -Wall -Wextra -g -pg -ansi
 else
 CXXFLAGS		=		-W -Wall -Wextra -Werror -ansi
 endif
-CXXFLAGS                +=		-std=c++11 -fPIC
+CXXFLAGS                +=		-std=c++11 -rdynamic -ldl
 CXXFLAGS		+=		-I./include/
 
 LDFLAGS			+=		-ldl

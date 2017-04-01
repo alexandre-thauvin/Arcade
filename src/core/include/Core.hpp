@@ -29,13 +29,26 @@
 
 # define MAIN_SLEEP 10
 
-enum                            GameState {
-  PlayState = 0,
-  MenuState = 1,
-  Pause = 2
-};
-
 namespace                       arcade {
+    enum                        GameState {
+        PlayState = 0,
+        MenuState,
+        Pause
+    };
+    enum                        Game
+    {
+        SNAKE = 0,
+        CENTIPED = 1,
+        GameSize = 2
+    };
+
+    enum                        Gfx
+    {
+        SDL = 0,
+        NCURSES = 1,
+        OPENGL = 2,
+        GfxSize = 3
+    };
   class                         Core {
     public:
                                 Core(void);
@@ -52,14 +65,19 @@ namespace                       arcade {
       void                      goEnter(void);
       void                      goShoot(void);
       void                      menu(void);
-      void                      load(void);
+      void                      loadGfx(int id);
+      void                      loadGame(int id);
+      void                      loadNextGame(void);
+      void                      loadPrevGame(void);
     private:
       std::map<InputT, std::function<void(void)>> _input;
-      std::map<std::string, std::string> _gfxlib;
-      std::map<std::string, std::string> _gamelib;
+      std::map<int, std::string> _gfxlib;
+      std::map<int, std::string> _gamelib;
       GameState                _state;
-      IGFX                     *_gfx;
-      IGames                   *_game;
+      IGFX                      *_gfx;
+      IGames                    *_game;
+      int                       _gameId;
+      int                       _libId;
     };
 }
 

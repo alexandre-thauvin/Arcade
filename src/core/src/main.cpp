@@ -6,16 +6,15 @@ int main(int ac, char **av) {
   (void)ac;
   arcade::Core core;
   try {
-    core.init("first av", "conf");
+    core.init("./lib/lib_arcade_sdl.so", "conf");
     core.play();
     std::cout << "Hello World!" << std::endl;
     arcade::Vector2i a(10, 10);
     arcade::Vector2i b(24, 20);
     a = b;
     std::cout << a << std::endl;
-    core.load();
-  } catch (arcade::ArcadeError const &err) {
-    std::cerr << err.what() << std::endl;
+  } catch (arcade::Error &e) {
+    std::cerr << e.what() << std::endl;
   }
   return (0);
 }

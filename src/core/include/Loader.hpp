@@ -19,37 +19,36 @@
 #include "Error.hpp"
 
 template<typename T>
-class               Loader {
-    std::string     _path;
-    void            *_handler;
+class Loader {
+    std::string _path;
+    void        *_handler;
 public:
     Loader(std::string const &path) {
       _path    = path;
       _handler = dlopen(_path.c_str(), RTLD_NOW | RTLD_GLOBAL);
       if (_handler == NULL) {
-        std::string error = "Error: ";
-        error += dlerror();
-//        std::cout << "ERREUR : " << error << std::endl;
-        throw arcade::ArcadeError(error);
+        std::string error = dlerror();
+        throw arcade::Error(error, INFO);
       }
     }
 
     ~Loader() {
       if (dlclose(_handler) != 0) {
-        std::string error = "oki";
-        throw arcade::ArcadeError("Error: Handler failed!");
+        throw arcade::Error("Error: dlclose", INFO);
       }
     }
 
-    T *getInstance(std::string entry_point, int width = 20, int height = 20) {
-      T * (*ptr)(int, int);
-      ptr = reinterpret_cast<T *(*)(int, int)>(dlsym(_handler,
-                                                     entry_point.c_str()));
-      if (ptr == NULL)
+    T *getInstance(std::string entry_point,
+                   arcade::Vector2u dim = arcade::Vector2u(20, 20)) {
+      T *(*ptr)(arcade::Vector2u);
+      ptr = reinterpret_cast<T *(*)(arcade::Vector2u)>(dlsym(_handler,
+                                                             entry_point.c_str()));
+      std::cout << ptr << std::endl;
+      if (ptr == NULL) {
         return (NULL);
-      return (ptr(width, height));
+      }
+      return (ptr(dim));
     }
-
 };
 
 #endif //CPP_ARCADE_LOADER_HPP

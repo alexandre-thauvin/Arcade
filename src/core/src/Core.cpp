@@ -25,14 +25,16 @@ arcade::Core::Core(void) {
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::RIGHT, InputT::None), std::bind(&arcade::Core::goRight, this)));
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::SPACE, InputT::None), std::bind(&arcade::Core::goShoot, this)));
 
-  _gfxlib["SDL"] = "./lib/lib_arcade_sdl.so";
-  _gfxlib["OpenGL"] = "lib/OpenGL_path";
-  _gfxlib["NCurses"] = "lib/NCurses_path";
+  _gfxlib[SDL] = "./lib/lib_arcade_sdl.so";
+  _gfxlib[OPENGL] = "./lib/lib_arcade_ncurses.so";
+  _gfxlib[NCURSES] = "./lib/lib_arcade_opengl.so";
 
-  _gfxlib["snake"] = "games/nake_path";
-  _gfxlib["centipede"] = "games/centipede_path";
+  _gamelib[SNAKE] = "games/lib_arcade_snake.so";
+  _gamelib[CENTIPED] = "games/centipede_path";
   _gfx = NULL;
   _game = NULL;
+  _gameId = 0;
+  _libId = 0;
 }
 
 arcade::Core::~Core(void) {}
@@ -43,8 +45,13 @@ void arcade::Core::init(std::string const &lib, std::string const &conf)
   (void) conf;
   try {
     signal(SIGINT, arcade_ragequit);
-  } catch (ArcadeError const &error) {
-    throw (error);
+    for (std::map<int, std::string>::iterator it = _gfxlib.begin(); it != _gfxlib.end(); ++it )
+      if (it->second == lib)
+        loadGfx(it->first);
+    if (_gfx == NULL)
+      throw Error("Error: I can't Load GFX Library: ", lib, "", 0);
+  } catch (Error &e) {
+    throw (e);
   }
 }
 
@@ -104,14 +111,32 @@ void                    arcade::Core::menu(void)
   std::cout << "Menu" << std::endl;
 }
 
-void                    arcade::Core::load(void)
+void                    arcade::Core::loadGfx(int id)
 {
-  std::cout << "Load" << std::endl;
-  Loader<IGFX> *gfx_loader = new Loader<IGFX>(_gfxlib["SDL"]);
-//  _gfx = gfx_loader->getInstance("Lib");
-//  if (_gfx == NULL)
-//    throw arcade::ArcadeError("Error: Load");
-  menu();
+  std::cout << "LoadGfx: " << _gfxlib[id%GfxSize] << std::endl;
+  Loader<IGFX> *gfx_loader = new Loader<IGFX>(_gfxlib[id%GfxSize]);
+  _gfx = gfx_loader->getInstance("createLib");
+  if (_gfx == NULL)
+    throw arcade::Error("Error: ", INFO);
+}
+
+void                    arcade::Core::loadGame(int id)
+{
+  std::cout << "LoadGame: " << _gamelib[id%GameSize] << std::endl;
+  Loader<IGames> *game_loader = new Loader<IGames>(_gamelib[id%GameSize]);
+  _game = game_loader->getInstance("createGame", Vector2u(20, 20));
+  if (_game == NULL)
+    throw arcade::Error("Error: ", INFO);
+}
+
+void                    arcade::Core::loadNextGame(void)
+{
+
+}
+
+void                    arcade::Core::loadPrevGame(void)
+{
+
 }
 
 void                    arcade_ragequit(int x)

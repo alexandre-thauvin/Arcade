@@ -1,56 +1,30 @@
-##
-## Makefile for  in /home/cedric/workTek2/cpp_arcade/lib
-## 
-## Made by Cedric
-## Login   <cedric.clemenceau@epitech.eu>
-## 
-## Started on  Tue Mar 28 13:39:30 2017 Cedric
-## Last update Wed Mar 29 16:04:47 2017 Cedric
-##
 
-CC		= g++-6
+CXX		=		g++
 
-RM		= rm -f
+RM		=		rm -rf
 
-CPPFLAGS	= -I./include/ -I../src/core/include `sdl-config --cflags --libs` -lSDL -std=c++11 -Wall -Wextra -fpic
+NAME		=		lib_arcade_sdl.so
 
-PATHSDL		= src/SDL/
+SRC		=		src/SDL/lib.cpp
 
-PATHNCUSES	= src/NCURSES/
+CXXFLAGS	=		-W -Wall -Wextra
+CXXFLAGS	+=		-I./include/ -I../src/core/include/
+CXXFLAGS	+=		-fPIC
 
-SRCSDL		= $(PATHSDL)lib.cpp
+LDFLAGS		+=		-L./lib/ -shared
+LDFLAGS		+=		-lSDL2 -lSDL2_image
 
-#SRCNCURSES	= #$(PATHNCURSES)lib.cpp
+OBJ 		=		$(SRC:.cpp=.o)
 
-#SRCOPENGL	= 
+all 		:	 	$(NAME)
 
-OBJSDL		= $(SRCSDL:.cpp=.o)
+$(NAME) 	:		$(OBJ)
+				$(CXX) $(OBJ) $(LDFLAGS) -o $(NAME)
 
-OBJNCURSES	= $(SRCNCURSES:.cpp=.o)
+clean		:
+				$(RM) $(OBJ)
 
-OBJOPENGL	= $(SRCOPENGL:.cpp=.o)
+fclean		:		clean
+				$(RM) $(NAME)
 
-NAMESDL		= lib_arcade_sdl.so
-
-NAMENCURSES	= lib_arcade_ncurses.so
-
-NAMEOPENGL	= lib_arcade_opengl.so
-
-name	: $(OBJSDL) #$(OBJNCURSES) $(OBJOPENGL)
-	  $(CC) -shared -o $(NAMESDL) $(OBJSDL)
-#	  $(CC) -shared -o $(NAMENCURSES) $(OBJNCURSES)
-#	  $(CC) -shared -o $(NAMEOPENGL) $(OBJOPENGL)
-
-all	: name
-
-clean	:
-	  $(RM) $(OBJSDL)
-	  $(RM) $(OBJNCURSES)
-
-fclean	: clean
-	  $(RM) $(NAMESDL)
-	  $(RM) $(NAMENCURSES)
-
-re	: fclean all
-
-.PHONY	: re clean fclean all
+re		:		fclean all

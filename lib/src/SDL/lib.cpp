@@ -10,7 +10,7 @@
 
 #include "libSDL.hpp"
 
-arcade::GfxSDL::GfxSDL() {
+arcade::GfxSDL::GfxSDL(arcade::Vector2u dim) {
   SDL_Init(SDL_INIT_EVERYTHING);
   _input[SDLK_i] = InputT(InputT::KeyPressed, Input::PREV_LIB, InputT::None);
   _input[SDLK_p] = InputT(InputT::KeyPressed, Input::NEXT_LIB, InputT::None);
@@ -27,6 +27,7 @@ arcade::GfxSDL::GfxSDL() {
   _input[SDLK_q] = InputT(InputT::KeyPressed, Input::LEFT, InputT::None);
   _input[SDLK_d] = InputT(InputT::KeyPressed, Input::RIGHT, InputT::None);
   _input[SDLK_z] = InputT(InputT::KeyPressed, Input::UP, InputT::None);
+  _mainSize = dim;
 }
 
 arcade::GfxSDL::~GfxSDL() {
@@ -45,15 +46,25 @@ void	arcade::GfxSDL::clear() {
   SDL_RenderClear(_renderer);
 }
 
+void	arcade::GfxSDL::close() {}
+
 arcade::InputT	arcade::GfxSDL::getInput() {
   return (InputT(InputT::TextEntered, Input::ENTER, InputT::None));
 }
 
 void	arcade::GfxSDL::display() {
-  _mainSizeX = 600;
-  _mainSizeY = 600;
   _isOpen = true;
-  _mainWindow = SDL_CreateWindow("Main Window", 0, 0, _mainSizeX, _mainSizeY, 0);
+  _mainWindow = SDL_CreateWindow("Main Window", 0, 0, _mainSize.x, _mainSize.y, 0);
   _renderer = SDL_CreateRenderer(_mainWindow, -1, 0);
   std::cin.ignore();
+}
+
+void              arcade::GfxSDL::setWindowSize(arcade::Vector2u const &dim) {
+  SDL_SetWindowSize(_mainWindow, dim.x, dim.y);
+}
+
+extern "C" {
+  arcade::IGFX *createLib(arcade::Vector2u dim) {
+    return (new arcade::GfxSDL(dim));
+  }
 }
