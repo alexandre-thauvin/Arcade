@@ -17,7 +17,9 @@
 # include "Error.hpp"
 # include "Input.hpp"
 # include "Utils.hpp"
+# include "DrawObject.hpp"
 
+class DrawObject;
 namespace                       arcade {
   class                         IGFX {
       public:
@@ -31,7 +33,7 @@ namespace                       arcade {
         virtual InputT          getInput(void) = 0;
 
         virtual void            clear(void) = 0;
-        // virtual void            draw(Drawable const& drawable) = 0;
+         virtual void           draw(DrawObject const &drawObject) = 0;
         virtual void            display(void) = 0;
       };
 }

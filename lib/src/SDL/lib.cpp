@@ -28,6 +28,9 @@ arcade::GfxSDL::GfxSDL(arcade::Vector2u dim) {
   _input[SDLK_d] = InputT(InputT::KeyPressed, Input::RIGHT, InputT::None);
   _input[SDLK_z] = InputT(InputT::KeyPressed, Input::UP, InputT::None);
   _mainSize = dim;
+  _isOpen = true;
+  _mainWindow = SDL_CreateWindow("Arcade", 0, 0, _mainSize.x, _mainSize.y, 0);
+  _renderer = SDL_CreateRenderer(_mainWindow, -1, 0);
 }
 
 arcade::GfxSDL::~GfxSDL() {
@@ -49,18 +52,41 @@ void	arcade::GfxSDL::clear() {
 void	arcade::GfxSDL::close() {}
 
 arcade::InputT	arcade::GfxSDL::getInput() {
+  SDL_Event event;
+  SDL_PollEvent(&event);
+  switch (event.key.keysym.sym) {
+    case SDLK_UP:
+      return (InputT(InputT::KeyPressed, Input::UP, InputT::None));
+    case SDLK_DOWN:
+      return (InputT(InputT::KeyPressed, Input::DOWN, InputT::None));
+    case SDLK_LEFT:
+      return (InputT(InputT::KeyPressed, Input::LEFT, InputT::None));
+    case SDLK_RIGHT:
+      return (InputT(InputT::KeyPressed, Input::RIGHT, InputT::None));
+
+  }
   return (InputT(InputT::TextEntered, Input::ENTER, InputT::None));
 }
 
 void	arcade::GfxSDL::display() {
-  _isOpen = true;
-  _mainWindow = SDL_CreateWindow("Main Window", 0, 0, _mainSize.x, _mainSize.y, 0);
-  _renderer = SDL_CreateRenderer(_mainWindow, -1, 0);
-  std::cin.ignore();
+  SDL_RenderPresent(_renderer);
 }
 
-void              arcade::GfxSDL::setWindowSize(arcade::Vector2u const &dim) {
+void    arcade::GfxSDL::setWindowSize(arcade::Vector2u const &dim) {
   SDL_SetWindowSize(_mainWindow, dim.x, dim.y);
+}
+
+void    arcade::GfxSDL::draw(DrawObject const &obj) {
+  arcade::Vector2i    pos = obj.getPosition();
+  arcade::Vector2u    size = obj.getSize();
+
+  SDL_SetRenderDrawColor(_renderer, (obj.getColor()).getRed(),
+                         (obj.getColor()).getGreen(),
+                         (obj.getColor()).getBlue(),
+                         (obj.getColor()).getAlpha());
+  SDL_Rect rect{pos.x, pos.y, (int)size.x, (int)size.y};
+  SDL_RenderFillRect(_renderer, &rect);
+  SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255 );
 }
 
 extern "C" {

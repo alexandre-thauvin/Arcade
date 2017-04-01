@@ -20,8 +20,8 @@ namespace                 arcade {
     class                 DrawObject : public IBox {
     private:
         Color             _rgba;
-        Vector2u          _position;
-        Vector2u          _r_position;
+        Vector2i          _position;
+        Vector2i          _r_position;
         Vector2u          _size;
         std::string       _text;
         size_t            _charactere_size;
@@ -31,14 +31,14 @@ namespace                 arcade {
     public:
                           DrawObject(void);
         virtual           ~DrawObject(void);
-        // virtual void        draw(IGraphic *&graphic, bool const bright);
-        virtual void      setPosition(Vector2u const &pos);
+        virtual void      draw(IGFX *&graphic, bool const bright);
+        virtual void      setPosition(Vector2i const &pos);
         virtual void      setSize(Vector2u const &size);
         virtual void      setCharacterSize(size_t const size);
         virtual void      setText(std::string const &text);
         virtual void      setColor(Color const &rgba);
-        virtual Vector2u  getPosition(void) const;
-        virtual Vector2u  getRPosition(void) const;
+        virtual Vector2i  getPosition(void) const;
+        virtual Vector2i  getRPosition(void) const;
         virtual Vector2u  getSize(void) const;
         virtual size_t    getCharacterSize(void) const;
         virtual std::string getText(void) const;

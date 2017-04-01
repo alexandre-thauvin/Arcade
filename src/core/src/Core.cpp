@@ -15,6 +15,9 @@
 #include "Core.hpp"
 #include "Loader.hpp"
 
+#define SIZE_X 400
+#define SIZE_Y 600
+
 arcade::Core::Core(void) {
   _state = GameState::MenuState;
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::ESCAPE, InputT::None), std::bind(&arcade::Core::goQuit, this)));
@@ -57,18 +60,42 @@ void arcade::Core::init(std::string const &lib, std::string const &conf)
 
 bool                    arcade::Core::play(void)
 {
-//    arcade::InputT       input;
-//
-//    (void)input;
-//    while (true)
-//    {
-//        input = gfx.getInput();
-//        if(_input.find(input) != _input.end()) {
-//            _input[input]();
-//        }
-//        usleep(MAIN_SLEEP);
-//    }
+    arcade::InputT       input;
+
+    (void)input;
+    while (true)
+    {
+        input = _gfx->getInput();
+        if(_input.find(input) != _input.end()) {
+            _input[input]();
+        }
+        _gfx->clear();
+        switch (_state) {
+          case MenuState:
+            menu();
+            break;
+        }
+        _gfx->display();
+        usleep(MAIN_SLEEP);
+    }
     return (true);
+}
+
+void                    arcade::Core::menu(void)
+{
+  arcade::DrawObject    a;
+  arcade::Vector2i      pos;
+
+  a.setSize(Vector2u(SIZE_X - 100, 75));
+  a.setPosition(Vector2i(50, SIZE_Y - 125));
+  _gfx->draw(a);
+  a.setPosition(Vector2i(50, SIZE_Y - 250));
+  _gfx->draw(a);
+  a.setPosition(Vector2i(50, SIZE_Y - 375));
+  _gfx->draw(a);
+  a.setSize(Vector2u(SIZE_X - 100, 125));
+  a.setPosition(Vector2i(50, 50));
+  _gfx->draw(a);
 }
 
 void                    arcade::Core::goUp(void)
@@ -106,16 +133,12 @@ void                    arcade::Core::goShoot(void)
     std::cout << "Shoot!" << std::endl;
 }
 
-void                    arcade::Core::menu(void)
-{
-  std::cout << "Menu" << std::endl;
-}
 
 void                    arcade::Core::loadGfx(int id)
 {
   std::cout << "LoadGfx: " << _gfxlib[id%GfxSize] << std::endl;
   Loader<IGFX> *gfx_loader = new Loader<IGFX>(_gfxlib[id%GfxSize]);
-  _gfx = gfx_loader->getInstance("createLib");
+  _gfx = gfx_loader->getInstance("createLib", Vector2u(SIZE_X, SIZE_Y));
   if (_gfx == NULL)
     throw arcade::Error("Error: ", INFO);
 }

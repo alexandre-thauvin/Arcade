@@ -29,7 +29,7 @@ namespace                       arcade
       virtual bool              isOpen(void) const;
       virtual void              close(void);
       virtual void              clear(void);
-      // virtual void           draw(DrawObject const& drawObject);
+      virtual void              draw(DrawObject const &drawObject);
       virtual void              display(void);
     private:
       std::map<int, InputT>     _input;

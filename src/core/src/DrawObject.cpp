@@ -10,10 +10,19 @@
 
 #include "DrawObject.hpp"
 
-arcade::DrawObject::DrawObject(void) {}
+arcade::DrawObject::DrawObject(void) {
+  _rgba = arcade::Color();
+  _position = arcade::Vector2i(0, 0);
+  _size = arcade::Vector2u(0, 0);
+}
 arcade::DrawObject::~DrawObject(void) {}
 
-void              arcade::DrawObject::setPosition(Vector2u const& pos) {
+void              arcade::DrawObject::draw(IGFX *&graphic, bool const bright) {
+  (void)graphic;
+  (void)bright;
+}
+
+void              arcade::DrawObject::setPosition(Vector2i const& pos) {
   _position = pos;
 }
 
@@ -33,11 +42,11 @@ void              arcade::DrawObject::setColor(arcade::Color const& rgba) {
   _rgba = rgba;
 }
 
-arcade::Vector2u  arcade::DrawObject::getPosition(void) const {
+arcade::Vector2i  arcade::DrawObject::getPosition(void) const {
     return (_position);
 }
 
-arcade::Vector2u  arcade::DrawObject::getRPosition(void) const {
+arcade::Vector2i  arcade::DrawObject::getRPosition(void) const {
     return (_r_position);
 }
 

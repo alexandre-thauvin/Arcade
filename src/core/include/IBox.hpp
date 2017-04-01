@@ -16,8 +16,9 @@
 
 # include "Error.hpp"
 # include "Input.hpp"
-
 # include "IGFX.hpp"
+
+class IGFX;
 
 namespace arcade {
     class                 Color {
@@ -65,14 +66,14 @@ namespace arcade {
         virtual             ~IBox(void) {}
 
         virtual void draw(IGFX *&graphic, bool const bright) = 0;
-        virtual void setPosition(Vector2u const &pos) = 0;
+        virtual void setPosition(Vector2i const &pos) = 0;
         virtual void setSize(Vector2u const &size) = 0;
         virtual void setCharacterSize(size_t const size) = 0;
         virtual void setText(std::string const &text) = 0;
         virtual void setColor(Color const &rgba) = 0;
 
-        virtual Vector2u getPosition(void) const = 0;
-        virtual Vector2u getRPosition(void) const = 0;
+        virtual Vector2i getPosition(void) const = 0;
+        virtual Vector2i getRPosition(void) const = 0;
         virtual Vector2u getSize(void) const = 0;
         virtual size_t getCharacterSize(void) const = 0;
         virtual std::string getText(void) const = 0;
