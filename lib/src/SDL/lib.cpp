@@ -65,7 +65,6 @@ arcade::InputT	arcade::GfxSDL::getInput() {
         return (InputT(InputT::KeyPressed, Input::LEFT, InputT::None));
       case SDLK_RIGHT:
         return (InputT(InputT::KeyPressed, Input::RIGHT, InputT::None));
-
     }
   }
   return (InputT(InputT::TextEntered, Input::ENTER, InputT::None));

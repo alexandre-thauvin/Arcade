@@ -29,15 +29,15 @@ namespace                       arcade
       virtual bool              isOpen(void) const;
       virtual void              close(void);
       virtual void              clear(void);
-      // virtual void           draw(DrawObject const& drawObject);
+      virtual void           draw(DrawObject const& drawObject);
       virtual void              display(void);
     private:
       std::map<int, InputT>     _input;
       bool			_isOpen;
       WINDOW*			_mainWindow;
       int			_mainSizeX;
-      int			_mainSizeY;
-    };
+      Vector2u      _mainSize;
+  };
 }
 
 #endif /* !LIBCURSE_HPP_ */
