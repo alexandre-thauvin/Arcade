@@ -21,6 +21,10 @@ void              arcade::DrawObject::setPosition(Vector2i const& pos) {
   _position = pos;
 }
 
+void              arcade::DrawObject::setRotation(Vector2i const& rotation) {
+  _rotation = rotation;
+}
+
 void              arcade::DrawObject::setSize(Vector2u const& size) {
   _size = size;
 }
@@ -41,8 +45,8 @@ arcade::Vector2i  arcade::DrawObject::getPosition(void) const {
     return (_position);
 }
 
-arcade::Vector2i  arcade::DrawObject::getRPosition(void) const {
-    return (_r_position);
+arcade::Vector2i  arcade::DrawObject::getRotation(void) const {
+    return (_rotation);
 }
 
 arcade::Vector2u  arcade::DrawObject::getSize(void) const {
