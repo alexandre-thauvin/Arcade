@@ -20,8 +20,8 @@ class Centipede : public arcade::IGames{
   Centipede(arcade::Vector2u);
   ~Centipede(){};
   arcade::Vector2u & 			getTowerPosition(void);
-  std::list<arcade::Vector2u>			getCentiPosition(void);
-  std::list<arcade::Vector2u>			getChampPosition(void);
+  std::list<arcade::Vector2u>		getCentiPosition(void);
+  std::list<arcade::Vector2u>		getChampPosition(void);
   arcade::Vector2u			getObjectPosition(void);
   arcade::Vector2u        		getDimension(void) const;
   std::string     			getGamesName(void) const;
@@ -34,7 +34,7 @@ class Centipede : public arcade::IGames{
   bool 					move_ia();
   void 					init_champ();
   void 					init_centi();
-  void 					move_body_cent();
+  void 					move_body();
   void 					goDown();
   void 					goUp();
   void 					goLeft();

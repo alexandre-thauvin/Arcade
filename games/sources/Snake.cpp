@@ -221,7 +221,7 @@ std::list<arcade::Vector2u> &Snake::getPlayerPosition(void) {
   for (unsigned int i = 0 ; i < this->dim.y ; i++)
   {
     for (unsigned int j = 0 ; j < this->dim.x; j++) {
-      if (this->map[i][j] == 1) {
+      if (this->map[i][j] == HEAD) {
 	vect.x = j;
 	vect.y = i;
 	this->snake.push_back(vect);

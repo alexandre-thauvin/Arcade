@@ -153,11 +153,17 @@ std::string Centipede::getGamesName(void) const {
 }
 
 void Centipede::restart(void) {
-
+  this->play();
 }
 
 bool Centipede::isPlayerWin(void) const {
-  return false;
+  for (unsigned int i = 0 ; i < this->dim.y ; i++) {
+    for (unsigned int j = 0; j < this->dim.x; j++) {
+      if (this->map[i][j] == HEAD || this->map[i][j] == BODY)
+	return false;
+    }
+  }
+  return true;
 }
 
 void Centipede::shoot() {
@@ -168,7 +174,7 @@ void Centipede::split() {
 
 }
 
-void Centipede::move_body_cent() {
+void Centipede::move_body() {
 
 }
 
@@ -193,19 +199,58 @@ arcade::Vector2u Centipede::getDimension(void) const {
 }
 
 std::list<arcade::Vector2u> Centipede::getCentiPosition(void) {
+  arcade::Vector2u		vect;
 
+  for (unsigned int i = 0 ; i < this->dim.y ; i++)
+  {
+    for (unsigned int j = 0 ; j < this->dim.x; j++) {
+      if (this->map[i][j] == HEAD || this->map[i][j] == BODY) {
+	vect.x = j;
+	vect.y = i;
+	this->Centi.push_back(vect);
+      }
+    }
+  }
   return this->Centi;
 }
 
 std::list<arcade::Vector2u> Centipede::getChampPosition(void) {
+  arcade::Vector2u		vect;
+
+  for (unsigned int i = 0 ; i < this->dim.y ; i++)
+  {
+    for (unsigned int j = 0 ; j < this->dim.x; j++) {
+      if (this->map[i][j] == CHAMP) {
+	vect.x = j;
+	vect.y = i;
+	this->Champ.push_back(vect);
+      }
+    }
+  }
   return this->Champ;
 }
 
 arcade::Vector2u Centipede::getObjectPosition(void) {
-  return arcade::Vector2u();
+  for (unsigned int i = 0 ; i < this->dim.y ; i++) {
+    for (unsigned int j = 0; j < this->dim.x; j++) {
+      if (this->map[i][j] == SPIDER) {
+	this->spider.x = j;
+	this->spider.y = i;
+      }
+    }
+  }
+  return this->spider;
 }
 
 arcade::Vector2u &Centipede::getTowerPosition(void) {
+  for (unsigned int i = 0 ; i < this->dim.y ; i++) {
+    for (unsigned int j = 0; j < this->dim.x; j++) {
+      if (this->map[i][j] == TOWER) {
+	this->tower.x = j;
+	this->tower.y = i;
+      }
+    }
+  }
   return (this->tower);
 }
 
