@@ -43,7 +43,6 @@ public:
       T *(*ptr)(arcade::Vector2u);
       ptr = reinterpret_cast<T *(*)(arcade::Vector2u)>(dlsym(_handler,
                                                              entry_point.c_str()));
-      std::cout << ptr << std::endl;
       if (ptr == NULL) {
         return (NULL);
       }

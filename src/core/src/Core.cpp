@@ -27,9 +27,11 @@ arcade::Core::Core(void) {
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::LEFT, InputT::None), std::bind(&arcade::Core::goLeft, this)));
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::RIGHT, InputT::None), std::bind(&arcade::Core::goRight, this)));
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::SPACE, InputT::None), std::bind(&arcade::Core::goShoot, this)));
+  _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::PREV_LIB, InputT::None), std::bind(&arcade::Core::loadPrevGfx, this)));
+  _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::NEXT_LIB, InputT::None), std::bind(&arcade::Core::loadNextGfx, this)));
 
   _gfxlib[SDL] = "./lib/lib_arcade_sdl.so";
-  _gfxlib[OPENGL] = "./lib/lib_arcade_opengl.so";
+  _gfxlib[OPENGL] = "./lib/lib_arcade_sdl.so";
   _gfxlib[NCURSES] = "./lib/lib_arcade_ncurses.so";
 
   _gamelib[SNAKE] = "games/lib_arcade_snake.so";
@@ -51,7 +53,7 @@ void arcade::Core::init(std::string const &lib, std::string const &conf)
     signal(SIGINT, arcade_ragequit);
     for (std::map<int, std::string>::iterator it = _gfxlib.begin(); it != _gfxlib.end(); ++it )
       if (it->second == lib) {
-        _libId = it->first;
+        _libId = 0;//it->first;
         loadGfx(_libId);
       }
     if (_gfx == NULL)
@@ -110,11 +112,16 @@ void                    arcade::Core::menu(void)
         break;
     case 1:
       for (int i = 0; i <= GameSize; ++i) {
-        a.setText(_gamelib[i]);
+        unsigned first = _gamelib[i].find("lib_");
+        unsigned last = _gamelib[i].find(".so");
+        std::string strNew = _gamelib[i].substr (first +1 , last-first-1);
+        a.setText(strNew);
 //        a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
         a.setPosition(Vector2i(1, i));
         _gfx->draw(a);
       }
+      break;
+    case 2:
       break;
   }
 }
@@ -189,6 +196,20 @@ void                    arcade::Core::loadGfx(int id)
   _gfx = gfx_loader->getInstance("createLib", Vector2u(SIZE_X, SIZE_Y));
   if (_gfx == NULL)
     throw arcade::Error("Error: ", INFO);
+}
+
+void                    arcade::Core::loadNextGfx(void)
+{
+  _gfx->close();
+  _libId = (++_libId > (GfxSize - 1)) ? 0 : _libId;
+  loadGfx(_libId);
+}
+
+void                    arcade::Core::loadPrevGfx(void)
+{
+  _gfx->close();
+  _libId = (--_libId < 0) ? (GfxSize - 1) : _libId;
+  loadGfx(_libId);
 }
 
 void                    arcade::Core::loadGame(int id)

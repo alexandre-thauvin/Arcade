@@ -33,6 +33,7 @@ arcade::GfxNCURSES::GfxNCURSES(Vector2u const& dim) {
   refresh();
   _mainWindow = newwin(dim.y, dim.x, 0, 0);
   _isOpen = true;
+  nodelay(_mainWindow, true);
 }
 
 arcade::GfxNCURSES::~GfxNCURSES() {
@@ -49,7 +50,7 @@ bool	arcade::GfxNCURSES::isOpen() const {
 }
 
 void	arcade::GfxNCURSES::clear() {
-  wclear(_mainWindow);
+//  wclear(_mainWindow);
 }
 
 void              arcade::GfxNCURSES::close() {
@@ -65,7 +66,7 @@ void           arcade::GfxNCURSES::draw(DrawObject const& obj) {
   Vector2i    pos = obj.getPosition();
   Vector2u    size = obj.getSize();
 
-  mvaddnstr(pos.y, pos.x, obj.getText().c_str(), size.x * size.y);
+  mvaddstr(pos.y, pos.x, obj.getText().c_str());
   
   // SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255 );
 }
