@@ -5,12 +5,12 @@
 // Login   <cedric.clemenceau@epitech.eu>
 // 
 // Started on  Mon Mar 27 23:28:07 2017 Cedric
-// Last update Thu Mar 30 19:24:14 2017 Cedric
+// Last update Mon Apr  3 13:53:00 2017 Cedric
 //
 
 #include "libSDL.hpp"
 
-arcade::GfxSDL::GfxSDL(arcade::Vector2u dim) {
+arcade::GfxSDL::GfxSDL(arcade::Vector2u const& dim) {
   SDL_Init(SDL_INIT_EVERYTHING);
   _input[SDLK_i] = InputT(InputT::KeyPressed, Input::PREV_LIB, InputT::None);
   _input[SDLK_p] = InputT(InputT::KeyPressed, Input::NEXT_LIB, InputT::None);
