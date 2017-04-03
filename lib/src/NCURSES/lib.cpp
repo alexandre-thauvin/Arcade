@@ -5,7 +5,7 @@
 // Login   <cedric.clemenceau@epitech.eu>
 // 
 // Started on  Mon Mar 27 23:28:07 2017 Cedric
-// Last update Mon Apr  3 22:54:22 2017 Cedric
+// Last update Mon Apr  3 23:36:17 2017 Cedric
 //
 
 #include "libNCURSES.hpp"
@@ -61,17 +61,13 @@ void              arcade::GfxNCURSES::setWindowSize(Vector2u const& size) {
   wresize(_mainWindow, size.y, size.x);
 }
 
-void           arcade::GfxNCURSES::draw(DrawObject const& drawObject) {
-  arcade::Vector2i    pos = obj.getPosition();
-  arcade::Vector2u    size = obj.getSize();
+void           arcade::GfxNCURSES::draw(DrawObject const& obj) {
+  Vector2i    pos = obj.getPosition();
+  Vector2u    size = obj.getSize();
 
-  SDL_SetRenderDrawColor(_renderer, (obj.getColor()).getRed(),
-                         (obj.getColor()).getGreen(),
-                         (obj.getColor()).getBlue(),
-                         (obj.getColor()).getAlpha());
-  SDL_Rect rect{pos.x, pos.y, (int)size.x, (int)size.y};
-  SDL_RenderFillRect(_renderer, &rect);
-  SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255 );
+  mvaddnstr(pos.y, pos.x, obj.getText().c_str(), size.x * size.y);
+  
+  // SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255 );
 }
 
 arcade::InputT	arcade::GfxNCURSES::getInput() {
