@@ -69,6 +69,8 @@ bool Centipede::move_player() {
     goUp();
   else if (this->mv == arcade::Input::DOWN)
     goDown();
+  else if (this->mv == arcade::Input::SPACE)
+    this->shoot();
   return true;
 }
 
