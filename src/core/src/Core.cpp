@@ -50,8 +50,10 @@ void arcade::Core::init(std::string const &lib, std::string const &conf)
   try {
     signal(SIGINT, arcade_ragequit);
     for (std::map<int, std::string>::iterator it = _gfxlib.begin(); it != _gfxlib.end(); ++it )
-      if (it->second == lib)
-        loadGfx(it->first);
+      if (it->second == lib) {
+        _libId = it->first;
+        loadGfx(_libId);
+      }
     if (_gfx == NULL)
       throw Error("Error: I can't Load GFX Library: ", lib, "", 0);
   } catch (Error &e) {
@@ -93,12 +95,27 @@ void                    arcade::Core::menu(void)
   arcade::DrawObject    a;
   arcade::Vector2i      pos;
 
-  a.setColor(arcade::Color((unsigned char)238, (unsigned char)110, (unsigned char)115));
-  for (int i = 0; i <= GameSize; ++i) {
-    a.setText(_gamelib[i]);
-    a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
-    a.setPosition(Vector2i((_menuId == i) ? 30 : 50, SIZE_Y - (50 + (100 * (i + 1)))));
-    _gfx->draw(a);
+  switch (_libId) {
+    case 0:
+      a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
+                               (unsigned char) 115));
+      for (int i = 0; i <= GameSize; ++i) {
+        a.setText(_gamelib[i]);
+        a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
+        a.setPosition(Vector2i((_menuId == i) ? 30 : 50,
+                               SIZE_Y - (50 + (100 * (i + 1)))));
+        _gfx->draw(a);
+
+      }
+        break;
+    case 1:
+      for (int i = 0; i <= GameSize; ++i) {
+        a.setText(_gamelib[i]);
+//        a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
+        a.setPosition(Vector2i(1, i));
+        _gfx->draw(a);
+      }
+      break;
   }
 }
 
