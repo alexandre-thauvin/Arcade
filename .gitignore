@@ -26,7 +26,7 @@
 
 # Shared objects (inc. Windows DLLs)
 *.dll
-*.so
+#*.so
 *.so.*
 *.dylib
 
@@ -67,3 +67,7 @@ Supprimerait cmake_install.cmake
 Supprimerait obj/
 Supprimerait src/core/src/
 Supprimerait src/core/obj/
+
+!lib/libSDL2.so
+
+Supprimerait lib/lib/
