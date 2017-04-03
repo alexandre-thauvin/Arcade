@@ -76,7 +76,7 @@ bool                    arcade::Core::play(void)
             menu();
             break;
           case PlayState:
-//            _game->updateGame(0);
+            _game->updateGame(0);
           default:
             break;
         }
@@ -164,7 +164,7 @@ void                    arcade::Core::loadGame(int id)
   _game = game_loader->getInstance("createGame", Vector2u(20, 20));
   if (_game == NULL)
     throw arcade::Error("Error: ", INFO);
-//  _game->play();
+  _game->play();
 }
 
 void                    arcade::Core::loadNextGame(void)

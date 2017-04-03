@@ -22,7 +22,7 @@ bool Snake::move_player() {
 }
 
 Snake::Snake(arcade::Vector2u const dim){
-  this->mv = arcade::Input::STOP;
+  this->mv = arcade::Input::SPACE;
   this->dim = dim;
   this->name = "Snake";
   this->frut = true;
@@ -178,13 +178,6 @@ arcade::Vector2u Snake::getDimension(void) const {
   return (this->dim);
 }
 
-int 	main(){
-  Snake		Snake(arcade::Vector2u(10, 10));
-  arcade::IGames	&I_obj = Snake;
-
-  I_obj.play();
-}
-
 int 	*Snake::find_tale(int value, int **tab)
 {
   unsigned int 	i = 0;
@@ -251,7 +244,7 @@ std::list<arcade::Vector2u> &Snake::getPlayerPosition(void) {
 }
 
 bool Snake::updateGame(float const tick) {
-  static unsigned float	sum = 0;
+  static float	sum = 0.0;
 
   sum += tick;
   if (sum == 20)

@@ -5,7 +5,7 @@
 #include "Centipede.h"
 
 Centipede::Centipede(arcade::Vector2u dim) {
-  this->mv = arcade::Input::STOP;
+  this->mv = arcade::Input::SPACE;
   this->dim = dim;
   this->name = "Centipede";
   srand(time(NULL));
@@ -144,6 +144,7 @@ void Centipede::init() {
 }
 
 bool Centipede::updateGame(float const tick) {
+  (void)tick;
   return false;
 }
 
