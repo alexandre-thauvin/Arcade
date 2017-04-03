@@ -17,11 +17,6 @@ arcade::DrawObject::DrawObject(void) {
 }
 arcade::DrawObject::~DrawObject(void) {}
 
-void              arcade::DrawObject::draw(IGFX *&graphic, bool const bright) {
-  (void)graphic;
-  (void)bright;
-}
-
 void              arcade::DrawObject::setPosition(Vector2i const& pos) {
   _position = pos;
 }
@@ -64,18 +59,10 @@ arcade::Color     arcade::DrawObject::getColor(void) const {
     return (_rgba);
 }
 
-bool              arcade::DrawObject::isClickable(void) const {
-    return (_is_clickable);
+void              arcade::DrawObject::setImg(std::string const& path) {
+  _img = path;
 }
 
-void              arcade::DrawObject::setClickable(bool const value) {
-  _is_clickable = value;
-}
-
-bool              arcade::DrawObject::isSelectable(void) const {
-  return (_is_selectable);
-}
-
-void              arcade::DrawObject::setSelectable(bool const value) {
-  _is_selectable = value;
+std::string       arcade::DrawObject::getImg(void) const {
+  return (_img);
 }

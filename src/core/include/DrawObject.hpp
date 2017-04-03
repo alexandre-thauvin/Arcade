@@ -19,34 +19,31 @@
 namespace                 arcade {
     class                 DrawObject : public IBox {
     private:
-        Color             _rgba;
         Vector2i          _position;
-        Vector2i          _r_position;
+        Vector2i          _rotation;
         Vector2u          _size;
         std::string       _text;
+        Color             _rgba;
         size_t            _charactere_size;
-        bool              _is_clickable;
-        bool              _is_selectable;
+        std::string       _img;
 
     public:
                           DrawObject(void);
         virtual           ~DrawObject(void);
-        virtual void      draw(IGFX *&graphic, bool const bright);
         virtual void      setPosition(Vector2i const &pos);
+        virtual void      setRotation(Vector2i const &pos);
         virtual void      setSize(Vector2u const &size);
         virtual void      setCharacterSize(size_t const size);
         virtual void      setText(std::string const &text);
         virtual void      setColor(Color const &rgba);
         virtual Vector2i  getPosition(void) const;
-        virtual Vector2i  getRPosition(void) const;
+        virtual Vector2i  getRotation(void) const;
         virtual Vector2u  getSize(void) const;
         virtual size_t    getCharacterSize(void) const;
         virtual std::string getText(void) const;
         virtual Color     getColor(void) const;
-        virtual bool      isClickable(void) const;
-        virtual void      setClickable(bool const value);
-        virtual bool      isSelectable(void) const;
-        virtual void      setSelectable(bool const value);
+        virtual void      setImg(std::string const& path);
+        virtual std::string getImg(void) const;
     };
 }
 
