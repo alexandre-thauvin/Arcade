@@ -1,9 +1,9 @@
 
-NAME	=	snake
+NAME	=	centipede
 
-SRC	=	sources/Snake.cpp
+SRC	=	sources/Centipede.cpp
 
-LIB     =	lib_arcade_snake.so
+LIB     =	lib_arcade_centipede.so
 
 OBJ	=       $(SRC:.cpp=.o)
 

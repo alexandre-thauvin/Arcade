@@ -40,8 +40,8 @@ Snake::Snake(arcade::Vector2u const dim){
 }
 
 void Snake::pop() {
-  this->frut_x = 7;
-  this->frut_y = 5;
+  this->frut_x = rand() % this->dim.x;
+  this->frut_y = rand() % this->dim.y;
   this->map[this->frut_y][this->frut_x] = FRUT;
   this->frut = true;
 }
@@ -51,7 +51,7 @@ bool Snake::isPlayerAlive(){
     if (this->map[this->head_y][this->head_x + 1] > 1 || this->head_x == this->dim.x - 1)
       this->state = false;
   }
-    else if (this->mv == arcade::Input::LEFT) {
+  else if (this->mv == arcade::Input::LEFT) {
     if (this->map[this->head_y][this->head_x - 1] > 1 || this->head_x == 0)
       this->state = false;
   }
@@ -64,10 +64,7 @@ bool Snake::isPlayerAlive(){
       this->state = false;
   }
   if (!this->state)
-  {
-    std::cout << "LOOSE" << std::endl;
-    exit(0);
-  }
+    return (false);
   return (true);
 }
 
@@ -77,41 +74,7 @@ void Snake::update_key(arcade::Input mv) {
 
 void Snake::play() {
   this->init();
-  /*std::cout << "tu joues à : " << this->getGamesName();
-  this->print_map();
-  this->update_key(arcade::Input::RIGHT);
-  this->move_player();
-  this->print_map();
-  this->update_key(arcade::Input::RIGHT);
-  this->move_player();
-  this->print_map();
-  this->update_key(arcade::Input::RIGHT);
-  this->move_player();
-  print_map();
-  //this->update_key(RIGHT);
-  //this->move_player();
-  //print_map();
-  this->update_key(arcade::Input::RIGHT);
-  this->move_player();
-  this->print_map();
-  this->update_key(arcade::Input::RIGHT);
-  this->move_player();
-  this->print_map();
-  this->getScore();
-  //this->restart();
-  this->isPlayerWin();*/
 }
-/*
-void 	Snake::print_map()
-{
-  std::cout << "******************************************************************" << std::endl;
-  for (unsigned int z = 0; z < this->dim.y; z++){
-    for (unsigned int j = 0; j < this->dim.x; j++)
-      std::cout << this->map[z][j];
-    std::cout << std::endl;
-  }
-  std::cout << "******************************************************************" << std::endl << std::endl;
-}*/
 
 bool Snake::eat_frut() {
   if (this->mv == arcade::Input::RIGHT) {
@@ -188,7 +151,6 @@ void Snake::move_body() {
 
 
 size_t Snake::getScore(void) const {
-  //std::cout << "mon score est de : " << this->score << std::endl;
   return this->score;
 }
 
@@ -260,7 +222,7 @@ void	Snake::init() {
   this->pop();
 }
 
-std::list<arcade::Vector2u> const &Snake::getPlayerPosition(void) {
+std::list<arcade::Vector2u> &Snake::getPlayerPosition(void) {
   arcade::Vector2u		vect;
 
   for (unsigned int i = 0 ; i < this->dim.y ; i++)
@@ -289,12 +251,18 @@ std::list<arcade::Vector2u> const &Snake::getPlayerPosition(void) {
 }
 
 bool Snake::updateGame(float const tick) {
-  static unsigned int	sum = 0;
+  static unsigned float	sum = 0;
 
   sum += tick;
   if (sum == 20)
     return (true);
   return (false);
+}
+
+arcade::Vector2u Snake::getObjectPosition(void) {
+  this->frut_p.x = (unsigned int)this->frut_x;
+  this->frut_p.y = (unsigned int)this->frut_y;
+  return this->frut_p;
 }
 
 extern "C" {
