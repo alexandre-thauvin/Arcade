@@ -13,6 +13,7 @@
 
 # include <iostream>
 # include <string>
+# include <stdlib.h>
 
 # include "Error.hpp"
 # include "Input.hpp"

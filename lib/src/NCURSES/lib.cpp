@@ -10,7 +10,10 @@
 
 #include "libNCURSES.hpp"
 
-arcade::GfxNCURSES::GfxNCURSES() {
+arcade::GfxNCURSES::GfxNCURSES(Vector2u const& dim) {
+  _mainSize = dim;
+  initscr();
+  cbreak();
   keypad(stdscr, TRUE);
   _input[10] = InputT(InputT::KeyPressed, Input::ENTER, InputT::None);
   _input[27] = InputT(InputT::KeyPressed, Input::ESCAPE, InputT::None);
@@ -27,9 +30,14 @@ arcade::GfxNCURSES::GfxNCURSES() {
   _input[112] = InputT(InputT::KeyPressed, Input::NEXT_LIB, InputT::None);
   _input[107] = InputT(InputT::KeyPressed, Input::PREV_GAME, InputT::None);
   _input[109] = InputT(InputT::KeyPressed, Input::NEXT_GAME, InputT::None);
+  refresh();
+  _mainWindow = newwin(dim.y, dim.x, 0, 0);
+  _isOpen = true;
 }
 
 arcade::GfxNCURSES::~GfxNCURSES() {
+  endwin();
+  system("clear");
 }
 
 void	arcade::GfxNCURSES::setTitleWindow(std::string const &title) {
@@ -43,7 +51,20 @@ void	arcade::GfxNCURSES::clear() {
   wclear(_mainWindow);
 }
 
-arcade::InputT	arcade::GfxNCURSES() {
+void              close() {
+  endwin();
+  system("clear");
+}
+
+void              setWindowSize(Vector2u const &size){
+  wresize(_mainWindow, size.y, size.x);
+}
+
+void           draw(DrawObject const& drawObject){
+  drawObject.getPosition();
+}
+
+arcade::InputT	arcade::GfxNCURSES::getInput() {
   int input = getch();
   if (_input.find(input) != _input.end())
     {
@@ -56,10 +77,6 @@ arcade::InputT	arcade::GfxNCURSES() {
 }
 
 void	arcade::GfxNCURSES::display() {
-  _mainSizeX = 600;
-  _mainSizeY = 600;
-  _isOpen = true;
-  _mainWindow = SDL_CreateWindow("Main Window", 0, 0, _mainSizeX, _mainSizeY, 0);
-  _renderer = SDL_CreateRenderer(_mainWindow, -1, 0);
-  std::cin.ignore();
+  refresh();
+  wrefresh(_mainWindow);
 }
