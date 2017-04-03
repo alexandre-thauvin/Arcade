@@ -9,6 +9,8 @@
 //
 
 #include "libNCURSES.hpp"
+#include <termios.h>
+#include <unistd.h>
 
 arcade::GfxNCURSES::GfxNCURSES(Vector2u const& dim) {
   _mainSize = dim;
@@ -33,7 +35,6 @@ arcade::GfxNCURSES::GfxNCURSES(Vector2u const& dim) {
   refresh();
   _mainWindow = newwin(dim.y, dim.x, 0, 0);
   _isOpen = true;
-  nodelay(stdscr, true);
 }
 
 arcade::GfxNCURSES::~GfxNCURSES() {
@@ -71,8 +72,28 @@ void           arcade::GfxNCURSES::draw(DrawObject const& obj) {
   // SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255 );
 }
 
+char getcha() {
+  char buf = 0;
+  struct termios old = {0};
+  if (tcgetattr(0, &old) < 0)
+    perror("tcsetattr()");
+  old.c_lflag &= ~ICANON;
+  old.c_lflag &= ~ECHO;
+  old.c_cc[VMIN] = 1;
+  old.c_cc[VTIME] = 0;
+  if (tcsetattr(0, TCSANOW, &old) < 0)
+    perror("tcsetattr ICANON");
+  if (read(0, &buf, 1) < 0)
+    perror ("read()");
+  old.c_lflag |= ICANON;
+  old.c_lflag |= ECHO;
+  if (tcsetattr(0, TCSADRAIN, &old) < 0)
+    perror ("tcsetattr ~ICANON");
+  return (buf);
+}
+
 arcade::InputT	arcade::GfxNCURSES::getInput() {
-  int input = getch();
+  int input = getcha();
   if (_input.find(input) != _input.end())
     {
       InputT in = _input[input];
