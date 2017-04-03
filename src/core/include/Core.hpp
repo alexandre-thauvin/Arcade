@@ -27,7 +27,7 @@
 # include "IGFX.hpp"
 # include "IGame.hpp"
 
-# define MAIN_SLEEP 10
+# define MAIN_SLEEP 10000
 
 namespace                       arcade {
     enum                        GameState {
@@ -69,11 +69,13 @@ namespace                       arcade {
       void                      loadGame(int id);
       void                      loadNextGame(void);
       void                      loadPrevGame(void);
+      void                      loadNextGfx(void);
+      void                      loadPrevGfx(void);
     private:
       std::map<InputT, std::function<void(void)>> _input;
       std::map<int, std::string> _gfxlib;
       std::map<int, std::string> _gamelib;
-      GameState                _state;
+      GameState                 _state;
       IGFX                      *_gfx;
       IGames                    *_game;
       int                       _gameId;

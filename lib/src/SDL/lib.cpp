@@ -50,7 +50,9 @@ void	arcade::GfxSDL::clear() {
   SDL_RenderClear(_renderer);
 }
 
-void	arcade::GfxSDL::close() {}
+void	arcade::GfxSDL::close() {
+  SDL_Quit();
+}
 
 arcade::InputT	arcade::GfxSDL::getInput() {
   SDL_Event event;
