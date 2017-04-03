@@ -15,14 +15,14 @@
 // Le body sera représenté par une incrementation d'une variable => 2ème boule du snake =>2 etc...
 
 
-class Snake : public  IGames {
+class Snake : public  arcade::IGames {
  public:
   Snake(arcade::Vector2u const);
     virtual ~Snake(){};
 
     virtual std::string     			    getGamesName(void) const;
     virtual void            			    restart(void);
-    virtual std::list<arcade::Vector2u> & 	getPlayerPosition(void);
+    virtual std::list<arcade::Vector2u> & 		getPlayerPosition(void);
     virtual bool 					        isPlayerAlive();
     virtual bool            			    isPlayerWin(void) const;
     virtual size_t        			        getScore(void) const;
@@ -42,7 +42,6 @@ class Snake : public  IGames {
     virtual void 					play();
     virtual void 					grow_up();
     virtual void 					move_body();
-    virtual void                    shoot(void);
     //void 					print_map();
  private:
   std::list<arcade::Vector2u>	snake;

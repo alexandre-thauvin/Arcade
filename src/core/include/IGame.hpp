@@ -25,8 +25,6 @@ namespace                       arcade {
         virtual bool            isPlayerWin(void) const = 0; // check_win
         virtual size_t          getScore(void) const = 0; // get_score
         virtual Vector2u        getDimension(void) const = 0; // get WIDTH
-    	virtual std::list<Vector2u>	getChampPosition(void) = 0; // pos of all champ;
-    	virtual std::list<Vector2u>	getCentiPosition(void) = 0;
 //    	virtual Vector2u	getChampPosition(void) = 0; // pos of all champ;
 //    	virtual Vector2u	getCentiPosition(void) = 0;
     	virtual Vector2u	getObjectPosition(void) = 0; // spider for centipede / frut for Snake
@@ -45,7 +43,6 @@ namespace                       arcade {
         virtual void            goDown(void) = 0;
         virtual void            goLeft(void) = 0;
         virtual void            goRight(void) = 0;
-        virtual void            shoot(void) = 0; // only centipede
         virtual void            play(void) = 0; // init
       };
 }
