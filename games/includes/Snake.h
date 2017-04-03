@@ -20,8 +20,9 @@ class Snake: public  arcade::IGames {
   Snake(arcade::Vector2u const);
   ~Snake(){};
 
-  std::list<arcade::Vector2u> const& 	getPlayerPosition(void);
+  std::list<arcade::Vector2u> & 	getPlayerPosition(void);
   arcade::Vector2u        		getDimension(void) const;
+  arcade::Vector2u			getObjectPosition(void);
   std::string     			getGamesName(void) const;
   size_t        			getScore(void) const;
   int 					*find_tale(int, int **);
@@ -45,6 +46,7 @@ class Snake: public  arcade::IGames {
  private:
   std::list<arcade::Vector2u>	snake;
   arcade::Vector2u		dim;
+  arcade::Vector2u		frut_p;
   arcade::Input			mv;
   std::string			name;
   size_t       			size;

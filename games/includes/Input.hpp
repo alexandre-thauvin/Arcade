@@ -48,7 +48,6 @@ namespace                   arcade
         DOWN,
         LEFT,
         RIGHT,
-        ESCAPE,
     };
 }
 
