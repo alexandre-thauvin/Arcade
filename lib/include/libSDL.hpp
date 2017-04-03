@@ -5,7 +5,7 @@
 // Login   <cedric.clemenceau@epitech.eu>
 // 
 // Started on  Wed Mar 29 14:20:27 2017 Cedric
-// Last update Thu Mar 30 18:37:25 2017 Cedric
+// Last update Mon Apr  3 13:53:43 2017 Cedric
 //
 
 #ifndef LIBSDL_HPP_
@@ -21,7 +21,7 @@ namespace                       arcade
 {
   class                         GfxSDL : public IGFX {
     public:
-                                GfxSDL(Vector2u dim);
+                                GfxSDL(Vector2u const& dim);
       virtual                   ~GfxSDL(void);
       virtual InputT            getInput(void);
       virtual void              setTitleWindow(std::string const &title);

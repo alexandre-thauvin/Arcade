@@ -4,21 +4,21 @@ RM		=		rm -rf
 
 NAME		=		lib_arcade_sdl.so
 
-SRC		=		src/SDL/lib.cpp
+SRC		=		lib.cpp
 
 CXXFLAGS	=		-W -Wall -Wextra
-CXXFLAGS	+=		-I./include/ -I../src/core/include/
+CXXFLAGS	+=		-I../../include/ -I../../../src/core/include/
 CXXFLAGS	+=		-fPIC
 
-LDFLAGS		+=		-L./lib/ -shared
-LDFLAGS		+=		-lSDL2 -lSDL2_image -lSDL2_ttf
+LDFLAGS		+=		-L./ -shared
+LDFLAGS		+=		-lncurses
 
 OBJ 		=		$(SRC:.cpp=.o)
 
-all 		:	 	$(NAME)
-
 $(NAME) 	:		$(OBJ)
 				$(CXX) $(OBJ) $(LDFLAGS) -o $(NAME)
+
+all 		:	 	$(NAME)
 
 clean		:
 				$(RM) $(OBJ)
