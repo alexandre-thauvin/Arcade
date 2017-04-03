@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-#include "../../src/core/include/IGame.hpp"
+#include "IGame.hpp"
 
 #define BODY	(-2)
 #define HEAD	(-1)

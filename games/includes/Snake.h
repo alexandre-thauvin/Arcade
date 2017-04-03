@@ -15,34 +15,35 @@
 // Le body sera représenté par une incrementation d'une variable => 2ème boule du snake =>2 etc...
 
 
-class Snake: public  arcade::IGames {
+class Snake : public  IGames {
  public:
   Snake(arcade::Vector2u const);
-  ~Snake(){};
+    virtual ~Snake(){};
 
-  std::list<arcade::Vector2u> & 	getPlayerPosition(void);
-  arcade::Vector2u        		getDimension(void) const;
-  arcade::Vector2u			getObjectPosition(void);
-  std::string     			getGamesName(void) const;
-  size_t        			getScore(void) const;
-  int 					*find_tale(int, int **);
-  bool 					eat_frut();
-  bool 					isPlayerAlive();
-  bool            			isPlayerWin(void) const;
-  bool            			updateGame(float const tick);
-  void 					init();
-  bool 					move_player();
-  void 					goDown();
-  void 					goUp();
-  void 					goLeft();
-  void 					goRight();
-  void 					pop();
-  void 					update_key(arcade::Input);
-  void 					play();
-  void 					grow_up();
-  void 					move_body();
-  void            			restart(void);
-  //void 					print_map();
+    virtual std::string     			    getGamesName(void) const;
+    virtual void            			    restart(void);
+    virtual std::list<arcade::Vector2u> & 	getPlayerPosition(void);
+    virtual bool 					        isPlayerAlive();
+    virtual bool            			    isPlayerWin(void) const;
+    virtual size_t        			        getScore(void) const;
+    virtual arcade::Vector2u        		getDimension(void) const;
+    virtual arcade::Vector2u			    getObjectPosition(void);
+    virtual int 					        *find_tale(int, int **);
+    virtual bool 					        eat_frut();
+    virtual bool            			    updateGame(float const tick);
+    virtual void 					      init();
+    virtual bool 					move_player();
+    virtual void 					goDown();
+    virtual void 					goUp();
+    virtual void 					goLeft();
+    virtual void 					goRight();
+    virtual void 					pop();
+    virtual void 					update_key(arcade::Input);
+    virtual void 					play();
+    virtual void 					grow_up();
+    virtual void 					move_body();
+    virtual void                    shoot(void);
+    //void 					print_map();
  private:
   std::list<arcade::Vector2u>	snake;
   arcade::Vector2u		dim;
