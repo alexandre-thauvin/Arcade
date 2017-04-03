@@ -2,7 +2,7 @@ CXX		=		g++-6
 
 RM		=		rm -rf
 
-NAME		=		lib_arcade_sdl.so
+NAME		=		../../lib_arcade_sdl.so
 
 SRC		=		lib.cpp
 

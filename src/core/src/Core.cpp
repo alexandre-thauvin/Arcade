@@ -133,7 +133,7 @@ void                    arcade::Core::goQuit(void)
       arcade_ragequit(0);
       break;
     case PlayState:
-      _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
+//      _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
       _state = MenuState;
       break;
     default:

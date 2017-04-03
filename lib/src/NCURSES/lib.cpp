@@ -62,7 +62,16 @@ void              arcade::GfxNCURSES::setWindowSize(Vector2u const& size) {
 }
 
 void           arcade::GfxNCURSES::draw(DrawObject const& drawObject) {
-  drawObject.getPosition();
+  arcade::Vector2i    pos = obj.getPosition();
+  arcade::Vector2u    size = obj.getSize();
+
+  SDL_SetRenderDrawColor(_renderer, (obj.getColor()).getRed(),
+                         (obj.getColor()).getGreen(),
+                         (obj.getColor()).getBlue(),
+                         (obj.getColor()).getAlpha());
+  SDL_Rect rect{pos.x, pos.y, (int)size.x, (int)size.y};
+  SDL_RenderFillRect(_renderer, &rect);
+  SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255 );
 }
 
 arcade::InputT	arcade::GfxNCURSES::getInput() {
@@ -80,4 +89,10 @@ arcade::InputT	arcade::GfxNCURSES::getInput() {
 void	arcade::GfxNCURSES::display() {
   refresh();
   wrefresh(_mainWindow);
+}
+
+extern "C" {
+arcade::IGFX *createLib(arcade::Vector2u dim) {
+  return (new arcade::GfxNCURSES(dim));
+}
 }
