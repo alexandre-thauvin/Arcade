@@ -33,7 +33,7 @@ arcade::GfxNCURSES::GfxNCURSES(Vector2u const& dim) {
   refresh();
   _mainWindow = newwin(dim.y, dim.x, 0, 0);
   _isOpen = true;
-  nodelay(_mainWindow, true);
+  nodelay(stdscr, true);
 }
 
 arcade::GfxNCURSES::~GfxNCURSES() {
