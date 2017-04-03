@@ -2,17 +2,18 @@
 // Created by thauvi_a on 3/20/17.
 //
 
+#include <zconf.h>
 #include "Centipede.h"
 
 Centipede::Centipede(arcade::Vector2u dim) {
-  this->mv = arcade::Input::STOP;
+  this->mv = arcade::Input::SPACE;
   this->dim = dim;
   this->name = "Centipede";
   srand(time(NULL));
   this->spider.x = rand() % this->dim.x;
   this->spider.y = rand() % this->dim.y;
-  //this->head_x = this->dim.x / 2;
-  //this->head_y = this->dim.x / 2;
+  this->tower.x = this->dim.x / 2;
+  this->tower.y = this->dim.y - 2;
   this->score = 0;
   this->state = true;
   this->map = new int*[this->dim.y];
@@ -20,8 +21,40 @@ Centipede::Centipede(arcade::Vector2u dim) {
     this->map[i] = new int[this->dim.x];
 }
 
-void Centipede::move_ia() {
+bool Centipede::move_ia() {
 
+  int 	dir;
+  int	check = 0;
+
+  this->map[this->spider.y][this->spider.x] = 0;
+  while (check == 0) {
+    dir = rand() % 4;
+    if (dir == 0) {
+      if (this->spider.x != this->dim.x - 1)
+	this->spider.x++;
+      check = 1;
+    }
+    else if (dir == 1) {
+      if (this->spider.x != 0)
+	this->spider.x--;
+      check = 1;
+    }
+    else if (dir == 2) {
+      if (this->spider.y != 0)
+	this->spider.y--;
+      check = 1;
+    }
+    else if (dir == 3) {
+      if (this->spider.y != this->dim.y - 1)
+	this->spider.y++;
+      check = 1;
+    }
+  }
+  if (this->map[this->spider.y][this->spider.x] == TOWER) {
+    this->map[this->spider.y][this->spider.x] = SPIDER;
+    return (false);
+  }
+  return (true);
 }
 
 bool Centipede::move_player() {
@@ -82,7 +115,7 @@ void Centipede::goDown() {
 }
 
 void Centipede::play() {
-
+  this->init();
 }
 
 size_t Centipede::getScore(void) const {
@@ -140,24 +173,32 @@ void Centipede::move_body_cent() {
 }
 
 void Centipede::init() {
-
+  unsigned int i;
+  unsigned int z;
+  for (i = 0; i < this->dim.x; i++)
+    for (z = 0; z < this->dim.x; z++)
+      this->map[i][z] = 0;
+  this->pop();
+  this->init_centi();
+  this->init_champ();
 }
 
 bool Centipede::updateGame(float const tick) {
+  (void)tick;
   return false;
 }
 
 arcade::Vector2u Centipede::getDimension(void) const {
-
   return (this->dim);
 }
 
-arcade::Vector2u Centipede::getCentiPosition(void) {
-  return arcade::Vector2u();
+std::list<arcade::Vector2u> Centipede::getCentiPosition(void) {
+
+  return this->Centi;
 }
 
-arcade::Vector2u Centipede::getChampPosition(void) {
-  return arcade::Vector2u();
+std::list<arcade::Vector2u> Centipede::getChampPosition(void) {
+  return this->Champ;
 }
 
 arcade::Vector2u Centipede::getObjectPosition(void) {
@@ -178,4 +219,26 @@ void Centipede::find_tower() {
 	return ;
       }
   }
+}
+
+void Centipede::init_champ() {
+  unsigned int 	x;
+  unsigned int 	y;
+  for (unsigned int i = 0 ; i < 10 ; i++) {
+    while (0) {
+      usleep(100);
+      x = rand() % this->dim.x;
+      y = rand() % this->dim.y;
+      if (this->map[y][x] == 0)
+	break;
+      }
+    this->map[y][x] = CHAMP;
+    }
+}
+
+
+void Centipede::init_centi() {
+  for (unsigned int i = 0; i < 3 ; i++)
+    this->map[0][i] = BODY;
+  this->map[0][3] = HEAD;
 }

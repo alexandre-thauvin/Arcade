@@ -4,8 +4,10 @@
 # include <string>
 # include <list>
 # include <vector>
-# include "../../../games/includes/Input.hpp"
-# include "../../../games/includes/Utils.hpp"
+# include "Error.hpp"
+# include "Input.hpp"
+# include "Utils.hpp"
+# include "DrawObject.hpp"
 
 namespace                       arcade {
   class                         IGames {
@@ -17,14 +19,14 @@ namespace                       arcade {
 
         virtual void            restart(void) = 0; // relance play
 
-       	virtual std::list<Vector2u> & getPlayerPosition(void) = 0;
-    	virtual Vector2u & 	getTowerPosition(void) = 0;// for tower of centipede
+       	virtual std::list<Vector2u> & getPlayerPosition(void) = 0; // Snake
+//    	virtual Vector2u & 	getTowerPosition(void) = 0;// for tower of centipede
         virtual bool            isPlayerAlive(void) = 0; // check_death
         virtual bool            isPlayerWin(void) const = 0; // check_win
         virtual size_t          getScore(void) const = 0; // get_score
         virtual Vector2u        getDimension(void) const = 0; // get WIDTH
-    	virtual Vector2u	getChampPosition(void) = 0; // pos of all champ;
-    	virtual Vector2u	getCentiPosition(void) = 0;
+//    	virtual Vector2u	getChampPosition(void) = 0; // pos of all champ;
+//    	virtual Vector2u	getCentiPosition(void) = 0;
     	virtual Vector2u	getObjectPosition(void) = 0; // spider for centipede / frut for Snake
         //virtual Vector2u        getScale(void) const = 0; // snake : 1 int pour 20 px  || centipede : 1 int pour 20px
 
@@ -41,7 +43,6 @@ namespace                       arcade {
         virtual void            goDown(void) = 0;
         virtual void            goLeft(void) = 0;
         virtual void            goRight(void) = 0;
-        virtual void            shoot(void) = 0; // only centipede
         virtual void            play(void) = 0; // init
       };
 }

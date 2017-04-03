@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-#include "../../src/core/include/IGame.hpp"
+#include "IGame.hpp"
 
 #define BODY	(-2)
 #define HEAD	(-1)
@@ -20,8 +20,8 @@ class Centipede : public arcade::IGames{
   Centipede(arcade::Vector2u);
   ~Centipede(){};
   arcade::Vector2u & 			getTowerPosition(void);
-  arcade::Vector2u			getCentiPosition(void);
-  arcade::Vector2u			getChampPosition(void);
+  std::list<arcade::Vector2u>			getCentiPosition(void);
+  std::list<arcade::Vector2u>			getChampPosition(void);
   arcade::Vector2u			getObjectPosition(void);
   arcade::Vector2u        		getDimension(void) const;
   std::string     			getGamesName(void) const;
@@ -31,7 +31,9 @@ class Centipede : public arcade::IGames{
   bool            			updateGame(float const tick);
   void 					init();
   bool 					move_player();
-  void 					move_ia();
+  bool 					move_ia();
+  void 					init_champ();
+  void 					init_centi();
   void 					move_body_cent();
   void 					goDown();
   void 					goUp();
@@ -46,6 +48,7 @@ class Centipede : public arcade::IGames{
   void 					find_tower();
  private:
   std::list<arcade::Vector2u>		Centi;
+  std::list<arcade::Vector2u>		Champ;
   arcade::Vector2u			tower;
   arcade::Vector2u			dim;
   arcade::Vector2u			spider;
