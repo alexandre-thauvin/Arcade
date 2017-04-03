@@ -5,7 +5,7 @@
 // Login   <cedric.clemenceau@epitech.eu>
 // 
 // Started on  Mon Mar 27 23:28:07 2017 Cedric
-// Last update Mon Apr  3 12:03:27 2017 Cedric
+// Last update Mon Apr  3 22:54:22 2017 Cedric
 //
 
 #include "libNCURSES.hpp"
@@ -41,6 +41,7 @@ arcade::GfxNCURSES::~GfxNCURSES() {
 }
 
 void	arcade::GfxNCURSES::setTitleWindow(std::string const &title) {
+  (void)title;
 }
 
 bool	arcade::GfxNCURSES::isOpen() const {
@@ -51,16 +52,16 @@ void	arcade::GfxNCURSES::clear() {
   wclear(_mainWindow);
 }
 
-void              close() {
+void              arcade::GfxNCURSES::close() {
   endwin();
   system("clear");
 }
 
-void              setWindowSize(Vector2u const &size){
+void              arcade::GfxNCURSES::setWindowSize(Vector2u const& size) {
   wresize(_mainWindow, size.y, size.x);
 }
 
-void           draw(DrawObject const& drawObject){
+void           arcade::GfxNCURSES::draw(DrawObject const& drawObject) {
   drawObject.getPosition();
 }
 
