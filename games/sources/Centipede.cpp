@@ -99,7 +99,7 @@ void Centipede::goLeft() {
 }
 
 void Centipede::goUp() {
-  if (this->tower.y != 0) {
+  if (this->tower.y != 0 && this->tower.y < (this->dim.y * 0.2)) {
     this->map[this->tower.y][this->tower.x] = 0;
     this->tower.y--;
     this->map[this->tower.y][this->tower.x] = TOWER;
@@ -167,7 +167,29 @@ bool Centipede::isPlayerWin(void) const {
 }
 
 void Centipede::shoot() {
-
+  for (unsigned int i = this->tower.y - 1; i > 0; i--){
+    if (this->map[i][this->tower.x] == CHAMP)
+      this->map[i][this->tower.x] = 0;
+    else if (this->map[i][this->tower.x] == SPIDER)
+    {
+      this->map[i][this->tower.x] = 0;
+      this->score += 300;
+      this->pop();
+      break;
+    }
+    else if (this->map[i][this->tower.x] == HEAD)
+    {
+      this->replace_head(i);
+      this->score += 500;
+      break;
+    }
+    else if (this->map[i][this->tower.x] == BODY)
+    {
+      this->split();
+      this->score += 400;
+      break;
+    }
+  }
 }
 
 void Centipede::split() {
@@ -286,4 +308,16 @@ void Centipede::init_centi() {
   for (unsigned int i = 0; i < 3 ; i++)
     this->map[0][i] = BODY;
   this->map[0][3] = HEAD;
+}
+
+void Centipede::replace_head(unsigned int i) {
+  this->map[i][this->tower.x] = 0;
+  if (this->map[i][this->tower.x + 1] == BODY)
+    this->map[i][this->tower.x + 1] = HEAD;
+  else if (this->map[i][this->tower.x - 1] == BODY)
+    this->map[i][this->tower.x] = HEAD;
+  else if (this->map[i - 1][this->tower.x] == BODY)
+    this->map[i - 1][this->tower.x] = HEAD;
+  else if (this->map[i + 1][this->tower.x] == BODY)
+    this->map[i + 1][this->tower.x] = HEAD;
 }

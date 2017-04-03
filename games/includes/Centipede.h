@@ -35,6 +35,7 @@ class Centipede : public arcade::IGames{
   void 					init_champ();
   void 					init_centi();
   void 					move_body();
+  void 					replace_head(unsigned int);
   void 					goDown();
   void 					goUp();
   void 					goLeft();

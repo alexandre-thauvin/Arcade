@@ -20,18 +20,18 @@ class Snake : public  arcade::IGames {
   Snake(arcade::Vector2u const);
     virtual ~Snake(){};
 
-    virtual std::string     			    getGamesName(void) const;
-    virtual void            			    restart(void);
+    virtual std::string     			    	getGamesName(void) const;
+    virtual void            			    	restart(void);
     virtual std::list<arcade::Vector2u> & 		getPlayerPosition(void);
-    virtual bool 					        isPlayerAlive();
-    virtual bool            			    isPlayerWin(void) const;
+    virtual bool 					isPlayerAlive();
+    virtual bool            			    	isPlayerWin(void) const;
     virtual size_t        			        getScore(void) const;
-    virtual arcade::Vector2u        		getDimension(void) const;
-    virtual arcade::Vector2u			    getObjectPosition(void);
-    virtual int 					        *find_tale(int, int **);
-    virtual bool 					        eat_frut();
-    virtual bool            			    updateGame(float const tick);
-    virtual void 					      init();
+    virtual arcade::Vector2u        			getDimension(void) const;
+    virtual arcade::Vector2u			    	getObjectPosition(void);
+    virtual int 					*find_tale(int, int **);
+    virtual bool 					eat_frut();
+    virtual bool            			    	updateGame(float const tick);
+    virtual void 					init();
     virtual bool 					move_player();
     virtual void 					goDown();
     virtual void 					goUp();
@@ -42,7 +42,6 @@ class Snake : public  arcade::IGames {
     virtual void 					play();
     virtual void 					grow_up();
     virtual void 					move_body();
-    //void 					print_map();
  private:
   std::list<arcade::Vector2u>	snake;
   arcade::Vector2u		dim;
