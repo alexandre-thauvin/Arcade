@@ -5,7 +5,7 @@
 // Login   <cedric.clemenceau@epitech.eu>
 // 
 // Started on  Thu Mar 30 18:29:04 2017 Cedric
-// Last update Fri Mar 31 13:03:27 2017 Cedric
+// Last update Mon Apr  3 12:55:52 2017 Cedric
 //
 
 #ifndef LIBCURSE_HPP_
@@ -21,16 +21,16 @@ namespace                       arcade
 {
   class                         GfxNCURSES : public IGFX {
     public:
-                                GfxNCURSES(void);
-      virtual                   ~GfxNCURSES(void);
-      virtual InputT            getInput(void);
-      virtual void              setTitleWindow(std::string const &title);
-      virtual void              setWindowSize(Vector2u const &size);
-      virtual bool              isOpen(void) const;
-      virtual void              close(void);
-      virtual void              clear(void);
-      virtual void           draw(DrawObject const& drawObject);
-      virtual void              display(void);
+                                GfxNCURSES(Vector2u const&);
+      virtual			~GfxNCURSES(void);
+      virtual InputT		getInput(void);
+      virtual void		setTitleWindow(std::string const &title);
+      virtual void		setWindowSize(Vector2u const &size);
+      virtual bool		isOpen(void) const;
+      virtual void		close(void);
+      virtual void		clear(void);
+      virtual void		draw(DrawObject const& drawObject);
+      virtual void		display(void);
     private:
       std::map<int, InputT>     _input;
       bool			_isOpen;
