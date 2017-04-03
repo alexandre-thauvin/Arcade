@@ -29,8 +29,8 @@ arcade::Core::Core(void) {
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::SPACE, InputT::None), std::bind(&arcade::Core::goShoot, this)));
 
   _gfxlib[SDL] = "./lib/lib_arcade_sdl.so";
-  _gfxlib[OPENGL] = "./lib/lib_arcade_ncurses.so";
-  _gfxlib[NCURSES] = "./lib/lib_arcade_opengl.so";
+  _gfxlib[OPENGL] = "./lib/lib_arcade_opengl.so";
+  _gfxlib[NCURSES] = "./lib/lib_arcade_ncurses.so";
 
   _gamelib[SNAKE] = "games/lib_arcade_snake.so";
   _gamelib[CENTIPED] = "games/lib_arcade_snake.so";
