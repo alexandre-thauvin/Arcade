@@ -62,6 +62,7 @@ void arcade::Core::init(std::string const &lib, std::string const &conf)
 bool                    arcade::Core::play(void)
 {
     arcade::InputT       input;
+    int i = 0;
 
     (void)input;
     while (true)
@@ -76,7 +77,8 @@ bool                    arcade::Core::play(void)
             menu();
             break;
           case PlayState:
-            _game->updateGame(0);
+            _game->updateGame(i++);
+            break;
           default:
             break;
         }
@@ -126,7 +128,17 @@ void                    arcade::Core::goRight(void)
 
 void                    arcade::Core::goQuit(void)
 {
-  arcade_ragequit(0);
+  switch (_state) {
+    case MenuState:
+      arcade_ragequit(0);
+      break;
+    case PlayState:
+      _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
+      _state = MenuState;
+      break;
+    default:
+      break;
+  }
 }
 
 void                    arcade::Core::goEnter(void)
@@ -136,6 +148,11 @@ void                    arcade::Core::goEnter(void)
     case MenuState:
       loadGame(_menuId);
       _state = GameState::PlayState;
+      _game->play();
+      _gfx->setWindowSize(_game->getDimension());
+      break;
+    case PlayState:
+//      _game->shoot;
       break;
     default:
       break;
@@ -164,7 +181,6 @@ void                    arcade::Core::loadGame(int id)
   _game = game_loader->getInstance("createGame", Vector2u(20, 20));
   if (_game == NULL)
     throw arcade::Error("Error: ", INFO);
-  _game->play();
 }
 
 void                    arcade::Core::loadNextGame(void)

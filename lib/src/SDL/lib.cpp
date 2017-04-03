@@ -73,7 +73,7 @@ void	arcade::GfxSDL::display() {
 }
 
 void    arcade::GfxSDL::setWindowSize(arcade::Vector2u const &dim) {
-  SDL_SetWindowSize(_mainWindow, dim.x, dim.y);
+  SDL_SetWindowSize(_mainWindow, dim.x * 30, dim.y * 30);
 }
 
 void    arcade::GfxSDL::draw(DrawObject const &obj) {
