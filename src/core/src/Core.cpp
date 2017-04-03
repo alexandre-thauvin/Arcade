@@ -29,8 +29,8 @@ arcade::Core::Core(void) {
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::SPACE, InputT::None), std::bind(&arcade::Core::goShoot, this)));
 
   _gfxlib[SDL] = "./lib/lib_arcade_sdl.so";
-  _gfxlib[OPENGL] = "./lib/lib_arcade_ncurses.so";
-  _gfxlib[NCURSES] = "./lib/lib_arcade_opengl.so";
+  _gfxlib[OPENGL] = "./lib/lib_arcade_opengl.so";
+  _gfxlib[NCURSES] = "./lib/lib_arcade_ncurses.so";
 
   _gamelib[SNAKE] = "games/lib_arcade_snake.so";
   _gamelib[CENTIPED] = "games/lib_arcade_snake.so";
@@ -50,8 +50,10 @@ void arcade::Core::init(std::string const &lib, std::string const &conf)
   try {
     signal(SIGINT, arcade_ragequit);
     for (std::map<int, std::string>::iterator it = _gfxlib.begin(); it != _gfxlib.end(); ++it )
-      if (it->second == lib)
-        loadGfx(it->first);
+      if (it->second == lib) {
+        _libId = it->first;
+        loadGfx(_libId);
+      }
     if (_gfx == NULL)
       throw Error("Error: I can't Load GFX Library: ", lib, "", 0);
   } catch (Error &e) {
@@ -62,6 +64,7 @@ void arcade::Core::init(std::string const &lib, std::string const &conf)
 bool                    arcade::Core::play(void)
 {
     arcade::InputT       input;
+    int i = 0;
 
     (void)input;
     while (true)
@@ -76,7 +79,8 @@ bool                    arcade::Core::play(void)
             menu();
             break;
           case PlayState:
-            _game->updateGame(0);
+            _game->updateGame(i++);
+            break;
           default:
             break;
         }
@@ -91,12 +95,27 @@ void                    arcade::Core::menu(void)
   arcade::DrawObject    a;
   arcade::Vector2i      pos;
 
-  a.setColor(arcade::Color((unsigned char)238, (unsigned char)110, (unsigned char)115));
-  for (int i = 0; i <= GameSize; ++i) {
-    a.setText(_gamelib[i]);
-    a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
-    a.setPosition(Vector2i((_menuId == i) ? 30 : 50, SIZE_Y - (50 + (100 * (i + 1)))));
-    _gfx->draw(a);
+  switch (_libId) {
+    case 0:
+      a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
+                               (unsigned char) 115));
+      for (int i = 0; i <= GameSize; ++i) {
+        a.setText(_gamelib[i]);
+        a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
+        a.setPosition(Vector2i((_menuId == i) ? 30 : 50,
+                               SIZE_Y - (50 + (100 * (i + 1)))));
+        _gfx->draw(a);
+
+      }
+        break;
+    case 1:
+      for (int i = 0; i <= GameSize; ++i) {
+        a.setText(_gamelib[i]);
+//        a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
+        a.setPosition(Vector2i(1, i));
+        _gfx->draw(a);
+      }
+      break;
   }
 }
 
@@ -126,7 +145,17 @@ void                    arcade::Core::goRight(void)
 
 void                    arcade::Core::goQuit(void)
 {
-  arcade_ragequit(0);
+  switch (_state) {
+    case MenuState:
+      arcade_ragequit(0);
+      break;
+    case PlayState:
+//      _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
+      _state = MenuState;
+      break;
+    default:
+      break;
+  }
 }
 
 void                    arcade::Core::goEnter(void)
@@ -136,6 +165,11 @@ void                    arcade::Core::goEnter(void)
     case MenuState:
       loadGame(_menuId);
       _state = GameState::PlayState;
+      _game->play();
+      _gfx->setWindowSize(_game->getDimension());
+      break;
+    case PlayState:
+//      _game->shoot;
       break;
     default:
       break;
@@ -164,7 +198,6 @@ void                    arcade::Core::loadGame(int id)
   _game = game_loader->getInstance("createGame", Vector2u(20, 20));
   if (_game == NULL)
     throw arcade::Error("Error: ", INFO);
-  _game->play();
 }
 
 void                    arcade::Core::loadNextGame(void)

@@ -5,7 +5,7 @@
 // Login   <cedric.clemenceau@epitech.eu>
 // 
 // Started on  Thu Mar 30 18:29:04 2017 Cedric
-// Last update Mon Apr  3 12:55:52 2017 Cedric
+// Last update Mon Apr  3 21:55:35 2017 Cedric
 //
 
 #ifndef LIBCURSE_HPP_
@@ -24,8 +24,8 @@ namespace                       arcade
                                 GfxNCURSES(Vector2u const&);
       virtual			~GfxNCURSES(void);
       virtual InputT		getInput(void);
-      virtual void		setTitleWindow(std::string const &title);
-      virtual void		setWindowSize(Vector2u const &size);
+      virtual void		setTitleWindow(std::string const& title);
+      virtual void		setWindowSize(Vector2u const& size);
       virtual bool		isOpen(void) const;
       virtual void		close(void);
       virtual void		clear(void);
