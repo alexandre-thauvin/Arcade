@@ -65,7 +65,6 @@ namespace arcade {
     public:
         virtual             ~IBox(void) {}
 
-        virtual void draw(IGFX *&graphic, bool const bright) = 0;
         virtual void setPosition(Vector2i const &pos) = 0;
         virtual void setSize(Vector2u const &size) = 0;
         virtual void setCharacterSize(size_t const size) = 0;
@@ -78,11 +77,6 @@ namespace arcade {
         virtual size_t getCharacterSize(void) const = 0;
         virtual std::string getText(void) const = 0;
         virtual Color getColor(void) const = 0;
-
-        virtual bool isClickable(void) const = 0;
-        virtual void setClickable(bool const value) = 0;
-        virtual bool isSelectable(void) const = 0;
-        virtual void setSelectable(bool const value) = 0;
     };
 }
 
