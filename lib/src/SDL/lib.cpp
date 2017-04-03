@@ -16,8 +16,8 @@ arcade::GfxSDL::GfxSDL(arcade::Vector2u const& dim) {
   _input[SDLK_p] = InputT(InputT::KeyPressed, Input::NEXT_LIB, InputT::None);
   _input[SDLK_k] = InputT(InputT::KeyPressed, Input::PREV_GAME, InputT::None);
   _input[SDLK_m] = InputT(InputT::KeyPressed, Input::NEXT_GAME, InputT::None);  
-  _input[SDLK_KP_ENTER] = InputT(InputT::KeyPressed, Input::ENTER, InputT::None);
-  _input[SDLK_KP_SPACE] = InputT(InputT::KeyPressed, Input::SPACE, InputT::None);
+  _input[SDLK_RETURN] = InputT(InputT::KeyPressed, Input::ENTER, InputT::None);
+  _input[SDLK_SPACE] = InputT(InputT::KeyPressed, Input::SPACE, InputT::None);
   _input[SDLK_ESCAPE] = InputT(InputT::KeyPressed, Input::ESCAPE, InputT::None);
   _input[SDLK_DOWN] = InputT(InputT::KeyPressed, Input::DOWN, InputT::None);
   _input[SDLK_LEFT] = InputT(InputT::KeyPressed, Input::LEFT, InputT::None);
@@ -56,16 +56,13 @@ arcade::InputT	arcade::GfxSDL::getInput() {
 
   SDL_PollEvent(&event);
   if (event.type == SDL_KEYUP) {
-    switch (event.key.keysym.sym) {
-      case SDLK_UP:
-        return (InputT(InputT::KeyPressed, Input::UP, InputT::None));
-      case SDLK_DOWN:
-        return (InputT(InputT::KeyPressed, Input::DOWN, InputT::None));
-      case SDLK_LEFT:
-        return (InputT(InputT::KeyPressed, Input::LEFT, InputT::None));
-      case SDLK_RIGHT:
-        return (InputT(InputT::KeyPressed, Input::RIGHT, InputT::None));
-    }
+      if (_input.find(event.key.keysym.sym) != _input.end())
+      {
+        InputT in = _input[event.key.keysym.sym];
+        in.type = InputT::TextEntered;
+        in.unicode = event.key.keysym.sym;
+        return (_input[event.key.keysym.sym]);
+      }
   }
   return (InputT(InputT::TextEntered, Input::ENTER, InputT::None));
 }

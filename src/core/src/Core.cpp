@@ -33,7 +33,7 @@ arcade::Core::Core(void) {
   _gfxlib[NCURSES] = "./lib/lib_arcade_opengl.so";
 
   _gamelib[SNAKE] = "games/lib_arcade_snake.so";
-  _gamelib[CENTIPED] = "games/centipede_path";
+  _gamelib[CENTIPED] = "games/lib_arcade_snake.so";
   _gfx = NULL;
   _game = NULL;
   _gameId = 0;
@@ -75,6 +75,8 @@ bool                    arcade::Core::play(void)
           case MenuState:
             menu();
             break;
+          case PlayState:
+//            _game->updateGame(0);
           default:
             break;
         }
@@ -91,6 +93,7 @@ void                    arcade::Core::menu(void)
 
   a.setColor(arcade::Color((unsigned char)238, (unsigned char)110, (unsigned char)115));
   for (int i = 0; i <= GameSize; ++i) {
+    a.setText(_gamelib[i]);
     a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
     a.setPosition(Vector2i((_menuId == i) ? 30 : 50, SIZE_Y - (50 + (100 * (i + 1)))));
     _gfx->draw(a);
@@ -123,12 +126,20 @@ void                    arcade::Core::goRight(void)
 
 void                    arcade::Core::goQuit(void)
 {
-    std::cout << "Quit!" << std::endl;
+  arcade_ragequit(0);
 }
 
 void                    arcade::Core::goEnter(void)
 {
     std::cout << "Enter!" << std::endl;
+  switch (_state) {
+    case MenuState:
+      loadGame(_menuId);
+      _state = GameState::PlayState;
+      break;
+    default:
+      break;
+  }
 }
 
 void                    arcade::Core::goShoot(void)
@@ -153,6 +164,7 @@ void                    arcade::Core::loadGame(int id)
   _game = game_loader->getInstance("createGame", Vector2u(20, 20));
   if (_game == NULL)
     throw arcade::Error("Error: ", INFO);
+//  _game->play();
 }
 
 void                    arcade::Core::loadNextGame(void)
