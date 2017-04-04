@@ -9,6 +9,7 @@
 #include <ctime>
 #include <iostream>
 #include "Map.hpp"
+#include "Personnage.hpp"
 #include "IGame.hpp"
 
 namespace                   arcade {
@@ -36,7 +37,7 @@ namespace                   arcade {
 
     private:
         arcade::Map                 *_map;
-        std::list<arcade::Vector2u> _snake;
+        arcade::Personnage          _snake;
         arcade::Vector2u            _dim;
         std::string                 _name;
         bool                        _state;

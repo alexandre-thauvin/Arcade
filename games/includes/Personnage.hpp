@@ -1,14 +1,14 @@
 #ifndef PERSONNAGE_HPP_
 # define PERSONNAGE_HPP_
 
-# include "IGames.hpp"
+# include "IGame.hpp"
 
 namespace	arcade {
   enum	Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
+    D_UP,
+    D_DOWN,
+    D_LEFT,
+    D_RIGHT
   };
   class Personnage {
     Direction			_dir;

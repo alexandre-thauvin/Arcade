@@ -1,23 +1,23 @@
 #include "Personnage.hpp"
 
 arcade::Personnage::Personnage() {
-  goLeft();
+  goRight();
 }
 
 void	arcade::Personnage::goUp() {
-  _dir = UP;
+  _dir = D_UP;
 }
 
 void	arcade::Personnage::goDown() {
-  _dir = DOWN;
+  _dir = D_DOWN;
 }
 
 void	arcade::Personnage::goRight() {
-  _dir = RIGHT;
+  _dir = D_RIGHT;
 }
 
 void	arcade::Personnage::goLeft() {
-  _dir = LEFT;
+  _dir = D_LEFT;
 }
 
 void	arcade::Personnage::setPos(std::vector<Vector2u> const& listPos) {

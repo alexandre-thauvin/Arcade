@@ -6,6 +6,7 @@
 
 arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
   _map = new arcade::Map(dim);
+  _snake = new arcade::Personnage();
 }
 
 bool arcade::Snake::isPlayerAlive() {
@@ -20,6 +21,7 @@ void arcade::Snake::play() {
 }
 
 void arcade::Snake::goDown() {
+  _snake.goDown();
 }
 
 void arcade::Snake::goUp() {
