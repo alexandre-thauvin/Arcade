@@ -12,73 +12,165 @@
 
 #ifndef CPP_ARCADE_UTILS_HPP
 #define CPP_ARCADE_UTILS_HPP
-namespace                           arcade {
-    typedef unsigned int const      t_usi_c;
-    typedef unsigned int            t_usi;
 
-    template<typename T>
-    struct                          Vector2 {
-        Vector2(void);
-        Vector2(Vector2<T> const &other);
-        Vector2(T const &_x, T const &_y);
-        Vector2<T> &operator=(Vector2<T> const &other);
+# include <cmath>
+# include <cstring>
 
-        T x;
-        T y;
+namespace arcade {
+    template<class T>
+    class Vector2 {
+    public:
+        union {
+            T x;
+            T s;
+        };
+
+        union {
+            T y;
+            T t;
+        };
+
+        Vector2() : x(0), y(0) {}
+
+        Vector2(T nx, T ny) : x(nx), y(ny) {
+        }
+
+        Vector2(const Vector2<T> &src) : x(src.x), y(src.y) {
+        }
+
+        template<class FromT>
+        Vector2(const Vector2<FromT> &src): x(static_cast<T>(src.x)), y(static_cast<T>(src.y)) {
+        }
+
+        template<class FromT>
+        Vector2<T> &operator=(const Vector2<FromT> &rhs) {
+          x = static_cast<T>(rhs.x);
+          y = static_cast<T>(rhs.y);
+          return *this;
+        }
+
+        Vector2<T> &operator=(const Vector2<T> &rhs) {
+          x = rhs.x;
+          y = rhs.y;
+          return *this;
+        }
+
+        Vector2<T> operator+(const Vector2<T> &rhs) const {
+          return Vector2<T>(x + rhs.x, y + rhs.y);
+        }
+
+        Vector2<T> operator-(const Vector2<T> &rhs) const {
+          return Vector2<T>(x - rhs.x, y - rhs.y);
+        }
+
+        Vector2<T> operator*(const Vector2<T> &rhs) const {
+          return Vector2<T>(x * rhs.x, y * rhs.y);
+        }
+
+        Vector2<T> operator/(const Vector2<T> &rhs) const {
+          return Vector2<T>(x / rhs.x, y / rhs.y);
+        }
+
+        Vector2<T> &operator+=(const Vector2<T> &rhs) {
+          x += rhs.x;
+          y += rhs.y;
+          return *this;
+        }
+
+        Vector2<T> &operator-=(const Vector2<T> &rhs) {
+          x -= rhs.x;
+          y -= rhs.y;
+          return *this;
+        }
+
+        Vector2<T> &operator*=(const Vector2<T> &rhs) {
+          x *= rhs.x;
+          y *= rhs.y;
+          return *this;
+        }
+
+        Vector2<T> &operator/=(const Vector2<T> &rhs) {
+          x /= rhs.x;
+          y /= rhs.y;
+          return *this;
+        }
+
+        Vector2<T> operator+(T rhs) const {
+          return Vector2<T>(x + rhs, y + rhs);
+        }
+
+        Vector2<T> operator-(T rhs) const {
+          return Vector2<T>(x - rhs, y - rhs);
+        }
+
+        Vector2<T> operator*(T rhs) const {
+          return Vector2<T>(x * rhs, y * rhs);
+        }
+
+        Vector2<T> operator/(T rhs) const {
+          return Vector2<T>(x / rhs, y / rhs);
+        }
+
+        Vector2<T> &operator+=(T rhs) {
+          x += rhs;
+          y += rhs;
+          return *this;
+        }
+
+        Vector2<T> &operator-=(T rhs) {
+          x -= rhs;
+          y -= rhs;
+          return *this;
+        }
+
+        Vector2<T> &operator*=(T rhs) {
+          x *= rhs;
+          y *= rhs;
+          return *this;
+        }
+
+        Vector2<T> &operator/=(T rhs) {
+          x /= rhs;
+          y /= rhs;
+          return *this;
+        }
+
+        bool operator!=(const Vector2<T> &rhs) const {
+          return !(*this == rhs);
+        }
+
+        Vector2<T> operator-() const {
+          return Vector2<T>(-x, -y);
+        }
+
+        T length() const {
+          return (T) std::sqrt(x * x + y * y);
+        }
+
+        operator T *() {
+          return (T *) this;
+        }
+
+        operator const T *() const {
+          return (const T *) this;
+        }
+
+        friend std::ostream &
+        operator<<(std::ostream &lhs, const Vector2<T> &rhs) {
+          lhs << "(" << rhs.x << ", " << rhs.y << ")";
+          return lhs;
+        }
+
+        std::string toString() const {
+          std::ostringstream oss;
+          oss << *this;
+          return oss.str();
+        }
     };
 
-    template<typename T>
-    Vector2<T>::Vector2(void) {
-      x = 0;
-      y = 0;
-    }
-
-    template<typename T>
-    Vector2<T>::Vector2(Vector2<T> const &other) {
-      x = other.x;
-      y = other.y;
-    }
-
-    template<typename T>
-    Vector2<T>::Vector2(T const &_x, T const &_y) {
-      x = _x;
-      y = _y;
-    }
-
-    template<typename T>
-    Vector2<T> &Vector2<T>::operator=(Vector2<T> const &other) {
-      x = other.x;
-      y = other.y;
-      return (*this);
-    }
-
-    template<typename T>
-    Vector2<T> operator*(Vector2<T> const &lhs, Vector2<T> const &rhs) {
-      return (Vector2<T>(lhs.x * rhs.x, lhs.y * rhs.y));
-    }
-
-    template<typename T>
-    bool operator==(Vector2<T> const &lhs, Vector2<T> const &rhs) {
-      return (lhs.x == rhs.x && lhs.y == rhs.y);
-    }
-
-    template<typename T>
-    bool operator!=(Vector2<T> const &lhs, Vector2<T> const &rhs) {
-      return (lhs.x != rhs.x || lhs.y != rhs.y);
-    }
-
-    template < class T >
-    std::ostream& operator << (std::ostream& os, Vector2<T> const &v)
-    {
-      os << "x: " << v.x;
-      os << "\n";
-      os << "y: " << v.y;
-      return os;
-    }
-
-    typedef Vector2<int> Vector2i;
-    typedef Vector2<float> Vector2f;
-    typedef Vector2<unsigned int> Vector2u;
-
+    typedef class Vector2<float>        Vector2f;
+    typedef class Vector2<double>       Vector2d;
+    typedef class Vector2<unsigned int> Vector2u;
+    typedef class Vector2<int>          Vector2i;
 }
 #endif //CPP_ARCADE_UTILS_HPP

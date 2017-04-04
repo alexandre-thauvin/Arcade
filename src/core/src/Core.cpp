@@ -39,7 +39,7 @@ arcade::Core::Core(void) {
 
   _img[0] = "assets/snake.png";
   _img[1] = "assets/centipede.png";
-  _img[3] = "assets/centipede.png";
+  _img[-1] = "assets/quitter.png";
   _gfx = NULL;
   _game = NULL;
   _gameId = GameSize - 1;
@@ -75,7 +75,6 @@ bool                    arcade::Core::play(void)
     arcade::InputT       input;
     int i = 0;
 
-    (void)input;
     while (true)
     {
         input = _gfx->getInput();
@@ -135,24 +134,56 @@ void                    arcade::Core::menu(void)
 
 void                    arcade::Core::goUp(void)
 {
-  if (_state == MenuState)
-    _menuId = (++_menuId > GameSize - 1) ? -1 : _menuId;
+  switch (_state) {
+    case MenuState:
+      _menuId = (++_menuId > GameSize - 1) ? -1 : _menuId;
+      break;
+    case PlayState:
+      _game->goUp();
+      break;
+    default:
+      break;
+  }
 }
 
 void                    arcade::Core::goDown(void)
 {
-  if (_state == MenuState)
-    _menuId = (--_menuId < -1) ? GameSize - 1 : _menuId;
+  switch (_state) {
+    case MenuState:
+     _menuId = (--_menuId < -1) ? GameSize - 1 : _menuId;
+      break;
+    case PlayState:
+      _game->goDown();
+      break;
+    default:
+      break;
+  }
 }
 
 void                    arcade::Core::goLeft(void)
 {
-    std::cout << "Left!" << std::endl;
+  switch (_state) {
+    case MenuState:
+      break;
+    case PlayState:
+      _game->goLeft();
+      break;
+    default:
+      break;
+  }
 }
 
 void                    arcade::Core::goRight(void)
 {
-    std::cout << "Right!" << std::endl;
+  switch (_state) {
+    case MenuState:
+      break;
+    case PlayState:
+      _game->goRight();
+      break;
+    default:
+      break;
+  }
 }
 
 void                    arcade::Core::goQuit(void)
@@ -162,10 +193,8 @@ void                    arcade::Core::goQuit(void)
       arcade_ragequit(0);
       break;
     case PlayState:
-//      _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
+      _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
       _state = MenuState;
-      break;
-    default:
       break;
   }
 }
@@ -179,7 +208,8 @@ void                    arcade::Core::goEnter(void)
         loadGame(_menuId);
         _state = GameState::PlayState;
         _game->play();
-        _gfx->setWindowSize(_game->getDimension());
+        _gfx->setWindowSize(_game->getDimension() * 30);
+        _gfx->setTitleWindow(_game->getGamesName());
       } else {
         arcade_ragequit(0);
       }

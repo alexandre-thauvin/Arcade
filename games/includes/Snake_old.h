@@ -8,7 +8,6 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-#include "Map.hpp"
 #include "IGame.hpp"
 
 #define HEAD	(1)
@@ -21,37 +20,40 @@ class Snake : public  arcade::IGames {
   Snake(arcade::Vector2u const);
     virtual ~Snake(){};
 
-    virtual std::string     		getGamesName(void) const;
-    virtual void            		restart(void);
+    virtual std::string     			    	getGamesName(void) const;
+    virtual void            			    	restart(void);
     virtual std::list<arcade::Vector2u> & 		getPlayerPosition(void);
     virtual bool 					isPlayerAlive();
-    virtual bool            		isPlayerWin(void) const;
-    virtual size_t        			getScore(void) const;
-    virtual arcade::Vector2u        getDimension(void) const;
+    virtual bool            			    	isPlayerWin(void) const;
+    virtual size_t        			        getScore(void) const;
+    virtual arcade::Vector2u        			getDimension(void) const;
+    virtual std::list<arcade::Vector2u>			getObjectPosition(arcade::object);
+    virtual int 					*find_tale(int, int **);
     virtual bool 					eat_frut();
-    virtual bool            	    updateGame(float const tick);
+    virtual bool            			    	updateGame(float const tick);
     virtual void 					init();
     virtual bool 					move_player();
     virtual void 					goDown();
     virtual void 					goUp();
     virtual void 					goLeft();
     virtual void 					goRight();
+    virtual void 					pop();
+    virtual void 					update_key(arcade::Input);
     virtual void 					play();
-    virtual arcade::Map const       &getMap(void) const;
-    virtual std::vector<DrawObject> const& getDrawObject(void);
-
-
-private:
-    arcade::Map *_map;
+    virtual void 					grow_up();
+    virtual void 					move_body();
+ private:
   std::list<arcade::Vector2u>	snake;
   arcade::Vector2u		dim;
   arcade::Vector2u		frut_p;
   arcade::Input			mv;
-  std::string			_name;
+  std::string			name;
   size_t       			size;
   bool 				state;
   bool 				frut;
-
+  int 				**map;
+  int 				frut_x;
+  int 				frut_y;
   int 				*tale;
   unsigned int 			head_x;
   unsigned int 			head_y;

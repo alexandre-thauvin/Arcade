@@ -1,11 +1,11 @@
 //
 // lib.cpp for  in /home/cedric/workTek2/cpp_arcade/lib
-// 
+//
 // Made by Cedric
 // Login   <cedric.clemenceau@epitech.eu>
-// 
+//
 // Started on  Mon Mar 27 23:28:07 2017 Cedric
-// Last update Tue Apr  4 11:06:47 2017 Cedric
+// Last update Tue Apr  4 22:27:48 2017 Paul THEIS
 //
 
 #include "libSDL.hpp"
@@ -16,7 +16,7 @@ arcade::GfxSDL::GfxSDL(arcade::Vector2u const& dim) {
   _input[SDLK_i] = InputT(InputT::KeyPressed, Input::PREV_LIB, InputT::None);
   _input[SDLK_p] = InputT(InputT::KeyPressed, Input::NEXT_LIB, InputT::None);
   _input[SDLK_k] = InputT(InputT::KeyPressed, Input::PREV_GAME, InputT::None);
-  _input[SDLK_m] = InputT(InputT::KeyPressed, Input::NEXT_GAME, InputT::None);  
+  _input[SDLK_m] = InputT(InputT::KeyPressed, Input::NEXT_GAME, InputT::None);
   _input[SDLK_RETURN] = InputT(InputT::KeyPressed, Input::ENTER, InputT::None);
   _input[SDLK_SPACE] = InputT(InputT::KeyPressed, Input::SPACE, InputT::None);
   _input[SDLK_ESCAPE] = InputT(InputT::KeyPressed, Input::ESCAPE, InputT::None);
@@ -30,7 +30,7 @@ arcade::GfxSDL::GfxSDL(arcade::Vector2u const& dim) {
   _input[SDLK_z] = InputT(InputT::KeyPressed, Input::UP, InputT::None);
   _mainSize = dim;
   _isOpen = true;
-  _mainWindow = SDL_CreateWindow("Arcade", 0, 0, _mainSize.x, _mainSize.y, 0);
+  _mainWindow = SDL_CreateWindow("Arcade", 0, 0, _mainSize.x, _mainSize.y , 0);
   _renderer = SDL_CreateRenderer(_mainWindow, -1, 0);
 }
 
@@ -75,7 +75,7 @@ void	arcade::GfxSDL::display() {
 }
 
 void    arcade::GfxSDL::setWindowSize(arcade::Vector2u const &dim) {
-  SDL_SetWindowSize(_mainWindow, dim.x * 30, dim.y * 30);
+  SDL_SetWindowSize(_mainWindow, dim.x, dim.y );
 }
 
 void    arcade::GfxSDL::draw(DrawObject const &obj) {
