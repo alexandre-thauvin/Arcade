@@ -252,10 +252,15 @@ bool Snake::updateGame(float const tick) {
   return (false);
 }
 
-arcade::Vector2u Snake::getObjectPosition(void) {
-  this->frut_p.x = (unsigned int)this->frut_x;
-  this->frut_p.y = (unsigned int)this->frut_y;
-  return this->frut_p;
+std::list<arcade::Vector2u> Snake::getObjectPosition(arcade::object obj) {
+  std::list<arcade::Vector2u>		obi;
+
+  if (obj == arcade::FRUIT) {
+    this->frut_p.x = (unsigned int) this->frut_x;
+    this->frut_p.y = (unsigned int) this->frut_y;
+    obi.push_back(this->frut_p);
+  }
+  return obi;
 }
 
 extern "C" {

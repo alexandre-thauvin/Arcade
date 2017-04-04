@@ -10,6 +10,12 @@
 # include "DrawObject.hpp"
 
 namespace                       arcade {
+  enum 		object{
+    FRUIT,
+    CHAMPI,
+    CENTI,
+    ARAKN
+  };
   class                         IGames {
       public:
         virtual                 ~IGames(void) {}
@@ -24,7 +30,7 @@ namespace                       arcade {
         virtual bool            isPlayerWin(void) const = 0; // check_win
         virtual size_t          getScore(void) const = 0; // get_score
         virtual Vector2u        getDimension(void) const = 0; // get WIDTH
-    	virtual Vector2u	getObjectPosition(void) = 0; // spider for centipede / frut for Snake
+    	virtual std::list<Vector2u>	getObjectPosition(object) = 0; // cf enum
         //virtual Vector2u        getScale(void) const = 0; // snake : 1 int pour 20 px  || centipede : 1 int pour 20px
 
         virtual bool            updateGame(float const tick) = 0; //static += tick 20

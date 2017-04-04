@@ -27,7 +27,7 @@ class Snake : public  arcade::IGames {
     virtual bool            			    	isPlayerWin(void) const;
     virtual size_t        			        getScore(void) const;
     virtual arcade::Vector2u        			getDimension(void) const;
-    virtual arcade::Vector2u			    	getObjectPosition(void);
+    virtual std::list<arcade::Vector2u>			getObjectPosition(arcade::object);
     virtual int 					*find_tale(int, int **);
     virtual bool 					eat_frut();
     virtual bool            			    	updateGame(float const tick);
