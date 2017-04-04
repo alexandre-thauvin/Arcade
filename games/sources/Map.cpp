@@ -27,6 +27,18 @@ arcade::Map::~Map() {
   delete _map;
 }
 
+Map::Map(Map const &other) {
+  _dim = other.getMapSize();
+
+  _map = new CaseMap*[_dim.y];
+  for (unsigned int i = 0; i < dim.y;++i) {
+    _map[i] = new CaseMap[_dim.x];
+  }
+}
+
+Map &Map::operator=(Map const &other)
+{}
+
 void arcade::Map::create() {
   Vector2u tmp;
 

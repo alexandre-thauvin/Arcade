@@ -16,7 +16,7 @@ namespace	arcade {
   public:
     Personnage();
     ~Personnage(){};
-    operator=(Personnage const&);
+    Personnage operator=(Personnage const&);
     void	goUp();
     void	goDown();
     void	goLeft();
