@@ -19,11 +19,12 @@ class Centipede : public arcade::IGames{
  public:
   Centipede(arcade::Vector2u);
   ~Centipede(){};
-  arcade::Vector2u & 			getTowerPosition(void);
   std::list<arcade::Vector2u>		getCentiPosition(void);
   std::list<arcade::Vector2u>		getChampPosition(void);
-  arcade::Vector2u			getObjectPosition(void);
+  std::list<arcade::Vector2u>		getObjectPosition(arcade::object);
+  std::list<arcade::Vector2u> 		&getPlayerPosition(void)
   arcade::Vector2u        		getDimension(void) const;
+  arcade::Vector2u 			&getTowerPosition(void)
   std::string     			getGamesName(void) const;
   size_t        			getScore(void) const;
   bool 					isPlayerAlive();
@@ -48,8 +49,6 @@ class Centipede : public arcade::IGames{
   void 					shoot();
   void 					find_tower();
  private:
-  std::list<arcade::Vector2u>		Centi;
-  std::list<arcade::Vector2u>		Champ;
   arcade::Vector2u			tower;
   arcade::Vector2u			dim;
   arcade::Vector2u			spider;

@@ -223,6 +223,7 @@ arcade::Vector2u Centipede::getDimension(void) const {
 }
 
 std::list<arcade::Vector2u> Centipede::getCentiPosition(void) {
+  std::list<arcade::Vector2u>           obj;
   arcade::Vector2u		vect;
 
   for (unsigned int i = 0 ; i < this->dim.y ; i++)
@@ -231,15 +232,16 @@ std::list<arcade::Vector2u> Centipede::getCentiPosition(void) {
       if (this->map[i][j] == HEAD || this->map[i][j] == BODY) {
 	vect.x = j;
 	vect.y = i;
-	this->Centi.push_back(vect);
+	obj.push_back(vect);
       }
     }
   }
-  return this->Centi;
+  return obj;
 }
 
 std::list<arcade::Vector2u> Centipede::getChampPosition(void) {
   arcade::Vector2u		vect;
+  std::list<arcade::Vector2u>           obj;
 
   for (unsigned int i = 0 ; i < this->dim.y ; i++)
   {
@@ -247,26 +249,35 @@ std::list<arcade::Vector2u> Centipede::getChampPosition(void) {
       if (this->map[i][j] == CHAMP) {
 	vect.x = j;
 	vect.y = i;
-	this->Champ.push_back(vect);
+	obj.push_back(vect);
       }
     }
   }
-  return this->Champ;
+  return obj;
 }
 
-arcade::Vector2u Centipede::getObjectPosition(void) {
-  for (unsigned int i = 0 ; i < this->dim.y ; i++) {
-    for (unsigned int j = 0; j < this->dim.x; j++) {
-      if (this->map[i][j] == SPIDER) {
-	this->spider.x = j;
-	this->spider.y = i;
+std::list<arcade::Vector2u> Centipede::getObjectPosition(arcade::object obj) {
+  std::list<arcade::Vector2u>           obji;
+  if (obj == arcade::ARAKN) {
+    for (unsigned int i = 0; i < this->dim.y; i++) {
+      for (unsigned int j = 0; j < this->dim.x; j++) {
+	if (this->map[i][j] == SPIDER) {
+	  this->spider.x = j;
+	  this->spider.y = i;
+          obji.push_back(spider);
+          return (obji);
+	}
       }
     }
   }
-  return this->spider;
+  else if (obj == arcade::CHAMPI)
+    return (this->getChampPosition());
+  else if (obj == arcade::object::CENTI)
+    return (this->getCentiPosition());
 }
 
 arcade::Vector2u &Centipede::getTowerPosition(void) {
+
   for (unsigned int i = 0 ; i < this->dim.y ; i++) {
     for (unsigned int j = 0; j < this->dim.x; j++) {
       if (this->map[i][j] == TOWER) {
@@ -322,4 +333,12 @@ void Centipede::replace_head(unsigned int i) {
     this->map[i - 1][this->tower.x] = HEAD;
   else if (this->map[i + 1][this->tower.x] == BODY)
     this->map[i + 1][this->tower.x] = HEAD;
+}
+
+std::list<arcade::Vector2u> &Centipede::getPlayerPosition(void) {
+  std::list<arcade::Vector2u>	obi;
+  arcade::Vector2u		ob = this->getTowerPosition();
+
+  obi.push_back(ob);
+  return obi;
 }
