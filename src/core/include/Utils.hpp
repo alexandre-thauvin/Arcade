@@ -15,6 +15,7 @@
 
 # include <cmath>
 # include <cstring>
+# include <ostream>
 
 namespace arcade {
     template<class T>

@@ -4,68 +4,64 @@
 
 #include "Snake.h"
 
-bool Snake::move_player() {
-  return true;
-}
-
-Snake::Snake(arcade::Vector2u const dim){
-  (void)dim;
+arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
   _map = new arcade::Map(dim);
 }
 
-bool Snake::isPlayerAlive(){
- return false;
+bool arcade::Snake::isPlayerAlive() {
+  return false;
 }
 
-void Snake::play() {
+bool arcade::Snake::move_player(void) {
+  return (true);
 }
 
-void Snake::goDown() {
+void arcade::Snake::play() {
 }
 
-void Snake::goUp() {
+void arcade::Snake::goDown() {
 }
 
-void Snake::goLeft() {
+void arcade::Snake::goUp() {
 }
 
-void Snake::goRight() {
+void arcade::Snake::goLeft() {
 }
 
-size_t Snake::getScore(void) const {
+void arcade::Snake::goRight() {
+}
+
+size_t arcade::Snake::getScore(void) const {
   return 0;
 }
 
-std::string Snake::getGamesName(void) const {
+std::string arcade::Snake::getGamesName(void) const {
   return _name;
 }
 
-void Snake::restart(void) {
+void arcade::Snake::restart(void) {
 }
 
-bool Snake::isPlayerWin(void) const {
+bool arcade::Snake::isPlayerWin(void) const {
   return true;
 }
 
-arcade::Vector2u Snake::getDimension(void) const {
-  return (this->dim);
+arcade::Vector2u arcade::Snake::getDimension(void) const {
+  return (_dim);
 }
 
-void	Snake::init() {
+arcade::Map const *arcade::Snake::getMap(void) const {
+  return _map;
 }
 
-std::list<arcade::Vector2u> &Snake::getPlayerPosition(void) {
-  arcade::Vector2u		vect;
-  return (this->snake);
-}
-
-bool Snake::updateGame(float const tick) {
-  (void)tick;
+bool arcade::Snake::updateGame(float const tick) {
+  (void) tick;
   return (false);
 }
 
 extern "C" {
-  arcade::IGame *createGame(arcade::Vector2u dim) {
-    return (new Snake(dim));
+  arcade::IGame *createGame(arcade::Vector2u const &dim) {
+    (void)dim;
+    return (new arcade::Snake(dim));
   }
 }
