@@ -4,9 +4,12 @@ arcade::Personnage::Personnage() {
   goRight();
 }
 
-arcade::Personnage arcade::Personnage::operator=(Personnage const& pers) {
-  _dir = pers._dir();
-  _pos = pers._pos();
+Personnage& arcade::Personnage::operator=(Personnage const& pers) {
+  if (&pers != this)
+    {
+      _dir = pers._dir();
+      _pos = pers._pos();
+    }
   return (*this);
 }
 
