@@ -1,7 +1,8 @@
 #ifndef PERSONNAGE_HPP_
 # define PERSONNAGE_HPP_
 
-# include "IGame.hpp"
+#include "Utils.hpp"
+#include <vector>
 
 namespace	arcade {
   enum	Direction {
@@ -16,7 +17,7 @@ namespace	arcade {
   public:
     Personnage();
     ~Personnage(){};
-    Personnage operator=(Personnage const&);
+//    Personnage &operator=(Personnage const&);
     void	goUp();
     void	goDown();
     void	goLeft();

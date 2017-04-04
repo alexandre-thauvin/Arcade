@@ -8,6 +8,7 @@
 # include "Input.hpp"
 # include "Utils.hpp"
 # include "DrawObject.hpp"
+# include "Map.hpp"
 
 namespace                       arcade {
   class                             IGame {

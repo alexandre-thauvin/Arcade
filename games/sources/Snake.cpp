@@ -2,7 +2,7 @@
 // Created by thauvi_a on 3/20/17.
 //
 
-#include "Snake.h"
+#include "Snake.hpp"
 
 arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
   _map = new arcade::Map(dim);
@@ -21,7 +21,7 @@ void arcade::Snake::play() {
 }
 
 void arcade::Snake::goDown() {
-  _snake.goDown();
+//  _snake.goDown();
 }
 
 void arcade::Snake::goUp() {

@@ -8,16 +8,15 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-#include "Map.hpp"
+#include "../../src/core/include/Map.hpp"
 #include "Personnage.hpp"
 #include "IGame.hpp"
 
-namespace                   arcade {
-    class                   Snake : public arcade::IGame {
+namespace                           arcade {
+    class                           Snake : public arcade::IGame {
     public:
-                            Snake(arcade::Vector2u const& dim);
-
-        virtual             ~Snake() {};
+                                    Snake(arcade::Vector2u const& dim);
+        virtual                     ~Snake() {};
 
         virtual                     std::string getGamesName(void) const;
         virtual void                restart(void);
@@ -37,7 +36,7 @@ namespace                   arcade {
 
     private:
         arcade::Map                 *_map;
-        arcade::Personnage          _snake;
+        arcade::Personnage          *_snake;
         arcade::Vector2u            _dim;
         std::string                 _name;
         bool                        _state;

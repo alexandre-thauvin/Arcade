@@ -78,7 +78,7 @@ namespace                       arcade {
       std::map<int, std::string> _img;
       GameState                 _state;
       IGFX                      *_gfx;
-      IGames                    *_game;
+      IGame                     *_game;
       int                       _gameId;
       int                       _libId;
       int                       _menuId;

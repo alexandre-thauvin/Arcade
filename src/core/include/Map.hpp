@@ -27,7 +27,7 @@ namespace arcade {
         };
         Map(Vector2u const &dim);
         ~Map();
-
+        Map(arcade::Map const &other);
         Map &operator=(Map const &other);
         void create();
         CaseMap getPosBlock(Vector2u const &pos) const;

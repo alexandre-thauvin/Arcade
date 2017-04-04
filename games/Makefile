@@ -1,7 +1,10 @@
 
-NAME	=	centipede
+NAME	=	snake
 
-SRC	=	sources/Snake.cpp sources/Map.cpp
+SRC	=	sources/Snake.cpp \
+		sources/Map.cpp \
+		sources/Personnage.cpp \
+		main.cpp
 
 LIB     =	lib_arcade_snake.so
 
