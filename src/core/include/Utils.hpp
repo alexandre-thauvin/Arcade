@@ -161,11 +161,6 @@ namespace arcade {
           return lhs;
         }
 
-        std::string toString() const {
-          std::ostringstream oss;
-          oss << *this;
-          return oss.str();
-        }
     };
 
     typedef class Vector2<float>        Vector2f;
