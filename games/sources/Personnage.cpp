@@ -4,6 +4,11 @@ arcade::Personnage::Personnage() {
   goRight();
 }
 
+arcade::Personnage::operator=(Personnage const& pers) {
+  _dir = pers._dir();
+  _pos = pers._pos();
+}
+
 void	arcade::Personnage::goUp() {
   _dir = D_UP;
 }
