@@ -16,7 +16,7 @@
 // Le body sera représenté par une incrementation d'une variable => 2ème boule du snake =>2 etc...
 
 
-class Snake : public  arcade::IGames {
+class Snake : public  arcade::IGame {
  public:
   Snake(arcade::Vector2u const);
     virtual ~Snake(){};

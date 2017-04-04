@@ -254,7 +254,7 @@ void                    arcade::Core::loadPrevGfx(void)
 void                    arcade::Core::loadGame(int id)
 {
   std::cout << "LoadGame: " << _gamelib[id%GameSize] << std::endl;
-  Loader<IGames> *game_loader = new Loader<IGames>(_gamelib[id%GameSize]);
+  Loader<IGame> *game_loader = new Loader<IGame>(_gamelib[id%GameSize]);
   _game = game_loader->getInstance("createGame", Vector2u(20, 20));
   if (_game == NULL)
     throw arcade::Error("Error: ", INFO);

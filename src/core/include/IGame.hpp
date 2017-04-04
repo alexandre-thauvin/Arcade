@@ -1,5 +1,5 @@
-#ifndef _IGAMES_HPP_
-# define _IGAMES_HPP_
+#ifndef _IGAME_HPP_
+# define _IGAME_HPP_
 
 # include <string>
 # include <list>
@@ -16,9 +16,9 @@ namespace                       arcade {
     CENTI,
     ARAKN
   };
-  class                             IGames {
+  class                             IGame {
       public:
-        virtual                     ~IGames(void) {}
+        virtual                     ~IGame(void) {}
 
         virtual std::string         getGamesName(void) const = 0; // get_name
         virtual void                restart(void) = 0; // relance play
