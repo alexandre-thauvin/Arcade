@@ -59,7 +59,7 @@ arcade::InputT	arcade::GfxSDL::getInput() {
 
   SDL_PollEvent(&event);
   if (event.type == SDL_KEYUP) {
-      if (_input.find(event.key.keysym.sym) != _input.end())
+    if (_input.find(event.key.keysym.sym) != _input.end())
       {
         InputT in = _input[event.key.keysym.sym];
         in.type = InputT::TextEntered;
