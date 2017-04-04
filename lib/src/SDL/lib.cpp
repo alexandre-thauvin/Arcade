@@ -5,7 +5,7 @@
 // Login   <cedric.clemenceau@epitech.eu>
 // 
 // Started on  Mon Mar 27 23:28:07 2017 Cedric
-// Last update Mon Apr  3 19:33:20 2017 Cedric
+// Last update Tue Apr  4 11:06:47 2017 Cedric
 //
 
 #include "libSDL.hpp"
@@ -35,7 +35,7 @@ arcade::GfxSDL::GfxSDL(arcade::Vector2u const& dim) {
 }
 
 arcade::GfxSDL::~GfxSDL() {
-  SDL_Quit();
+  close();
 }
 
 void	arcade::GfxSDL::setTitleWindow(std::string const &title) {
