@@ -38,9 +38,12 @@ namespace                           arcade {
         arcade::Map                 *_map;
         arcade::Personnage          *_snake;
         arcade::Vector2u            _dim;
+        std::vector<Vector2u>	    _posPerso;
         std::string                 _name;
         bool                        _state;
+        bool                        _alive;
         unsigned int                _score;
+        unsigned int		    food;
     };
 }
 

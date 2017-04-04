@@ -10,7 +10,7 @@ arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
 }
 
 bool arcade::Snake::isPlayerAlive() {
-  return false;
+  return _alive;
 }
 
 bool arcade::Snake::move_player(void) {
@@ -18,23 +18,27 @@ bool arcade::Snake::move_player(void) {
 }
 
 void arcade::Snake::play() {
+  
 }
 
 void arcade::Snake::goDown() {
-//  _snake.goDown();
+  _snake->goDown();
 }
 
 void arcade::Snake::goUp() {
+  _snake->goUp();
 }
 
 void arcade::Snake::goLeft() {
+  _snake->goLeft();
 }
 
 void arcade::Snake::goRight() {
+  _snake->goRight();
 }
 
 size_t arcade::Snake::getScore(void) const {
-  return 0;
+  return _score;
 }
 
 std::string arcade::Snake::getGamesName(void) const {
@@ -49,7 +53,7 @@ bool arcade::Snake::isPlayerWin(void) const {
 }
 
 arcade::Vector2u arcade::Snake::getDimension(void) const {
-  return (_dim);
+  return _dim;
 }
 
 arcade::Map const *arcade::Snake::getMap(void) const {
@@ -57,8 +61,46 @@ arcade::Map const *arcade::Snake::getMap(void) const {
 }
 
 bool arcade::Snake::updateGame(float const tick) {
-  (void) tick;
-  return (false);
+  std::vector<Vector2u>::iterator it;
+  arcade::Map::CaseMap	**my_map;
+  arcade::Direction	dir;
+  arcade::Vector2u	newPos;
+
+  (void)tick;
+  dir = _snake->getDir();
+  my_map = _map->getMap();
+  _posPerso = _snake->getPos();
+  switch(dir) {
+  case D_UP :
+    newPos.x = _posPerso[0].x;
+    newPos.y = _posPerso[0].y - 1;
+    break;
+  case D_DOWN :
+    newPos.x = _posPerso[0].x;
+    newPos.y = _posPerso[0].y + 1;
+    break;
+  case D_RIGHT :
+    newPos.x = _posPerso[0].x + 1;
+    newPos.y = _posPerso[0].y;
+    break;
+  case D_LEFT :
+    newPos.x = _posPerso[0].x - 1;
+    newPos.y = _posPerso[0].y;
+    break;
+  }
+  it = _posPerso.begin();
+  _posPerso.insert(it, newPos);
+  it = _posPerso.begin();
+  if (my_map[_posPerso[0].y][_posPerso[0].x] == arcade::Map::Block ||
+      my_map[_posPerso[0].y][_posPerso[0].x] == arcade::Map::Player)
+    return false;
+  if (my_map[_posPerso[0].y][_posPerso[0].x] == arcade::Map::Object)
+    {
+      my_map[_posPerso[0].y][_posPerso[0].x] = arcade::Map::Empty;
+      _map->createObject();
+      _score += 10;
+    }
+  return true;
 }
 
 extern "C" {
