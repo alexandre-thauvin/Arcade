@@ -41,6 +41,6 @@ std::vector<arcade::Vector2u> const&	arcade::Personnage::getPos() const {
   return _pos;
 }
 
-Direction const&	arcade::Personnage::getDir() const {
+arcade::Direction const&	arcade::Personnage::getDir() const {
   return _dir;
 }

@@ -66,6 +66,10 @@ arcade::Vector2u arcade::Map::getMapSize() const {
   return _dim;
 }
 
+arcade::Map::CaseMap**	arcade::Map::getMap() const{
+  return _map;
+}
+
 void arcade::Map::createObject() {
 
 }
