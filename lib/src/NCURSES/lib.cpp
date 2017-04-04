@@ -5,7 +5,7 @@
 // Login   <cedric.clemenceau@epitech.eu>
 // 
 // Started on  Mon Mar 27 23:28:07 2017 Cedric
-// Last update Mon Apr  3 23:36:17 2017 Cedric
+// Last update Tue Apr  4 11:39:57 2017 Cedric
 //
 
 #include "libNCURSES.hpp"
@@ -15,8 +15,10 @@
 arcade::GfxNCURSES::GfxNCURSES(Vector2u const& dim) {
   _mainSize = dim;
   initscr();
-  cbreak();
-  keypad(stdscr, TRUE);
+  nodelay(stdscr, true);
+  keypad(stdscr, true);
+  noecho();
+  curs_set(0);
   _input[10] = InputT(InputT::KeyPressed, Input::ENTER, InputT::None);
   _input[27] = InputT(InputT::KeyPressed, Input::ESCAPE, InputT::None);
   _input[122] = InputT(InputT::KeyPressed, Input::UP, InputT::None);
@@ -32,12 +34,12 @@ arcade::GfxNCURSES::GfxNCURSES(Vector2u const& dim) {
   _input[112] = InputT(InputT::KeyPressed, Input::NEXT_LIB, InputT::None);
   _input[107] = InputT(InputT::KeyPressed, Input::PREV_GAME, InputT::None);
   _input[109] = InputT(InputT::KeyPressed, Input::NEXT_GAME, InputT::None);
-  refresh();
-  _mainWindow = newwin(dim.y, dim.x, 0, 0);
   _isOpen = true;
 }
 
 arcade::GfxNCURSES::~GfxNCURSES() {
+  curs_set(1);
+  nodelay(stdscr, false);
   endwin();
   system("clear");
 }
@@ -51,49 +53,31 @@ bool	arcade::GfxNCURSES::isOpen() const {
 }
 
 void	arcade::GfxNCURSES::clear() {
-//  wclear(_mainWindow);
+  wclear(stdscr);
 }
 
 void              arcade::GfxNCURSES::close() {
+  curs_set(1);
+  nodelay(stdscr, false);
   endwin();
   system("clear");
 }
 
 void              arcade::GfxNCURSES::setWindowSize(Vector2u const& size) {
-  wresize(_mainWindow, size.y, size.x);
+  wresize(stdscr, size.y, size.x);
 }
 
 void           arcade::GfxNCURSES::draw(DrawObject const& obj) {
   Vector2i    pos = obj.getPosition();
   Vector2u    size = obj.getSize();
 
-  mvaddstr(pos.y, pos.x, obj.getText().c_str());
-  
+  mvaddstr(pos.y, pos.x, obj.getText().c_str());  
   // SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255 );
 }
 
-char getcha() {
-  char buf = 0;
-  struct termios old = {0};
-  if (tcgetattr(0, &old) < 0)
-    perror("tcsetattr()");
-  old.c_lflag &= ~ICANON;
-  old.c_lflag &= ~ECHO;
-  old.c_cc[VMIN] = 1;
-  old.c_cc[VTIME] = 0;
-  if (tcsetattr(0, TCSANOW, &old) < 0)
-    perror("tcsetattr ICANON");
-  if (read(0, &buf, 1) < 0)
-    perror ("read()");
-  old.c_lflag |= ICANON;
-  old.c_lflag |= ECHO;
-  if (tcsetattr(0, TCSADRAIN, &old) < 0)
-    perror ("tcsetattr ~ICANON");
-  return (buf);
-}
-
 arcade::InputT	arcade::GfxNCURSES::getInput() {
-  int input = getcha();
+  int input = getch();
+  
   if (_input.find(input) != _input.end())
     {
       InputT in = _input[input];
@@ -106,11 +90,10 @@ arcade::InputT	arcade::GfxNCURSES::getInput() {
 
 void	arcade::GfxNCURSES::display() {
   refresh();
-  wrefresh(_mainWindow);
 }
 
 extern "C" {
-arcade::IGFX *createLib(arcade::Vector2u dim) {
-  return (new arcade::GfxNCURSES(dim));
-}
+  arcade::IGFX *createLib(arcade::Vector2u dim) {
+    return (new arcade::GfxNCURSES(dim));
+  }
 }

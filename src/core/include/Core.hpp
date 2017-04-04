@@ -75,6 +75,7 @@ namespace                       arcade {
       std::map<InputT, std::function<void(void)>> _input;
       std::map<int, std::string> _gfxlib;
       std::map<int, std::string> _gamelib;
+      std::map<int, std::string> _img;
       GameState                 _state;
       IGFX                      *_gfx;
       IGames                    *_game;

@@ -5,7 +5,7 @@
 // Login   <cedric.clemenceau@epitech.eu>
 // 
 // Started on  Mon Mar 27 23:28:07 2017 Cedric
-// Last update Mon Apr  3 19:33:20 2017 Cedric
+// Last update Tue Apr  4 11:06:47 2017 Cedric
 //
 
 #include "libSDL.hpp"
@@ -35,7 +35,7 @@ arcade::GfxSDL::GfxSDL(arcade::Vector2u const& dim) {
 }
 
 arcade::GfxSDL::~GfxSDL() {
-  SDL_Quit();
+  close();
 }
 
 void	arcade::GfxSDL::setTitleWindow(std::string const &title) {
@@ -81,14 +81,19 @@ void    arcade::GfxSDL::setWindowSize(arcade::Vector2u const &dim) {
 void    arcade::GfxSDL::draw(DrawObject const &obj) {
   arcade::Vector2i    pos = obj.getPosition();
   arcade::Vector2u    size = obj.getSize();
+  SDL_Surface *a;
+  SDL_Texture *b;
+  SDL_Rect rect{pos.x, pos.y, (int) size.x, (int) size.y};
 
   SDL_SetRenderDrawColor(_renderer, (obj.getColor()).getRed(),
-                         (obj.getColor()).getGreen(),
-                         (obj.getColor()).getBlue(),
-                         (obj.getColor()).getAlpha());
-  SDL_Rect rect{pos.x, pos.y, (int)size.x, (int)size.y};
+                           (obj.getColor()).getGreen(),
+                           (obj.getColor()).getBlue(),
+                           (obj.getColor()).getAlpha());
   SDL_RenderFillRect(_renderer, &rect);
-  SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255 );
+  a = IMG_Load(obj.getText().c_str());
+  b = SDL_CreateTextureFromSurface(_renderer, a);
+  SDL_RenderCopy(_renderer, b, NULL, &rect);
+  SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255);
 }
 
 extern "C" {

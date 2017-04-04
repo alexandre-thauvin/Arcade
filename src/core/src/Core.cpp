@@ -31,19 +31,26 @@ arcade::Core::Core(void) {
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::NEXT_LIB, InputT::None), std::bind(&arcade::Core::loadNextGfx, this)));
 
   _gfxlib[SDL] = "./lib/lib_arcade_sdl.so";
-  _gfxlib[OPENGL] = "./lib/lib_arcade_sdl.so";
+  _gfxlib[OPENGL] = "./lib/lib_arcade_opengl.so";
   _gfxlib[NCURSES] = "./lib/lib_arcade_ncurses.so";
 
   _gamelib[SNAKE] = "games/lib_arcade_snake.so";
   _gamelib[CENTIPED] = "games/lib_arcade_snake.so";
+
+  _img[0] = "assets/snake.png";
+  _img[1] = "assets/centipede.png";
+  _img[3] = "assets/centipede.png";
   _gfx = NULL;
   _game = NULL;
-  _gameId = 0;
+  _gameId = GameSize - 1;
   _libId = 0;
   _menuId = 0;
 }
 
-arcade::Core::~Core(void) {}
+arcade::Core::~Core(void) {
+  if (_gfx)
+    _gfx->close();
+}
 
 void arcade::Core::init(std::string const &lib, std::string const &conf)
 {
@@ -53,7 +60,7 @@ void arcade::Core::init(std::string const &lib, std::string const &conf)
     signal(SIGINT, arcade_ragequit);
     for (std::map<int, std::string>::iterator it = _gfxlib.begin(); it != _gfxlib.end(); ++it )
       if (it->second == lib) {
-        _libId = 0;//it->first;
+        _libId = it->first;
         loadGfx(_libId);
       }
     if (_gfx == NULL)
@@ -101,11 +108,11 @@ void                    arcade::Core::menu(void)
     case 0:
       a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
                                (unsigned char) 115));
-      for (int i = 0; i <= GameSize; ++i) {
-        a.setText(_gamelib[i]);
+      for (int i = -1; i < GameSize; ++i) {
+        a.setText(_img[i]);
         a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
         a.setPosition(Vector2i((_menuId == i) ? 30 : 50,
-                               SIZE_Y - (50 + (100 * (i + 1)))));
+                               SIZE_Y - (150 + (100 * (i + 1)))));
         _gfx->draw(a);
 
       }
@@ -128,16 +135,14 @@ void                    arcade::Core::menu(void)
 
 void                    arcade::Core::goUp(void)
 {
-    std::cout << "Up!" << std::endl;
   if (_state == MenuState)
-    _menuId = (++_menuId > GameSize) ? 0 : _menuId;
+    _menuId = (++_menuId > GameSize - 1) ? -1 : _menuId;
 }
 
 void                    arcade::Core::goDown(void)
 {
-    std::cout << "Down!" << std::endl;
   if (_state == MenuState)
-    _menuId = (--_menuId < 0) ? GameSize : _menuId;
+    _menuId = (--_menuId < -1) ? GameSize - 1 : _menuId;
 }
 
 void                    arcade::Core::goLeft(void)
@@ -170,10 +175,14 @@ void                    arcade::Core::goEnter(void)
     std::cout << "Enter!" << std::endl;
   switch (_state) {
     case MenuState:
-      loadGame(_menuId);
-      _state = GameState::PlayState;
-      _game->play();
-      _gfx->setWindowSize(_game->getDimension());
+      if (_menuId >= 0) {
+        loadGame(_menuId);
+        _state = GameState::PlayState;
+        _game->play();
+        _gfx->setWindowSize(_game->getDimension());
+      } else {
+        arcade_ragequit(0);
+      }
       break;
     case PlayState:
 //      _game->shoot;
