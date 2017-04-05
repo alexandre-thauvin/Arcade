@@ -14,7 +14,7 @@
 
 #include "Core.hpp"
 #include "Loader.hpp"
-#include <ctime>
+#include <time.h>
 
 #define SIZE_X 400
 #define SIZE_Y 600
@@ -92,9 +92,9 @@ void arcade::Core::init(std::string const &lib, std::string const &conf) {
 bool arcade::Core::play(void) {
   arcade::InputT input;
   bool           alive = true;
-  unsigned int   t     = 0;
-  int            f;
+  clock_t        t;
 
+  t = clock();
   while (alive) {
     input = _gfx->getInput();
     if (_input.find(input) != _input.end()) {
@@ -106,8 +106,14 @@ bool arcade::Core::play(void) {
         menu();
         break;
       case PlayState:
-        if ((++t % 80 == 0) && !_game->updateGame())
-          alive = false;
+        if ((clock() - t) > 100000) {
+          t = clock();
+          if (!_game->updateGame())
+            alive = false;
+        }
+        drawMap();
+        break;
+      case PauseState:
         drawMap();
         break;
     }
@@ -258,6 +264,10 @@ void arcade::Core::goQuit(void) {
       _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
       _state = MenuState;
       break;
+    case PauseState:
+      _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
+      _state = MenuState;
+      break;
   }
 }
 
@@ -277,8 +287,10 @@ void arcade::Core::goEnter(void) {
       break;
     case PlayState:
 //      _game->shoot;
+      _state = GameState::PauseState;
       break;
-    default:
+    case PauseState:
+      _state = GameState::PlayState;
       break;
   }
 }
