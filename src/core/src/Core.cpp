@@ -106,7 +106,8 @@ bool arcade::Core::play(void) {
         menu();
         break;
       case PlayState:
-        if ((++t % 100 == 0) && !_game->updateGame())
+        if ((++t % 10 == 0) &&
+	    !_game->updateGame())
           alive = false;
         drawMap();
         break;

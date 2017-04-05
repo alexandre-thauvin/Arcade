@@ -36,7 +36,7 @@ namespace arcade {
         void clear();
         CaseMap getPosBlock(Vector2u const &pos) const;
         void setPosBlock(Vector2u const &pos, CaseMap casemap);
-        void createObject();
+        void createObject(Vector2u const&);
 
         CaseMap **getMap() const;
         Vector2u getMapSize() const;
