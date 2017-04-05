@@ -79,7 +79,7 @@ bool                    arcade::Core::play(void)
     {
         input = _gfx->getInput();
         if(_input.find(input) != _input.end()) {
-            _input[input]();
+	  _input[input]();
         }
         _gfx->clear();
         switch (_state) {
@@ -92,15 +92,16 @@ bool                    arcade::Core::play(void)
 	    std::vector<Vector2u>	pos = _game->getPos();
 	    std::vector<Vector2u>::iterator it = pos.begin();
 
+	    
 	    _map->create();
 	    for (; it != pos.end(); it++) {
 	      _map->setPosBlock(*it, Map::Player);
 	    }
             drawMap();
+	    usleep(MAIN_SLEEP);
 	    break;
         }
         _gfx->display();
-	usleep(MAIN_SLEEP);
     }
     return (true);
 }
@@ -189,8 +190,16 @@ void                    arcade::Core::goUp(void)
 
 void                    arcade::Core::goDown(void)
 {
-  if (_state == MenuState)
+  switch (_state) {
+  case MenuState:
     _menuId = (--_menuId < -1) ? GameSize - 1 : _menuId;
+    break;
+  case PlayState:
+    _game->goDown();
+    break;
+  default:
+    break;
+  }
 }
 
 void                    arcade::Core::goLeft(void)
