@@ -5,7 +5,7 @@
 // Login   <cedric.clemenceau@epitech.eu>
 // 
 // Started on  Mon Mar 27 23:28:07 2017 Cedric
-// Last update Tue Apr  4 20:58:20 2017 Cedric
+// Last update Wed Apr  5 02:29:25 2017 Cedric
 //
 
 #include "libNCURSES.hpp"
@@ -65,10 +65,10 @@ void              arcade::GfxNCURSES::setWindowSize(Vector2u const& size) {
 }
 
 void           arcade::GfxNCURSES::draw(DrawObject const& obj) {
-  Vector2i    pos = obj.getPosition();
+  Vector2u    pos = obj.getPosition();
   Vector2u    size = obj.getSize();
-  int	      i;
-  int	      j;
+  unsigned int	      i;
+  unsigned int	      j;
 
   i = pos.y;
   while (i < (size.y + pos.y))
@@ -76,7 +76,7 @@ void           arcade::GfxNCURSES::draw(DrawObject const& obj) {
       j = pos.x;
       while (j < (size.x + pos.x))
 	{
-	  if (i == (0 + pos.y) || j == (0 + pos.x) ||
+	  if (i == (pos.y) || j == (pos.x) ||
 	      j == (size.x - 1 + pos.x) || i == (size.y - 1 + pos.y))
 	    mvaddch(i, j, '#');
 	  j++;
