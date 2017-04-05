@@ -107,7 +107,7 @@ bool arcade::Core::play(void) {
         break;
       case PlayState:
         if ((clock() - t) > 100000) {
-          t = clock();
+          t       = clock();
           if (!_game->updateGame())
             alive = false;
         }
@@ -277,7 +277,7 @@ void arcade::Core::goEnter(void) {
     case MenuState:
       if (_menuId >= 0) {
         loadGame(_menuId);
-        _state = GameState::PlayState;
+        _state = GameState::PauseState;
         _game->play();
         _gfx->setWindowSize(_game->getDimension() * 30);
         _gfx->setTitleWindow(_game->getGamesName());
