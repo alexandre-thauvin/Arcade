@@ -81,7 +81,7 @@ namespace                       arcade {
       GameState                 _state;
       IGFX                      *_gfx;
       IGame                     *_game;
-      Map                       *_map;
+      const Map                       *_map;
       int                       _gameId;
       int                       _libId;
       int                       _menuId;

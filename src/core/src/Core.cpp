@@ -82,7 +82,6 @@ bool                    arcade::Core::play(void)
     {
         input = _gfx->getInput();
         if(_input.find(input) != _input.end()) {
-	  std::cout << "pass\n";
 	  _input[input]();
         }
         _gfx->clear();
@@ -91,15 +90,9 @@ bool                    arcade::Core::play(void)
             menu();
             break;
           case PlayState:
-            if ((++t % 200 == 0) && !_game->updateGame(t))
+            if ((++t % 200 == 0) && !_game->updateGame())
               alive = false;
-	    std::vector<Vector2u>	pos = _game->getPos();
-	    std::vector<Vector2u>::iterator it = pos.begin();
-
-	    _map->create();
-	    for (; it != pos.end(); it++) {
-	      _map->setPosBlock(*it, Map::Player);
-	    }
+	    _map = _game->getMap();
             drawMap();
 	    usleep(MAIN_SLEEP);
 	    break;
@@ -179,13 +172,11 @@ void                    arcade::Core::menu(void)
 
 void                    arcade::Core::goUp(void)
 {
-      std::cout << "passUp\n";
   switch (_state) {
     case MenuState:
       _menuId = (++_menuId > GameSize - 1) ? -1 : _menuId;
       break;
     case PlayState:
-      std::cout << "passUp\n";
       _game->goUp();
       break;
     default:
@@ -195,13 +186,11 @@ void                    arcade::Core::goUp(void)
 
 void                    arcade::Core::goDown(void)
 {
-  std::cout << "passDown\n";
   switch (_state) {
   case MenuState:
     _menuId = (--_menuId < -1) ? GameSize - 1 : _menuId;
     break;
   case PlayState:
-    std::cout << "passDown\n";
     _game->goDown();
     break;
   default:
@@ -215,7 +204,6 @@ void                    arcade::Core::goLeft(void)
     case MenuState:
       break;
     case PlayState:
-      std::cout << "passLeft\n";
       _game->goLeft();
       break;
     default:
@@ -225,12 +213,10 @@ void                    arcade::Core::goLeft(void)
 
 void                    arcade::Core::goRight(void)
 {
-  std::cout << "passRight\n";
   switch (_state) {
     case MenuState:
       break;
     case PlayState:
-      std::cout << "passRight\n";
       _game->goRight();
       break;
     default:
@@ -312,7 +298,7 @@ void                    arcade::Core::loadGame(int id)
   std::cout << "LoadGame: " << _gamelib[id%GameSize] << std::endl;
   Loader<IGame> *game_loader = new Loader<IGame>(_gamelib[id%GameSize]);
   _game = game_loader->getInstance("createGame", Vector2u(20, 20));
-  _map = new arcade::Map(_game->getDimension());
+  _map = _game->getMap();
   if (_game == NULL)
     throw arcade::Error("Error: ", INFO);
 }

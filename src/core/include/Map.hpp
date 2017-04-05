@@ -13,6 +13,7 @@
 #ifndef CPP_ARCADE_MAP_HPP
 #define CPP_ARCADE_MAP_HPP
 
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include "Utils.hpp"
@@ -32,6 +33,7 @@ namespace arcade {
         Map(arcade::Map const &other);
         Map &operator=(Map const &other);
         void create();
+        void clear();
         CaseMap getPosBlock(Vector2u const &pos) const;
         void setPosBlock(Vector2u const &pos, CaseMap casemap);
         void createObject();

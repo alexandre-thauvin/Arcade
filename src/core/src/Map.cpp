@@ -54,6 +54,22 @@ void arcade::Map::create() {
   }
 }
 
+void arcade::Map::clear() {
+  Vector2u tmp;
+
+  for (tmp.y = 0; tmp.y < _dim.y; ++tmp.y){
+    for (tmp.x = 0; tmp.x < _dim.x; ++tmp.x) {
+      if (_map[tmp.y][tmp.x] != Object)
+	{
+	  if (tmp.x == 0 || tmp.y == 0 || tmp.y == _dim.y-1 || tmp.x == _dim.x-1)
+	    _map[tmp.y][tmp.x] = Block;
+	  else
+	    _map[tmp.y][tmp.x] = Empty;
+	}
+    }
+  }
+}
+
 arcade::Map::CaseMap arcade::Map::getPosBlock(Vector2u const& pos) const {
   return _map[pos.y][pos.x]; //TODO: ERROR CHECK
 }
@@ -81,6 +97,6 @@ void arcade::Map::createObject() {
       tmp.x = rand() % (_dim.x - 2) + 1;
       tmp.y = rand() % (_dim.y - 2) + 1;
     }
-  else
+  else  
     _map[tmp.y][tmp.x] = Object;
 }

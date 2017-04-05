@@ -22,7 +22,7 @@ namespace                       arcade {
         virtual bool                isPlayerWin(void) const = 0; // check_win
         virtual size_t              getScore(void) const = 0; // get_score
         virtual Vector2u            getDimension(void) const = 0; // get WIDTH
-        virtual bool                updateGame(float const tick) = 0; //static += tick 20
+        virtual bool                updateGame() = 0; //static += tick 20
         virtual Map const           *getMap(void) const = 0; // Paul
         virtual bool            move_player(void) = 0;
         virtual void            goUp(void) = 0;
