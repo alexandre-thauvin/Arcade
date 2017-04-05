@@ -91,7 +91,7 @@ bool                    arcade::Core::play(void)
             menu();
             break;
           case PlayState:
-            if (!_game->updateGame(++t))
+            if ((++t % 200 == 0)&& !_game->updateGame(t))
               alive = false;
 	    std::vector<Vector2u>	pos = _game->getPos();
 	    std::vector<Vector2u>::iterator it = pos.begin();
