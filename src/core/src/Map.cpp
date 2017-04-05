@@ -71,5 +71,16 @@ arcade::Map::CaseMap**	arcade::Map::getMap() const{
 }
 
 void arcade::Map::createObject() {
+  Vector2u	tmp;
 
+  srand(time(NULL));
+  tmp.x = rand() % (_dim.x - 2) + 1;
+  tmp.y = rand() % (_dim.y - 2) + 1;
+  if (_map[tmp.y][tmp.x] == Player || _map[tmp.y][tmp.x] == Block)
+    {
+      tmp.x = rand() % (_dim.x - 2) + 1;
+      tmp.y = rand() % (_dim.y - 2) + 1;
+    }
+  else
+    _map[tmp.y][tmp.x] = Object;
 }

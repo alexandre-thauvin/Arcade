@@ -79,6 +79,7 @@ bool                    arcade::Core::play(void)
     {
         input = _gfx->getInput();
         if(_input.find(input) != _input.end()) {
+	  std::cout << "pass\n";
 	  _input[input]();
         }
         _gfx->clear();
@@ -92,7 +93,6 @@ bool                    arcade::Core::play(void)
 	    std::vector<Vector2u>	pos = _game->getPos();
 	    std::vector<Vector2u>::iterator it = pos.begin();
 
-	    
 	    _map->create();
 	    for (; it != pos.end(); it++) {
 	      _map->setPosBlock(*it, Map::Player);
@@ -134,7 +134,7 @@ void                    arcade::Core::drawMap(void) {
           break;
       }
       a.setSize(Vector2u(55, 55));
-      a.setPosition(pos * 60);
+      a.setPosition(pos * 30);
       _gfx->draw(a);
     }
   }
@@ -176,11 +176,13 @@ void                    arcade::Core::menu(void)
 
 void                    arcade::Core::goUp(void)
 {
+      std::cout << "passUp\n";
   switch (_state) {
     case MenuState:
       _menuId = (++_menuId > GameSize - 1) ? -1 : _menuId;
       break;
     case PlayState:
+      std::cout << "passUp\n";
       _game->goUp();
       break;
     default:
@@ -190,11 +192,13 @@ void                    arcade::Core::goUp(void)
 
 void                    arcade::Core::goDown(void)
 {
+  std::cout << "passDown\n";
   switch (_state) {
   case MenuState:
     _menuId = (--_menuId < -1) ? GameSize - 1 : _menuId;
     break;
   case PlayState:
+    std::cout << "passDown\n";
     _game->goDown();
     break;
   default:
@@ -208,6 +212,7 @@ void                    arcade::Core::goLeft(void)
     case MenuState:
       break;
     case PlayState:
+      std::cout << "passLeft\n";
       _game->goLeft();
       break;
     default:
@@ -217,10 +222,12 @@ void                    arcade::Core::goLeft(void)
 
 void                    arcade::Core::goRight(void)
 {
+  std::cout << "passRight\n";
   switch (_state) {
     case MenuState:
       break;
     case PlayState:
+      std::cout << "passRight\n";
       _game->goRight();
       break;
     default:
@@ -250,7 +257,7 @@ void                    arcade::Core::goEnter(void)
         loadGame(_menuId);
         _state = GameState::PlayState;
         _game->play();
-        _gfx->setWindowSize(_game->getDimension() * 100);
+        _gfx->setWindowSize(_game->getDimension() * 30);
         _gfx->setTitleWindow(_game->getGamesName());
       } else {
         arcade_ragequit(0);

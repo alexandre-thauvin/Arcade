@@ -8,6 +8,7 @@ arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
   _posPerso.push_back(arcade::Vector2u(dim.x / 2 + 1, dim.y / 2 + 1));
   _map = new arcade::Map(dim);
   _snake = new arcade::Personnage();
+  _map->createObject();
 }
 
 bool arcade::Snake::isPlayerAlive() {
@@ -71,12 +72,13 @@ bool arcade::Snake::updateGame(float const tick) {
   arcade::Direction	dir;
   arcade::Vector2u	newPos;
 
+  // if (tick % 20)
+  //   return true;
   (void)tick;
   dir = _snake->getDir();
   my_map = _map->getMap();
   _posPerso = _snake->getPos();
   it = _posPerso.begin();
-  (void)my_map;
   switch(dir) {
   case D_UP :
     newPos.x =  it->x;
@@ -87,9 +89,9 @@ bool arcade::Snake::updateGame(float const tick) {
     newPos.y = it->y + 1;
     break;
   case D_RIGHT :
-      newPos.x = it->x + 1;
-      newPos.y = it->y;
-      break;
+    newPos.x = it->x + 1;
+    newPos.y = it->y;
+    break;
   case D_LEFT :
     newPos.x = it->x - 1;
     newPos.y = it->y;

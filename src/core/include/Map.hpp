@@ -13,6 +13,8 @@
 #ifndef CPP_ARCADE_MAP_HPP
 #define CPP_ARCADE_MAP_HPP
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "Utils.hpp"
 
 namespace arcade {
