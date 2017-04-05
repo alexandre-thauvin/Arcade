@@ -105,11 +105,7 @@ bool arcade::Snake::updateGame() {
   else if (_map->getPosBlock(*it) == arcade::Map::Object)
     {
       _posPerso.insert(it, newPos);
-<<<<<<< HEAD
       r = 1;
-=======
-      _map->createObject();
->>>>>>> 2e0ce518f149cbd7d13ee0bf28fc832ac8f508ad
       _score += 10;
     }
   it = _posPerso.begin();

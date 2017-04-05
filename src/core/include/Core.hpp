@@ -34,7 +34,7 @@ namespace                       arcade {
     enum                        GameState {
         PlayState = 0,
         MenuState,
-        Pause
+        PauseState
     };
     enum                        Game
     {
