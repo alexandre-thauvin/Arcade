@@ -5,12 +5,9 @@
 #include "Snake.hpp"
 
 arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
-  std::vector<arcade::Vector2u>	posPerso;
-
-  posPerso.push_back(arcade::Vector2u(dim.x / 2 + 1, dim.y / 2 + 1));
+  _posPerso.push_back(arcade::Vector2u(dim.x / 2 + 1, dim.y / 2 + 1));
   _map = new arcade::Map(dim);
   _snake = new arcade::Personnage();
-  _snake->setPos(posPerso);
 }
 
 bool arcade::Snake::isPlayerAlive() {
@@ -64,6 +61,10 @@ arcade::Map *arcade::Snake::getMap(void) const {
   return _map;
 }
 
+std::vector<arcade::Vector2u> const&	arcade::Snake::getPos() const {
+  return _posPerso;
+}
+
 bool arcade::Snake::updateGame(float const tick) {
   std::vector<Vector2u>::iterator it;
   arcade::Map::CaseMap	**my_map;
@@ -94,17 +95,19 @@ bool arcade::Snake::updateGame(float const tick) {
     newPos.y = it->y;
     break;
   }
+  if (it != _posPerso.end())
+    _posPerso.pop_back();
   _posPerso.insert(it, newPos);
   it = _posPerso.begin();
-//  if (my_map[it->y][it->x] == arcade::Map::Block ||
-//      my_map[it->y][it->x] == arcade::Map::Player)
-//    return false;
-//  else if (my_map[it->y][it->x] == arcade::Map::Object)
-//    {
-//      my_map[it->y][it->x] = arcade::Map::Empty;
-//      _map->createObject();
-//      _score += 10;
-//    }
+ if (my_map[it->y][it->x] == arcade::Map::Block ||
+     my_map[it->y][it->x] == arcade::Map::Player)
+   return false;
+ else if (my_map[it->y][it->x] == arcade::Map::Object)
+   {
+     my_map[it->y][it->x] = arcade::Map::Empty;
+     _map->createObject();
+     _score += 10;
+   }
   _snake->setPos(_posPerso);
   return true;
 }

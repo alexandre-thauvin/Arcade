@@ -15,6 +15,7 @@ namespace                       arcade {
       public:
         virtual                     ~IGame(void) {}
 
+    virtual std::vector<arcade::Vector2u> const&	getPos() const = 0;
         virtual std::string         getGamesName(void) const = 0; // get_name
         virtual void                restart(void) = 0; // relance play
         virtual bool                isPlayerAlive(void) = 0; // check_death

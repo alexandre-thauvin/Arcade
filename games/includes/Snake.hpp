@@ -32,7 +32,7 @@ namespace                           arcade {
         virtual void                goLeft();
         virtual void                goRight();
         virtual void                play();
-
+        virtual std::vector<Vector2u> const&  getPos() const;
 
     private:
         arcade::Map                 *_map;

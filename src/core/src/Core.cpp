@@ -19,7 +19,6 @@
 #define SIZE_Y 600
 
 arcade::Core::Core(void) {
-  arcade::Vector2u	dim(10, 10);
   _state = GameState::MenuState;
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::ESCAPE, InputT::None), std::bind(&arcade::Core::goQuit, this)));
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::ENTER, InputT::None), std::bind(&arcade::Core::goEnter, this)));
@@ -46,7 +45,6 @@ arcade::Core::Core(void) {
   _gameId = GameSize - 1;
   _libId = 0;
   _menuId = 0;
-  _map = new arcade::Map(dim);
 }
 
 arcade::Core::~Core(void) {
@@ -91,11 +89,18 @@ bool                    arcade::Core::play(void)
           case PlayState:
             if (!_game->updateGame(0))
               alive = false;
+	    std::vector<Vector2u>	pos = _game->getPos();
+	    std::vector<Vector2u>::iterator it = pos.begin();
+
+	    _map->create();
+	    for (; it != pos.end(); it++) {
+	      _map->setPosBlock(*it, Map::Player);
+	    }
             drawMap();
-            break;
+	    break;
         }
         _gfx->display();
-        usleep(MAIN_SLEEP);
+	usleep(MAIN_SLEEP);
     }
     return (true);
 }
@@ -158,7 +163,7 @@ void                    arcade::Core::menu(void)
         unsigned last = _gamelib[i].find(".so");
         std::string strNew = _gamelib[i].substr (first +1 , last-first-1);
         a.setText(strNew);
-//        a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
+        a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
         a.setPosition(Vector2i(1, i));
         _gfx->draw(a);
       }
@@ -223,7 +228,6 @@ void                    arcade::Core::goQuit(void)
     case PlayState:
       _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
       _state = MenuState;
-
       break;
   }
 }
@@ -237,7 +241,7 @@ void                    arcade::Core::goEnter(void)
         loadGame(_menuId);
         _state = GameState::PlayState;
         _game->play();
-        _gfx->setWindowSize(_game->getDimension() * 30);
+        _gfx->setWindowSize(_game->getDimension() * 100);
         _gfx->setTitleWindow(_game->getGamesName());
       } else {
         arcade_ragequit(0);
@@ -271,6 +275,8 @@ void                    arcade::Core::loadNextGfx(void)
   _gfx->close();
   _libId = (++_libId > (GfxSize - 1)) ? 0 : _libId;
   loadGfx(_libId);
+  if (_libId == SDL)
+    _gfx->setWindowSize(_game->getDimension() * 30);
 }
 
 void                    arcade::Core::loadPrevGfx(void)
@@ -278,6 +284,8 @@ void                    arcade::Core::loadPrevGfx(void)
   _gfx->close();
   _libId = (--_libId < 0) ? (GfxSize - 1) : _libId;
   loadGfx(_libId);
+  if (_libId == SDL && _state == PlayState)
+    _gfx->setWindowSize(_game->getDimension() * 30);
 }
 
 void                    arcade::Core::loadGame(int id)
@@ -285,6 +293,7 @@ void                    arcade::Core::loadGame(int id)
   std::cout << "LoadGame: " << _gamelib[id%GameSize] << std::endl;
   Loader<IGame> *game_loader = new Loader<IGame>(_gamelib[id%GameSize]);
   _game = game_loader->getInstance("createGame", Vector2u(20, 20));
+  _map = new arcade::Map(_game->getDimension());
   if (_game == NULL)
     throw arcade::Error("Error: ", INFO);
 }
