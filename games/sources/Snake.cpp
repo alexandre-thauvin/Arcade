@@ -106,7 +106,6 @@ bool arcade::Snake::updateGame() {
   else if (_map->getPosBlock(Vector2u(it->x, it->y)) == arcade::Map::Object)
     {
       _posPerso.insert(it, newPos);
-      _map->setPosBlock(Vector2u(it->x, it->y), arcade::Map::Empty);
       _map->createObject();
       _score += 10;
     }
