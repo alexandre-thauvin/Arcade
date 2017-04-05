@@ -25,7 +25,7 @@ namespace                           arcade {
         virtual size_t              getScore(void) const;
         virtual arcade::Vector2u    getDimension(void) const;
         virtual bool                updateGame(float const tick);
-        virtual arcade::Map const   *getMap(void) const;
+        virtual arcade::Map         *getMap(void) const;
         virtual bool                move_player(void);
         virtual void                goDown();
         virtual void                goUp();

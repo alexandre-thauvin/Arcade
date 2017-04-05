@@ -34,7 +34,7 @@ namespace arcade {
         void setPosBlock(Vector2u const &pos, CaseMap casemap);
         void createObject();
 
-        int **getMap() const;
+        CaseMap **getMap() const;
         Vector2u getMapSize() const;
     private:
         Vector2u    _dim;

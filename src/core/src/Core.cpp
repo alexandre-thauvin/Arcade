@@ -72,10 +72,10 @@ void arcade::Core::init(std::string const &lib, std::string const &conf)
 
 bool                    arcade::Core::play(void)
 {
-    arcade::InputT       input;
-    int i = 0;
+    arcade::InputT      input;
+    bool                alive = true;
 
-    while (true)
+    while (alive)
     {
         input = _gfx->getInput();
         if(_input.find(input) != _input.end()) {
@@ -87,15 +87,56 @@ bool                    arcade::Core::play(void)
             menu();
             break;
           case PlayState:
-            _game->updateGame(i++);
-            break;
-          default:
+            alive = false;
             break;
         }
         _gfx->display();
         usleep(MAIN_SLEEP);
     }
+    while (_game->updateGame(0))
+    {
+      input = _gfx->getInput();
+      if(_input.find(input) != _input.end()) {
+        _input[input]();
+      }
+      _gfx->clear();
+      drawMap();
+      _gfx->display();
+      usleep(MAIN_SLEEP);
+    }
     return (true);
+}
+
+void                    arcade::Core::drawMap(void) {
+  int                   todraw;
+  arcade::DrawObject    a;
+  Vector2u              dim = _map->getMapSize();
+
+  for (int height = 0; height < dim.y; height++)
+  {
+    for (int width = 0; width < dim.x; width++)
+    {
+      todraw = _map->getTypeAtPos(width, height);
+      switch (todraw) {
+
+        case Map::Empty:
+        a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
+                                 (unsigned char) 115));
+        _current_gfx->drawCase(width, height, _map->getWidth(), _map->getHeight());
+      else if (todraw == Map::Block)
+        a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
+                                 (unsigned char) 115));
+        _current_gfx->drawItem(width, height, _map->getWidth(), _map->getHeight());
+      else if (todraw == Map::Object)
+        a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
+                                 (unsigned char) 115));
+        _current_gfx->drawWall(width, height, _map->getWidth(), _map->getHeight());
+      else if (todraw == Map::Player)
+        a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
+                                 (unsigned char) 115));
+        _current_gfx->drawCharacter(width, height, _map->getWidth(), _map->getHeight(), "snake");
+    }
+  }
 }
 
 void                    arcade::Core::menu(void)
@@ -148,16 +189,8 @@ void                    arcade::Core::goUp(void)
 
 void                    arcade::Core::goDown(void)
 {
-  switch (_state) {
-    case MenuState:
-     _menuId = (--_menuId < -1) ? GameSize - 1 : _menuId;
-      break;
-    case PlayState:
-      _game->goDown();
-      break;
-    default:
-      break;
-  }
+  if (_state == MenuState)
+    _menuId = (--_menuId < -1) ? GameSize - 1 : _menuId;
 }
 
 void                    arcade::Core::goLeft(void)

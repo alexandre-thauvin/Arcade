@@ -26,6 +26,7 @@
 # include "Utils.hpp"
 # include "IGFX.hpp"
 # include "IGame.hpp"
+# include "Map.hpp"
 
 # define MAIN_SLEEP 10000
 
@@ -64,6 +65,7 @@ namespace                       arcade {
       void                      goQuit(void);
       void                      goEnter(void);
       void                      goShoot(void);
+      void                      drawMap(void);
       void                      menu(void);
       void                      loadGfx(int id);
       void                      loadGame(int id);
@@ -79,6 +81,7 @@ namespace                       arcade {
       GameState                 _state;
       IGFX                      *_gfx;
       IGame                     *_game;
+      Map                       *_map;
       int                       _gameId;
       int                       _libId;
       int                       _menuId;

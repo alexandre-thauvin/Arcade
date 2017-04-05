@@ -21,16 +21,19 @@ void arcade::Snake::play() {
 }
 
 void arcade::Snake::goDown() {
-//  _snake.goDown();
+  _snake->goDown();
 }
 
 void arcade::Snake::goUp() {
+  _snake->goUp();
 }
 
 void arcade::Snake::goLeft() {
+  _snake->goLeft();
 }
 
 void arcade::Snake::goRight() {
+  _snake->goRight();
 }
 
 size_t arcade::Snake::getScore(void) const {
@@ -52,7 +55,7 @@ arcade::Vector2u arcade::Snake::getDimension(void) const {
   return (_dim);
 }
 
-arcade::Map const *arcade::Snake::getMap(void) const {
+arcade::Map *arcade::Snake::getMap(void) const {
   return _map;
 }
 
