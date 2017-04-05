@@ -13,8 +13,8 @@
 #include "Map.hpp"
 
 arcade::Map::Map(Vector2u const &dim) : _dim(dim) {
-  _map = new CaseMap*[dim.y];
-  for (unsigned int i = 0; i < dim.y;++i) {
+  _map = new CaseMap *[dim.y];
+  for (unsigned int i = 0; i < dim.y; ++i) {
     _map[i] = new CaseMap[dim.x];
   }
   create();
@@ -30,23 +30,24 @@ arcade::Map::~Map() {
 arcade::Map::Map(arcade::Map const &other) {
   _dim = other.getMapSize();
 
-  _map = new CaseMap*[_dim.y];
-  for (unsigned int i = 0; i < _dim.y;++i) {
+  _map = new CaseMap *[_dim.y];
+  for (unsigned int i = 0; i < _dim.y; ++i) {
     _map[i] = new CaseMap[_dim.x];
   }
 }
 
 arcade::Map &arcade::Map::operator=(arcade::Map const &other) {
-  (void)other;
+  (void) other;
   return (*this);
 }
 
 void arcade::Map::create() {
   Vector2u tmp;
 
-  for (tmp.y = 0; tmp.y < _dim.y; ++tmp.y){
+  for (tmp.y = 0; tmp.y < _dim.y; ++tmp.y) {
     for (tmp.x = 0; tmp.x < _dim.x; ++tmp.x) {
-      if (tmp.x == 0 || tmp.y == 0 || tmp.y == _dim.y-1 || tmp.x == _dim.x-1)
+      if (tmp.x == 0 || tmp.y == 0 || tmp.y == _dim.y - 1 ||
+          tmp.x == _dim.x - 1)
         _map[tmp.y][tmp.x] = Block;
       else
         _map[tmp.y][tmp.x] = Empty;
@@ -57,24 +58,25 @@ void arcade::Map::create() {
 void arcade::Map::clear() {
   Vector2u tmp;
 
-  for (tmp.y = 0; tmp.y < _dim.y; ++tmp.y){
+  for (tmp.y = 0; tmp.y < _dim.y; ++tmp.y) {
     for (tmp.x = 0; tmp.x < _dim.x; ++tmp.x) {
-      if (_map[tmp.y][tmp.x] != Object)
-	{
-	  if (tmp.x == 0 || tmp.y == 0 || tmp.y == _dim.y-1 || tmp.x == _dim.x-1)
-	    _map[tmp.y][tmp.x] = Block;
-	  else
-	    _map[tmp.y][tmp.x] = Empty;
-	}
+      if (_map[tmp.y][tmp.x] != Object) {
+        if (tmp.x == 0 || tmp.y == 0 || tmp.y == _dim.y - 1 ||
+            tmp.x == _dim.x - 1)
+          _map[tmp.y][tmp.x] = Block;
+        else
+          _map[tmp.y][tmp.x] = Empty;
+      }
     }
   }
 }
 
-arcade::Map::CaseMap arcade::Map::getPosBlock(Vector2u const& pos) const {
+arcade::Map::CaseMap arcade::Map::getPosBlock(Vector2u const &pos) const {
   return _map[pos.y][pos.x]; //TODO: ERROR CHECK
 }
 
-void arcade::Map::setPosBlock(Vector2u const& pos, arcade::Map::CaseMap casemap) {
+void
+arcade::Map::setPosBlock(Vector2u const &pos, arcade::Map::CaseMap casemap) {
   _map[pos.y][pos.x] = casemap;
 }
 
@@ -82,21 +84,18 @@ arcade::Vector2u arcade::Map::getMapSize() const {
   return _dim;
 }
 
-arcade::Map::CaseMap**	arcade::Map::getMap() const{
+arcade::Map::CaseMap **arcade::Map::getMap() const {
   return _map;
 }
 
 void arcade::Map::createObject() {
-  Vector2u	tmp;
+  Vector2u tmp;
 
   srand(time(NULL));
   tmp.x = rand() % (_dim.x - 2) + 1;
   tmp.y = rand() % (_dim.y - 2) + 1;
-  if (_map[tmp.y][tmp.x] == Player || _map[tmp.y][tmp.x] == Block)
-    {
-      tmp.x = rand() % (_dim.x - 2) + 1;
-      tmp.y = rand() % (_dim.y - 2) + 1;
-    }
-  else  
+  if (_map[tmp.y][tmp.x] == Player || _map[tmp.y][tmp.x] == Block) {
+    createObject();
+  } else
     _map[tmp.y][tmp.x] = Object;
 }

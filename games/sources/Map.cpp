@@ -98,10 +98,7 @@ void arcade::Map::createObject() {
   tmp.x = rand() % (_dim.x - 2) + 1;
   tmp.y = rand() % (_dim.y - 2) + 1;
   if (_map[tmp.y][tmp.x] == Player || _map[tmp.y][tmp.x] == Block)
-    {
-      tmp.x = rand() % (_dim.x - 2) + 1;
-      tmp.y = rand() % (_dim.y - 2) + 1;
-    }
+    createObject();
   else
     _map[tmp.y][tmp.x] = Object;
 }

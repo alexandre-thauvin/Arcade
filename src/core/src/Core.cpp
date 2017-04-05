@@ -89,35 +89,32 @@ void arcade::Core::init(std::string const &lib, std::string const &conf) {
   }
 }
 
-bool                    arcade::Core::play(void)
-{
-    arcade::InputT      input;
-    bool                alive = true;
-    unsigned int t = 0;
-    int f;
+bool arcade::Core::play(void) {
+  arcade::InputT input;
+  bool           alive = true;
+  unsigned int   t     = 0;
+  int            f;
 
-    while (alive)
-      {
-        input = _gfx->getInput();
-        if(_input.find(input) != _input.end()) {
-	  _input[input]();
-        }
-        _gfx->clear();
-        switch (_state) {
-	case MenuState:
-	  menu();
-	  break;
-	case PlayState:
-	  if ((++t % 200 == 0) && !_game->updateGame())
-	    alive = false;
-	  _map = _game->getMap();
-	  break;
-	}
-	drawMap();
-	usleep(MAIN_SLEEP);
+  while (alive) {
+    input = _gfx->getInput();
+    if (_input.find(input) != _input.end()) {
+      _input[input]();
+    }
+    _gfx->clear();
+    switch (_state) {
+      case MenuState:
+        menu();
+        break;
+      case PlayState:
+        if ((++t % 100 == 0) && !_game->updateGame())
+          alive = false;
+        drawMap();
+        break;
+    }
+    usleep(MAIN_SLEEP);
     _gfx->display();
-      }
-    return (true);
+  }
+  return (true);
 }
 
 void arcade::Core::drawMap(void) {
@@ -153,7 +150,7 @@ void arcade::Core::drawMap(void) {
       }
       switch (_libId) {
         case 0:
-          a.setSize(Vector2u(55, 55));
+          a.setSize(Vector2u(28, 28));
           a.setPosition(pos * 30);
           break;
         case 1:
@@ -184,7 +181,7 @@ void arcade::Core::menu(void) {
       }
       break;
     case 1:
-      a.setSize(Vector2u(SIZE_X -1, 1));
+      a.setSize(Vector2u(SIZE_X - 1, 1));
       a.setPosition(Vector2i(0, 0));
       _gfx->draw(a);
       for (int i = 0; i <= GameSize; ++i) {
@@ -193,7 +190,7 @@ void arcade::Core::menu(void) {
         std::string strNew = _gamelib[i].substr(first + 1, last - first - 1);
         a.setText(strNew);
         a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 1 : 2), 1));
-        a.setPosition(Vector2i(5, i+1));
+        a.setPosition(Vector2i(5, i + 1));
         _gfx->draw(a);
       }
       break;
@@ -202,8 +199,7 @@ void arcade::Core::menu(void) {
   }
 }
 
-void                    arcade::Core::goUp(void)
-{
+void arcade::Core::goUp(void) {
   switch (_state) {
     case MenuState:
       _menuId = (++_menuId > GameSize - 1) ? -1 : _menuId;
@@ -216,17 +212,16 @@ void                    arcade::Core::goUp(void)
   }
 }
 
-void                    arcade::Core::goDown(void)
-{
+void arcade::Core::goDown(void) {
   switch (_state) {
-  case MenuState:
-    _menuId = (--_menuId < -1) ? GameSize - 1 : _menuId;
-    break;
-  case PlayState:
-    _game->goDown();
-    break;
-  default:
-    break;
+    case MenuState:
+      _menuId = (--_menuId < -1) ? GameSize - 1 : _menuId;
+      break;
+    case PlayState:
+      _game->goDown();
+      break;
+    default:
+      break;
   }
 }
 
@@ -242,8 +237,7 @@ void arcade::Core::goLeft(void) {
   }
 }
 
-void                    arcade::Core::goRight(void)
-{
+void arcade::Core::goRight(void) {
   switch (_state) {
     case MenuState:
       break;
@@ -296,6 +290,8 @@ void arcade::Core::goShoot(void) {
 
 void arcade::Core::loadGfx(int id) {
   std::cout << "LoadGfx: " << _gfxlib[id % GfxSize] << std::endl;
+  if (_gfx)
+    delete _gfx;
   Loader <IGFX> *gfx_loader = new Loader<IGFX>(_gfxlib[id % GfxSize]);
   _gfx = gfx_loader->getInstance("createLib", Vector2u(SIZE_X, SIZE_Y));
   if (_gfx == NULL)
@@ -320,9 +316,11 @@ void arcade::Core::loadPrevGfx(void) {
 
 void arcade::Core::loadGame(int id) {
   std::cout << "LoadGame: " << _gamelib[id % GameSize] << std::endl;
+  if (_game)
+    delete _game;
   Loader <IGame> *game_loader = new Loader<IGame>(_gamelib[id % GameSize]);
   _game = game_loader->getInstance("createGame", Vector2u(20, 20));
-  _map = _game->getMap();
+  _map  = _game->getMap();
   if (_game == NULL)
     throw arcade::Error("Error: ", INFO);
 }
