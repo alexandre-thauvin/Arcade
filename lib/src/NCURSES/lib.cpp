@@ -71,18 +71,20 @@ void           arcade::GfxNCURSES::draw(DrawObject const& obj) {
   unsigned int	      j;
 
   i = pos.y;
-  while (i < (size.y + pos.y))
-    {
+  if (obj.getText().empty()) {
+    while (i < (size.y + pos.y)) {
       j = pos.x;
-      while (j < (size.x + pos.x))
-	{
-	  if (i == (pos.y) || j == (pos.x) ||
-	      j == (size.x - 1 + pos.x) || i == (size.y - 1 + pos.y))
-	    mvaddch(i, j, '#');
-	  j++;
-	}
+      while (j < (size.x + pos.x)) {
+        if (i == (pos.y) || j == (pos.x) ||
+            j == (size.x - 1 + pos.x) || i == (size.y - 1 + pos.y))
+          mvaddch(i, j, '#');
+        j++;
+      }
       i++;
     }
+  } else {
+    mvprintw(pos.y, pos.x, obj.getText().c_str());
+  }
   // SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255 );
 }
 
