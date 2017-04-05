@@ -28,7 +28,7 @@
 # include "IGame.hpp"
 # include "Map.hpp"
 
-# define MAIN_SLEEP 100000
+# define MAIN_SLEEP 1000
 
 namespace                       arcade {
     enum                        GameState {
