@@ -100,7 +100,7 @@ bool                    arcade::Core::play(void)
         _input[input]();
       }
       _gfx->clear();
-//      drawMap();
+      drawMap();
       _gfx->display();
       usleep(MAIN_SLEEP);
     }
@@ -135,7 +135,7 @@ void                    arcade::Core::drawMap(void) {
           break;
       }
       a.setSize(Vector2u(30, 30));
-      a.setPosition(pos);
+      a.setPosition(pos * 30);
       _gfx->draw(a);
     }
   }
