@@ -13,28 +13,27 @@ arcade::Personnage& arcade::Personnage::operator=(Personnage const& pers) {
 }
 
 void	arcade::Personnage::goUp() {
-  _dir = D_UP;
+  if (_dir != D_DOWN)
+    _dir = D_UP;
 }
 
 void	arcade::Personnage::goDown() {
-  _dir = D_DOWN;
+  if (_dir != D_UP)
+    _dir = D_DOWN;
 }
 
 void	arcade::Personnage::goRight() {
-  _dir = D_RIGHT;
+  if (_dir != D_LEFT)
+    _dir = D_RIGHT;
 }
 
 void	arcade::Personnage::goLeft() {
+  if (_dir != D_RIGHT)
   _dir = D_LEFT;
 }
 
 void	arcade::Personnage::setPos(std::vector<arcade::Vector2u> const& listPos) {
   _pos = listPos;
- //  std::vector<arcade::Vector2u>::iterator it = listPos.begin();
- // _pos.erase(_pos.begin(), _pos.end());
- // for (; it != listPos.end(); it++) {
- //   _pos.push_back(*it);
- // }
 }
 
 std::vector<arcade::Vector2u> const&	arcade::Personnage::getPos() const {

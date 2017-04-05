@@ -2,6 +2,7 @@
 # define PERSONNAGE_HPP_
 
 #include "Utils.hpp"
+#include "Map.hpp"
 #include <vector>
 
 namespace	arcade {
@@ -17,7 +18,7 @@ namespace	arcade {
   public:
     Personnage();
     ~Personnage(){};
-   Personnage& operator=(Personnage const&);
+    Personnage& operator=(Personnage const&);
     Direction const&	getDir() const;
     void	goUp();
     void	goDown();
