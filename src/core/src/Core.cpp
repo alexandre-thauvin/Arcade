@@ -19,6 +19,7 @@
 #define SIZE_Y 600
 
 arcade::Core::Core(void) {
+  arcade::Vector2u	dim(10, 10);
   _state = GameState::MenuState;
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::ESCAPE, InputT::None), std::bind(&arcade::Core::goQuit, this)));
   _input.insert(std::make_pair(InputT(InputT::KeyPressed, Input::ENTER, InputT::None), std::bind(&arcade::Core::goEnter, this)));
@@ -45,6 +46,7 @@ arcade::Core::Core(void) {
   _gameId = GameSize - 1;
   _libId = 0;
   _menuId = 0;
+  _map = new arcade::Map(dim);
 }
 
 arcade::Core::~Core(void) {
