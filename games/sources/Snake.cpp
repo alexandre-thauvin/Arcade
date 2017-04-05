@@ -75,6 +75,7 @@ bool arcade::Snake::updateGame(float const tick) {
   my_map = _map->getMap();
   _posPerso = _snake->getPos();
   it = _posPerso.begin();
+  (void)my_map;
   switch(dir) {
   case D_UP :
     newPos.x =  it->x;
@@ -95,15 +96,15 @@ bool arcade::Snake::updateGame(float const tick) {
   }
   _posPerso.insert(it, newPos);
   it = _posPerso.begin();
-  if (my_map[it->y][it->x] == arcade::Map::Block ||
-      my_map[it->y][it->x] == arcade::Map::Player)
-    return false;
-  else if (my_map[it->y][it->x] == arcade::Map::Object)
-    {
-      my_map[it->y][it->x] = arcade::Map::Empty;
-      _map->createObject();
-      _score += 10;
-    }
+//  if (my_map[it->y][it->x] == arcade::Map::Block ||
+//      my_map[it->y][it->x] == arcade::Map::Player)
+//    return false;
+//  else if (my_map[it->y][it->x] == arcade::Map::Object)
+//    {
+//      my_map[it->y][it->x] = arcade::Map::Empty;
+//      _map->createObject();
+//      _score += 10;
+//    }
   _snake->setPos(_posPerso);
   return true;
 }

@@ -89,22 +89,13 @@ bool                    arcade::Core::play(void)
             menu();
             break;
           case PlayState:
-            alive = false;
+            if (!_game->updateGame(0))
+              alive = false;
+            drawMap();
             break;
         }
         _gfx->display();
         usleep(MAIN_SLEEP);
-    }
-    while (_game->updateGame(0))
-    {
-      input = _gfx->getInput();
-      if(_input.find(input) != _input.end()) {
-        _input[input]();
-      }
-      _gfx->clear();
-      drawMap();
-      _gfx->display();
-      usleep(MAIN_SLEEP);
     }
     return (true);
 }
@@ -120,15 +111,15 @@ void                    arcade::Core::drawMap(void) {
       todraw = _map->getPosBlock(pos);
       switch (todraw) {
         case arcade::Map::Empty:
-          a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
-                                   (unsigned char) 115));
+          a.setColor(arcade::Color((unsigned char) 60, (unsigned char) 66,
+                                   (unsigned char) 78));
           break;
         case arcade::Map::Block:
-          a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
-                                   (unsigned char) 115));
+          a.setColor(arcade::Color((unsigned char) 27, (unsigned char) 29,
+                                   (unsigned char) 35));
           break;
         case arcade::Map::Object:
-          a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
+          a.setColor(arcade::Color((unsigned char) 110, (unsigned char) 238,
                                    (unsigned char) 115));
           break;
         case arcade::Map::Player:
@@ -136,8 +127,8 @@ void                    arcade::Core::drawMap(void) {
                                    (unsigned char) 115));
           break;
       }
-      a.setSize(Vector2u(30, 30));
-      a.setPosition(pos * 30);
+      a.setSize(Vector2u(55, 55));
+      a.setPosition(pos * 60);
       _gfx->draw(a);
     }
   }
@@ -232,6 +223,7 @@ void                    arcade::Core::goQuit(void)
     case PlayState:
       _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
       _state = MenuState;
+
       break;
   }
 }
