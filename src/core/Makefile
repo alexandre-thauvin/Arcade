@@ -17,8 +17,9 @@ PARAM			?=
 NAME			=		../../arcade
 
 SRCS			=		main.cpp \
-                    DrawObject.cpp \
-					Core.cpp
+                        DrawObject.cpp \
+                        Map.cpp \
+					    Core.cpp
 
 GAMES			=		games/
 

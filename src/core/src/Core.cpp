@@ -100,7 +100,7 @@ bool                    arcade::Core::play(void)
         _input[input]();
       }
       _gfx->clear();
-      drawMap();
+//      drawMap();
       _gfx->display();
       usleep(MAIN_SLEEP);
     }
@@ -108,33 +108,35 @@ bool                    arcade::Core::play(void)
 }
 
 void                    arcade::Core::drawMap(void) {
-  int                   todraw;
-  arcade::DrawObject    a;
-  Vector2u              dim = _map->getMapSize();
+  int                todraw;
+  arcade::DrawObject a;
+  Vector2u           dim = _map->getMapSize();
+  Vector2u           pos;
 
-  for (int height = 0; height < dim.y; height++)
-  {
-    for (int width = 0; width < dim.x; width++)
-    {
-      todraw = _map->getTypeAtPos(width, height);
+  for (pos.y = 0; pos.y < dim.y; pos.y++) {
+    for (pos.x = 0; pos.x < dim.x; pos.x++) {
+      todraw = _map->getPosBlock(pos);
       switch (todraw) {
-
-        case Map::Empty:
-        a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
-                                 (unsigned char) 115));
-        _current_gfx->drawCase(width, height, _map->getWidth(), _map->getHeight());
-      else if (todraw == Map::Block)
-        a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
-                                 (unsigned char) 115));
-        _current_gfx->drawItem(width, height, _map->getWidth(), _map->getHeight());
-      else if (todraw == Map::Object)
-        a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
-                                 (unsigned char) 115));
-        _current_gfx->drawWall(width, height, _map->getWidth(), _map->getHeight());
-      else if (todraw == Map::Player)
-        a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
-                                 (unsigned char) 115));
-        _current_gfx->drawCharacter(width, height, _map->getWidth(), _map->getHeight(), "snake");
+        case arcade::Map::Empty:
+          a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
+                                   (unsigned char) 115));
+          break;
+        case arcade::Map::Block:
+          a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
+                                   (unsigned char) 115));
+          break;
+        case arcade::Map::Object:
+          a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
+                                   (unsigned char) 115));
+          break;
+        case arcade::Map::Player:
+          a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
+                                   (unsigned char) 115));
+          break;
+      }
+      a.setSize(Vector2u(30, 30));
+      a.setPosition(pos);
+      _gfx->draw(a);
     }
   }
 }
