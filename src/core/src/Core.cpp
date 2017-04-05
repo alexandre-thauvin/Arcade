@@ -14,6 +14,7 @@
 
 #include "Core.hpp"
 #include "Loader.hpp"
+#include <ctime>
 
 #define SIZE_X 400
 #define SIZE_Y 600
@@ -74,6 +75,8 @@ bool                    arcade::Core::play(void)
 {
     arcade::InputT      input;
     bool                alive = true;
+    unsigned int t = 0;
+    int f;
 
     while (alive)
     {
@@ -87,7 +90,7 @@ bool                    arcade::Core::play(void)
             menu();
             break;
           case PlayState:
-            if (!_game->updateGame(0))
+            if (!_game->updateGame(++t))
               alive = false;
 	    std::vector<Vector2u>	pos = _game->getPos();
 	    std::vector<Vector2u>::iterator it = pos.begin();
@@ -134,7 +137,7 @@ void                    arcade::Core::drawMap(void) {
           break;
       }
       a.setSize(Vector2u(55, 55));
-      a.setPosition(pos * 60);
+      a.setPosition(pos * 30);
       _gfx->draw(a);
     }
   }
@@ -250,7 +253,7 @@ void                    arcade::Core::goEnter(void)
         loadGame(_menuId);
         _state = GameState::PlayState;
         _game->play();
-        _gfx->setWindowSize(_game->getDimension() * 100);
+        _gfx->setWindowSize(_game->getDimension() * 30);
         _gfx->setTitleWindow(_game->getGamesName());
       } else {
         arcade_ragequit(0);
