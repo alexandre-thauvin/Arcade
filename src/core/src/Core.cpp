@@ -76,14 +76,14 @@ void arcade::Core::init(std::string const &lib, std::string const &conf) {
   (void) conf;
   try {
     signal(SIGINT, arcade_ragequit);
-    for (std::map<int, std::string>::iterator it = _gfxlib.begin();
-         it != _gfxlib.end(); ++it)
-      if (it->second == lib) {
-        _libId = it->first;
-        loadGfx(_libId);
-      }
+    if (lib.empty()) {
+      loadGfx(_libId);
+    } else {
+      Loader <IGFX> *gfx_loader = new Loader<IGFX>(_gfxlib[_libId]);
+      _gfx = gfx_loader->getInstance("createLib", Vector2u(SIZE_X, SIZE_Y));
+    }
     if (_gfx == NULL)
-      throw Error("Error: I can't Load GFX Library: ", lib, "", 0);
+      throw arcade::Error("Error: ", INFO);
   } catch (Error &e) {
     throw (e);
   }
@@ -334,9 +334,10 @@ void arcade::Core::loadGame(int id) {
     delete _game;
   Loader <IGame> *game_loader = new Loader<IGame>(_gamelib[id % GameSize]);
   _game = game_loader->getInstance("createGame", Vector2u(20, 20));
-  _map  = _game->getMap();
   if (_game == NULL)
     throw arcade::Error("Error: ", INFO);
+  _map  = _game->getMap();
+  _gfx->setTitleWindow(_game->getGamesName());
 }
 
 void arcade::Core::loadNextGame(void) {
