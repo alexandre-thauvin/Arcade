@@ -50,7 +50,7 @@ arcade::Core::Core(void) {
           std::bind(&arcade::Core::loadNextGfx, this)));
 
   _gfxlib[SDL]     = "./lib/lib_arcade_sdl.so";
-  _gfxlib[OPENGL]  = "./lib/lib_arcade_opengl.so";
+//  _gfxlib[OPENGL]  = "./lib/lib_arcade_opengl.so";
   _gfxlib[NCURSES] = "./lib/lib_arcade_ncurses.so";
 
   _gamelib[SNAKE]    = "games/lib_arcade_snake.so";
@@ -316,14 +316,16 @@ void arcade::Core::loadNextGfx(void) {
   loadGfx(_libId);
   if (_libId == SDL)
     _gfx->setWindowSize(_game->getDimension() * 30);
+  _state = PauseState;
 }
 
 void arcade::Core::loadPrevGfx(void) {
   _gfx->close();
   _libId = (--_libId < 0) ? (GfxSize - 1) : _libId;
   loadGfx(_libId);
-  if (_libId == SDL && _state == PlayState)
+  if (_libId == SDL)
     _gfx->setWindowSize(_game->getDimension() * 30);
+  _state = PauseState;
 }
 
 void arcade::Core::loadGame(int id) {

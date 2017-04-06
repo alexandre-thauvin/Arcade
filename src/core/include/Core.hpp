@@ -47,8 +47,8 @@ namespace                       arcade {
     {
         SDL = 0,
         NCURSES = 1,
-        OPENGL = 2,
-        GfxSize = 3
+//        OPENGL = 4,
+        GfxSize = 2
     };
   class                         Core {
     public:

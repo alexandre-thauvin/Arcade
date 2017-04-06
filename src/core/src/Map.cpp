@@ -98,8 +98,5 @@ void arcade::Map::createObject(Vector2u const& pos) {
     tmp.x = rand() % _dim.x + 1;
     tmp.y = rand() % _dim.y + 1;
     } 
-  std::cout << "TMP = " << tmp << "\n";
-  std::cout << "map = " << _map[tmp.y][tmp.x] << "\n";
   _map[tmp.y][tmp.x] = Object;
-  std::cout << "map = " << _map[tmp.y][tmp.x] << "\n";
 }
