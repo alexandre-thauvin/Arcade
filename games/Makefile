@@ -10,7 +10,7 @@ LIB     =	lib_arcade_snake.so
 
 OBJ	=       $(SRC:.cpp=.o)
 
-GXX	=       g++ -g
+GXX	=       g++
 
 RM	=       rm -rf
 
