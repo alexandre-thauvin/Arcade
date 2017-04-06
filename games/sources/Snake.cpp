@@ -14,6 +14,7 @@ arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
   _map->setPosBlock(arcade::Vector2u(dim.x / 2 - 1, dim.y / 2), arcade::Map::Player);
   _map->setPosBlock(arcade::Vector2u(dim.x / 2 - 2, dim.y / 2), arcade::Map::Player);
   _map->createObject(Vector2u(0, 0));
+  _name = "Snake";
 }
 
 bool arcade::Snake::isPlayerAlive() {
