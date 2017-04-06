@@ -91,11 +91,10 @@ void arcade::Core::init(std::string const &lib, std::string const &conf) {
 
 bool arcade::Core::play(void) {
   arcade::InputT input;
-  bool           alive = true;
   clock_t        t;
 
   t = clock();
-  while (alive) {
+  while (true) {
     input = _gfx->getInput();
     if (_input.find(input) != _input.end()) {
       _input[input]();
@@ -107,9 +106,11 @@ bool arcade::Core::play(void) {
         break;
       case PlayState:
         if ((clock() - t) > 100000) {
-          t = clock();
-          if (!_game->updateGame())
-            alive = false;
+          t       = clock();
+          if (!_game->updateGame()) {
+            _state = MenuState;
+            _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
+          }
         }
         drawMap();
         break;
@@ -120,7 +121,6 @@ bool arcade::Core::play(void) {
     usleep(MAIN_SLEEP);
     _gfx->display();
   }
-  return (true);
 }
 
 void arcade::Core::drawMap(void) {
@@ -277,7 +277,7 @@ void arcade::Core::goEnter(void) {
     case MenuState:
       if (_menuId >= 0) {
         loadGame(_menuId);
-        _state = GameState::PlayState;
+        _state = GameState::PauseState;
         _game->play();
         _gfx->setWindowSize(_game->getDimension() * 30);
         _gfx->setTitleWindow(_game->getGamesName());

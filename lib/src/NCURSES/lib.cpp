@@ -5,7 +5,7 @@
 // Login   <cedric.clemenceau@epitech.eu>
 // 
 // Started on  Mon Mar 27 23:28:07 2017 Cedric
-// Last update Wed Apr  5 02:29:25 2017 Cedric
+// Last update Thu Apr  6 16:31:51 2017 Cedric
 //
 
 #include "libNCURSES.hpp"
@@ -25,10 +25,10 @@ arcade::GfxNCURSES::GfxNCURSES(Vector2u const& dim) {
   _input[115] = InputT(InputT::KeyPressed, Input::DOWN, InputT::None);
   _input[100] = InputT(InputT::KeyPressed, Input::RIGHT, InputT::None);
   _input[113] = InputT(InputT::KeyPressed, Input::LEFT, InputT::None);
-  _input[65] = InputT(InputT::KeyPressed, Input::UP, InputT::None);
-  _input[66] = InputT(InputT::KeyPressed, Input::DOWN, InputT::None);
-  _input[67] = InputT(InputT::KeyPressed, Input::RIGHT, InputT::None);
-  _input[68] = InputT(InputT::KeyPressed, Input::LEFT, InputT::None);
+  _input[KEY_UP] = InputT(InputT::KeyPressed, Input::UP, InputT::None);
+  _input[KEY_DOWN] = InputT(InputT::KeyPressed, Input::DOWN, InputT::None);
+  _input[KEY_RIGHT] = InputT(InputT::KeyPressed, Input::RIGHT, InputT::None);
+  _input[KEY_LEFT] = InputT(InputT::KeyPressed, Input::LEFT, InputT::None);
   _input[32] = InputT(InputT::KeyPressed, Input::SPACE, InputT::None);
   _input[105] = InputT(InputT::KeyPressed, Input::PREV_LIB, InputT::None);
   _input[112] = InputT(InputT::KeyPressed, Input::NEXT_LIB, InputT::None);

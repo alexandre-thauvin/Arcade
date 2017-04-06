@@ -5,10 +5,14 @@
 #include "Snake.hpp"
 
 arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
-  _posPerso.push_back(arcade::Vector2u(dim.x / 2 + 1, dim.y / 2 + 1));
+  _posPerso.push_back(arcade::Vector2u(dim.x / 2, dim.y / 2));
+  _posPerso.push_back(arcade::Vector2u(dim.x / 2 - 1, dim.y / 2));
+  _posPerso.push_back(arcade::Vector2u(dim.x / 2 - 2, dim.y / 2));
   _map = new arcade::Map(dim);
   _snake = new arcade::Personnage();
-  _map->setPosBlock(arcade::Vector2u(dim.x / 2 + 1, dim.y / 2 + 1), arcade::Map::Player);
+  _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y / 2), arcade::Map::Player);
+  _map->setPosBlock(arcade::Vector2u(dim.x / 2 - 1, dim.y / 2), arcade::Map::Player);
+  _map->setPosBlock(arcade::Vector2u(dim.x / 2 - 2, dim.y / 2), arcade::Map::Player);
   _map->createObject(Vector2u(0, 0));
 }
 
@@ -75,7 +79,6 @@ bool arcade::Snake::updateGame() {
   Vector2u		tmp(0, 0);
 
   dir = _snake->getDir();
-  _posPerso = _snake->getPos();
   it = _posPerso.begin();
   switch(dir) {
   case D_UP :
@@ -95,8 +98,7 @@ bool arcade::Snake::updateGame() {
     newPos.y = it->y;
     break;
   }
-  if (it != _posPerso.end())
-    _posPerso.pop_back();
+  _posPerso.pop_back();
   if (_map->getPosBlock(newPos) == arcade::Map::Player)
     return false;
   _map->clear();
