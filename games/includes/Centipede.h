@@ -1,64 +1,50 @@
 //
-// Created by thauvi_a on 3/20/17.
+// Created by thauvi_a on 4/6/17.
 //
 
-#ifndef ARCADE_CENTIPEDE_H
-#define ARCADE_CENTIPEDE_H
+#ifndef CPP_ARCADE_CENTIPEDE_H
+#define CPP_ARCADE_CENTIPEDE_H
+
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include "../../src/core/include/Map.hpp"
+#include "Personnage.hpp"
 #include "IGame.hpp"
 
-#define BODY	(-2)
-#define HEAD	(-1)
-#define CHAMP	(4)
-#define TOWER	(100)
-#define SPIDER	(-10)
+namespace                           arcade {
+  class                           Centipede : public arcade::IGame {
+   public:
+    Centipede(arcade::Vector2u const& dim);
+    virtual                     ~Centipede() {};
 
-class Centipede : public arcade::IGames{
- public:
-  Centipede(arcade::Vector2u);
-  ~Centipede(){};
-  std::list<arcade::Vector2u>		getCentiPosition(void);
-  std::list<arcade::Vector2u>		getChampPosition(void);
-  std::list<arcade::Vector2u>		getObjectPosition(arcade::object);
-  std::list<arcade::Vector2u> 		&getPlayerPosition(void)
-  arcade::Vector2u        		getDimension(void) const;
-  arcade::Vector2u 			&getTowerPosition(void)
-  std::string     			getGamesName(void) const;
-  size_t        			getScore(void) const;
-  bool 					isPlayerAlive();
-  bool            			isPlayerWin(void) const;
-  bool            			updateGame(float const tick);
-  void 					init();
-  bool 					move_player();
-  bool 					move_ia();
-  void 					init_champ();
-  void 					init_centi();
-  void 					move_body();
-  void 					replace_head(unsigned int);
-  void 					goDown();
-  void 					goUp();
-  void 					goLeft();
-  void 					goRight();
-  void 					pop();
-  void 					update_key(arcade::Input);
-  void 					play();
-  void 					split();
-  void            			restart(void);
-  void 					shoot();
-  void 					find_tower();
- private:
-  arcade::Vector2u			tower;
-  arcade::Vector2u			dim;
-  arcade::Vector2u			spider;
-  arcade::Input				mv;
-  std::string				name;
-  unsigned int				score;
-  unsigned int				nb_centi;
-  int 					**map;
-  bool 					state;
-};
+    virtual                     std::string getGamesName(void) const;
+    virtual void                restart(void);
+    virtual bool                isPlayerAlive();
+    virtual bool                isPlayerWin(void) const;
+    virtual size_t              getScore(void) const;
+    virtual arcade::Vector2u    getDimension(void) const;
+    virtual bool                updateGame();
+    virtual arcade::Map         *getMap(void) const;
+    virtual bool                move_player(void);
+    virtual void                goDown();
+    virtual void                goUp();
+    virtual void                goLeft();
+    virtual void                goRight();
+    virtual void                play();
+    virtual std::vector<Vector2u> const&  getPos() const;
 
+   private:
+    arcade::Map                 *_map;
+    arcade::Personnage          *_snake;
+    arcade::Vector2u            _dim;
+    std::vector<Vector2u>	    _posPerso;
+    std::string                 _name;
+    bool                        _state;
+    bool                        _alive;
+    unsigned int                _score;
+    unsigned int		    food;
+  };
+}
 
-#endif //ARCADE_CENTIPEDE_H
+#endif //CPP_ARCADE_CENTIPEDE_H
