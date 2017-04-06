@@ -11,6 +11,7 @@
 #include "../../src/core/include/Map.hpp"
 #include "Personnage.hpp"
 #include "IGame.hpp"
+#include "Protocol.hpp"
 
 namespace                           arcade {
     class                           Snake : public arcade::IGame {
@@ -33,6 +34,8 @@ namespace                           arcade {
         virtual void                goRight();
         virtual void                play();
         virtual std::vector<Vector2u> const&  getPos() const;
+        void				getMap();
+        void				whereAmI();
 
     private:
         arcade::Map                 *_map;
@@ -43,7 +46,7 @@ namespace                           arcade {
         bool                        _state;
         bool                        _alive;
         unsigned int                _score;
-        unsigned int		    food;
+        unsigned int		        food;
     };
 }
 

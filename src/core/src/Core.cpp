@@ -172,6 +172,7 @@ void arcade::Core::drawMap(void) {
 void arcade::Core::menu(void) {
   arcade::DrawObject a;
   arcade::Vector2i   pos;
+  std::string        selector("[ ]");
 
   switch (_libId) {
     case 0:
@@ -183,24 +184,18 @@ void arcade::Core::menu(void) {
         a.setPosition(Vector2i((_menuId == i) ? 30 : 50,
                                SIZE_Y - (150 + (100 * (i + 1)))));
         _gfx->draw(a);
-
       }
       break;
     case 1:
       a.setSize(Vector2u(SIZE_X - 1, 1));
       a.setPosition(Vector2i(0, 0));
       _gfx->draw(a);
-      for (int i = 0; i <= GameSize; ++i) {
-        unsigned    first  = _gamelib[i].find("lib_");
-        unsigned    last   = _gamelib[i].find(".so");
-        std::string strNew = _gamelib[i].substr(first + 1, last - first - 1);
-        a.setText(strNew);
+      for (int i = 0; i < GameSize; ++i) {
         a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 1 : 2), 1));
         a.setPosition(Vector2i(5, i + 1));
+        a.setText((_menuId == i) ? selector.append(_gfxlib[i]) : selector.append(_gfxlib[i]));
         _gfx->draw(a);
       }
-      break;
-    case 2:
       break;
   }
 }
@@ -316,7 +311,8 @@ void arcade::Core::loadNextGfx(void) {
   loadGfx(_libId);
   if (_libId == SDL)
     _gfx->setWindowSize(_game->getDimension() * 30);
-  _state = PauseState;
+  if (_state != MenuState)
+    _state = PauseState;
 }
 
 void arcade::Core::loadPrevGfx(void) {
@@ -325,7 +321,8 @@ void arcade::Core::loadPrevGfx(void) {
   loadGfx(_libId);
   if (_libId == SDL)
     _gfx->setWindowSize(_game->getDimension() * 30);
-  _state = PauseState;
+  if (_state != MenuState)
+    _state = PauseState;
 }
 
 void arcade::Core::loadGame(int id) {

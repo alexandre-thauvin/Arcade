@@ -130,3 +130,65 @@ extern "C" {
     return (new arcade::Snake(dim));
   }
 }
+
+/*
+ * Mouli
+ */
+
+void				arcade::Snake::getMap()
+{
+  struct GetMap			getMap;
+
+  getMap.type = arcade::CommandType::GET_MAP;
+  getMap.width = _dim.x;
+  getMap.height = _dim.y;
+  //Todo: MakeMap
+  std::cout.write((char*)(&getMap), sizeof(getMap));
+}
+
+void				        arcade::Snake::whereAmI()
+{
+  struct WhereAmI		    whereAmI;
+
+  whereAmI.type = arcade::CommandType::WHERE_AM_I;
+  whereAmI.lenght = (uint16_t)(this->_snake->getPos().size());
+  //TODO: Make map
+
+  std::cout.write((char*)&whereAmI, sizeof(whereAmI) - ((_dim.x * _dim.y) - whereAmI.lenght));
+}
+
+extern "C" void				Play() {
+  arcade::CommandType		lastInput;
+  arcade::Snake		        snake(arcade::Vector2u(20, 20));
+
+  while (!std::cout.eof())
+  {
+    lastInput = (arcade::CommandType)std::cin.get();
+    switch(lastInput)
+    {
+      case arcade::CommandType::GO_UP :
+        snake.goUp();
+        break;
+      case arcade::CommandType::GO_DOWN :
+        snake.goDown();
+        break;
+      case arcade::CommandType::GO_LEFT :
+        snake.goLeft();
+        break;
+      case arcade::CommandType::GO_RIGHT :
+        snake.goRight();
+        break;
+      case arcade::CommandType::WHERE_AM_I :
+        snake.whereAmI();
+        break;
+      case arcade::CommandType::GET_MAP :
+        snake.getMap();
+        break;
+      case arcade::CommandType::PLAY :
+        snake.updateGame();
+        break;
+      default:
+        break;
+    }
+  }
+}

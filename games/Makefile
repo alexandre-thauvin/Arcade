@@ -3,8 +3,7 @@ NAME	=	snake
 
 SRC	=	sources/Snake.cpp \
 		../src/core/src/Map.cpp \
-		sources/Personnage.cpp \
-		main.cpp
+		sources/Personnage.cpp
 
 LIB     =	lib_arcade_snake.so
 
