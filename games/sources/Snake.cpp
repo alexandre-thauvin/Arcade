@@ -43,6 +43,8 @@ void arcade::Snake::goRight() {
   _snake->goRight();
 }
 
+void arcade::Snake::shoot() {}
+
 size_t arcade::Snake::getScore(void) const {
   return _score;
 }

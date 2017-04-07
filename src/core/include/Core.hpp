@@ -47,7 +47,6 @@ namespace                       arcade {
     {
         SDL = 0,
         NCURSES = 1,
-//        OPENGL = 4,
         GfxSize = 2
     };
   class                         Core {
@@ -81,7 +80,7 @@ namespace                       arcade {
       GameState                 _state;
       IGFX                      *_gfx;
       IGame                     *_game;
-      const Map                       *_map;
+      const Map                 *_map;
       int                       _gameId;
       int                       _libId;
       int                       _menuId;
