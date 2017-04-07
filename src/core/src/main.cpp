@@ -7,7 +7,6 @@ int main(int ac, char **av) {
   arcade::Core core;
   try {
     core.init("./lib/lib_arcade_sdl.so", "conf");
-    core.play();
     std::cout << "GoodBye!" << std::endl;
   } catch (arcade::Error &e) {
     std::cerr << e.what() << std::endl;

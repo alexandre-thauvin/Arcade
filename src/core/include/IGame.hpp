@@ -29,7 +29,7 @@ namespace                       arcade {
         virtual void            goDown(void) = 0;
         virtual void            goLeft(void) = 0;
         virtual void            goRight(void) = 0;
-        virtual void            play(void) = 0;
+        virtual void            shoot(void) = 0;
       };
 }
 

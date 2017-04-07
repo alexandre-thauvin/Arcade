@@ -1,0 +1,99 @@
+==6876== Memcheck, a memory error detector
+==6876== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==6876== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+==6876== Command: ./arcade
+==6876== 
+==6876== Conditional jump or move depends on uninitialised value(s)
+==6876==    at 0x4C32EA6: rawmemchr (vg_replace_strmem.c:1402)
+==6876==    by 0x594F391: _IO_str_init_static_internal (strops.c:41)
+==6876==    by 0x5942B66: vsscanf (iovsscanf.c:40)
+==6876==    by 0x593D2D6: sscanf (sscanf.c:32)
+==6876==    by 0xFBCDE4A: ??? (in /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0)
+==6876==    by 0xFBCE182: ??? (in /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0)
+==6876==    by 0xFBD1BF8: drmGetDevice (in /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0)
+==6876==    by 0xE718286: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==6876==    by 0xE717644: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==6876==    by 0xE6EB978: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==6876==    by 0xE6E7B9A: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==6876==    by 0xE6E7FD1: glXQueryExtensionsString (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==6876== 
+==6876== Syscall param writev(vector[...]) points to uninitialised byte(s)
+==6876==    at 0x59B9D5D: ??? (syscall-template.S:84)
+==6876==    by 0xA1A941C: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==6876==    by 0xA1A981C: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==6876==    by 0xA1A989C: xcb_writev (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==6876==    by 0x7179A7D: _XSend (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==6876==    by 0x7179F71: _XReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==6876==    by 0x7164E2E: XInternAtom (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==6876==    by 0x634B46A: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.1)
+==6876==    by 0x634C364: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.1)
+==6876==    by 0x633C2EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.1)
+==6876==    by 0x633C07E: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.1)
+==6876==    by 0x62A2456: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.1)
+==6876==  Address 0x5cbe243 is 35 bytes inside a block of size 16,384 alloc'd
+==6876==    at 0x4C2DBC5: calloc (vg_replace_malloc.c:711)
+==6876==    by 0x7169EC5: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==6876==    by 0x634A53F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.1)
+==6876==    by 0x633C02B: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.1)
+==6876==    by 0x62A2456: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.1)
+==6876==    by 0x607E77D: arcade::GfxSDL::GfxSDL(arcade::Vector2<unsigned int> const&) (in /home/aneopsy/cpp_arcade/lib/lib_arcade_sdl.so)
+==6876==    by 0x607F35E: createLib (in /home/aneopsy/cpp_arcade/lib/lib_arcade_sdl.so)
+==6876==    by 0x10F035: Loader<arcade::IGFX>::getInstance(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, arcade::Vector2<unsigned int>) (Loader.hpp:49)
+==6876==    by 0x10BF9A: arcade::Core::init(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Core.cpp:82)
+==6876==    by 0x10A285: main (main.cpp:9)
+==6876== 
+==6876== Conditional jump or move depends on uninitialised value(s)
+==6876==    at 0x607EF30: arcade::GfxSDL::getInput() (in /home/aneopsy/cpp_arcade/lib/lib_arcade_sdl.so)
+==6876==    by 0x10C29D: arcade::Core::play() (Core.cpp:98)
+==6876==    by 0x10C0FB: arcade::Core::init(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Core.cpp:86)
+==6876==    by 0x10A285: main (main.cpp:9)
+==6876== 
+==6876== Invalid read of size 8
+==6876==    at 0x10D848: arcade::Core::loadPrevGfx() (Core.cpp:322)
+==6876==    by 0x113439: void std::__invoke_impl<void, void (arcade::Core::* const&)(), arcade::Core*&>(std::__invoke_memfun_deref, void (arcade::Core::* const&)(), arcade::Core*&) (functional:227)
+==6876==    by 0x1133C0: std::result_of<void (arcade::Core::* const&(arcade::Core*&))()>::type std::__invoke<void (arcade::Core::* const&)(), arcade::Core*&>(void (arcade::Core::* const&)(), arcade::Core*&) (functional:251)
+==6876==    by 0x113361: decltype (__invoke((*this)._M_pmf, (forward<arcade::Core*&>)({parm#1}))) std::_Mem_fn_base<void (arcade::Core::*)(), true>::operator()<arcade::Core*&>(arcade::Core*&) const (functional:604)
+==6876==    by 0x113303: void std::_Bind<std::_Mem_fn<void (arcade::Core::*)()> (arcade::Core*)>::__call<void, , 0ul>(std::tuple<>&&, std::_Index_tuple<0ul>) (functional:934)
+==6876==    by 0x113177: void std::_Bind<std::_Mem_fn<void (arcade::Core::*)()> (arcade::Core*)>::operator()<, void>() (functional:993)
+==6876==    by 0x113000: std::_Function_handler<void (), std::_Bind<std::_Mem_fn<void (arcade::Core::*)()> (arcade::Core*)> >::_M_invoke(std::_Any_data const&) (functional:1731)
+==6876==    by 0x10F291: std::function<void ()>::operator()() const (functional:2127)
+==6876==    by 0x10C310: arcade::Core::play() (Core.cpp:100)
+==6876==    by 0x10C0FB: arcade::Core::init(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Core.cpp:86)
+==6876==    by 0x10A285: main (main.cpp:9)
+==6876==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==6876== 
+==6876== 
+==6876== Process terminating with default action of signal 11 (SIGSEGV)
+==6876==  Access not within mapped region at address 0x0
+==6876==    at 0x10D848: arcade::Core::loadPrevGfx() (Core.cpp:322)
+==6876==    by 0x113439: void std::__invoke_impl<void, void (arcade::Core::* const&)(), arcade::Core*&>(std::__invoke_memfun_deref, void (arcade::Core::* const&)(), arcade::Core*&) (functional:227)
+==6876==    by 0x1133C0: std::result_of<void (arcade::Core::* const&(arcade::Core*&))()>::type std::__invoke<void (arcade::Core::* const&)(), arcade::Core*&>(void (arcade::Core::* const&)(), arcade::Core*&) (functional:251)
+==6876==    by 0x113361: decltype (__invoke((*this)._M_pmf, (forward<arcade::Core*&>)({parm#1}))) std::_Mem_fn_base<void (arcade::Core::*)(), true>::operator()<arcade::Core*&>(arcade::Core*&) const (functional:604)
+==6876==    by 0x113303: void std::_Bind<std::_Mem_fn<void (arcade::Core::*)()> (arcade::Core*)>::__call<void, , 0ul>(std::tuple<>&&, std::_Index_tuple<0ul>) (functional:934)
+==6876==    by 0x113177: void std::_Bind<std::_Mem_fn<void (arcade::Core::*)()> (arcade::Core*)>::operator()<, void>() (functional:993)
+==6876==    by 0x113000: std::_Function_handler<void (), std::_Bind<std::_Mem_fn<void (arcade::Core::*)()> (arcade::Core*)> >::_M_invoke(std::_Any_data const&) (functional:1731)
+==6876==    by 0x10F291: std::function<void ()>::operator()() const (functional:2127)
+==6876==    by 0x10C310: arcade::Core::play() (Core.cpp:100)
+==6876==    by 0x10C0FB: arcade::Core::init(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Core.cpp:86)
+==6876==    by 0x10A285: main (main.cpp:9)
+==6876==  If you believe this happened as a result of a stack
+==6876==  overflow in your program's main thread (unlikely but
+==6876==  possible), you can try to increase the size of the
+==6876==  main thread stack using the --main-stacksize= flag.
+==6876==  The main thread stack size used in this run was 8388608.
+==6876== 
+==6876== HEAP SUMMARY:
+==6876==     in use at exit: 49,976,082 bytes in 43,590 blocks
+==6876==   total heap usage: 135,562 allocs, 91,972 frees, 109,316,351 bytes allocated
+==6876== 
+==6876== LEAK SUMMARY:
+==6876==    definitely lost: 13,128,241 bytes in 235 blocks
+==6876==    indirectly lost: 8,297,156 bytes in 268 blocks
+==6876==      possibly lost: 27,947,580 bytes in 41,625 blocks
+==6876==    still reachable: 603,105 bytes in 1,462 blocks
+==6876==         suppressed: 0 bytes in 0 blocks
+==6876== Rerun with --leak-check=full to see details of leaked memory
+==6876== 
+==6876== For counts of detected and suppressed errors, rerun with: -v
+==6876== Use --track-origins=yes to see where uninitialised values come from
+==6876== ERROR SUMMARY: 63 errors from 4 contexts (suppressed: 0 from 0)

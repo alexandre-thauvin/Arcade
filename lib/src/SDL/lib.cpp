@@ -64,10 +64,10 @@ arcade::InputT	arcade::GfxSDL::getInput() {
         InputT in = _input[event.key.keysym.sym];
         in.type = InputT::KeyReleased;
         in.unicode = event.key.keysym.sym;
-        return (_input[event.key.keysym.sym]);
+        return (in);
       }
   }
-  return (InputT(InputT::TextEntered, Input::ENTER, InputT::None));
+  return (InputT(InputT::None, Input::NONE, InputT::None));
 }
 
 void	arcade::GfxSDL::display() {

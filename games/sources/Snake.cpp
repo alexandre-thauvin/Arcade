@@ -25,10 +25,6 @@ bool arcade::Snake::move_player(void) {
   return (true);
 }
 
-void arcade::Snake::play() {
-  
-}
-
 void arcade::Snake::goDown() {
   _snake->goDown();
 }
@@ -44,6 +40,8 @@ void arcade::Snake::goLeft() {
 void arcade::Snake::goRight() {
   _snake->goRight();
 }
+
+void arcade::Snake::shoot() {}
 
 size_t arcade::Snake::getScore(void) const {
   return _score;
