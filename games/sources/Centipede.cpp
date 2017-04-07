@@ -75,18 +75,10 @@ arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
   _dim = dim;
 }
 
-extern "C" {
-arcade::IGame *createGame(arcade::Vector2u const &dim) {
-  (void)dim;
-  return (new arcade::Centipede(dim));
-}
-}
-
 bool arcade::Centipede::updateGame() {
   std::vector<Vector2u>::iterator it;
   arcade::Direction dir;
   arcade::Vector2u newPos;
-  int r = 0;
   Vector2u tmp(0, 0);
 
   dir = _tower->getDir();
@@ -95,40 +87,48 @@ bool arcade::Centipede::updateGame() {
     case D_UP :
       newPos.x = it->x;
       newPos.y = it->y - 1;
-      if (_map->getPosBlock(*it) == arcade::Map::Object)
+      if (_map->getPosBlock(*it) == arcade::Map::Object) {
 	newPos.y = it->y + 1;
-	break;
+      }
+      break;
     case D_DOWN :
       newPos.x = it->x;
       newPos.y = it->y + 1;
-      if (_map->getPosBlock(*it) == arcade::Map::Object)
+      if (_map->getPosBlock(*it) == arcade::Map::Object) {
 	newPos.y = it->y - 1;
+      }
       break;
     case D_RIGHT :
       newPos.x = it->x + 1;
       newPos.y = it->y;
-      if (_map->getPosBlock(*it) == arcade::Map::Object)
+      if (_map->getPosBlock(*it) == arcade::Map::Object) {
 	newPos.y = it->x - 1;
+      }
       break;
     case D_LEFT :
       newPos.x = it->x - 1;
       newPos.y = it->y;
-      if (_map->getPosBlock(*it) == arcade::Map::Object)
+      if (_map->getPosBlock(*it) == arcade::Map::Object) {
 	newPos.y = it->x + 1;
+      }
       break;
   }
   _posPerso.pop_back();
-  if (_map->getPosBlock(newPos) == arcade::Map::Enemy)
+  if (_map->getPosBlock(newPos) == arcade::Map::Enemy) {
     return false;
+  }
   _map->clear();
   _posPerso.insert(it, newPos);
   it = _posPerso.begin();
-  if (_map->getPosBlock(*it) == arcade::Map::Block)
+  if (_map->getPosBlock(*it) == arcade::Map::Block) {
     return false;
+  }
   _tower->setPos(_posPerso);
   for (it = _posPerso.begin(); it != _posPerso.end(); it++) {
     _map->setPosBlock(*it, arcade::Map::Player);
   }
+  move_centi();
+  return true;
 }
 
 void arcade::Centipede::setchampi() {
@@ -183,8 +183,9 @@ void arcade::Centipede::move_centi() {
     {
       if (_map->getPosBlock(pos) == arcade::Map::Centi)
       {
-	if (pos.x != _dim.x)
+	if (pos.x != _dim.x) {
 	  pos.x++;
+	}
 	_map->setPosBlock(pos, arcade::Map::Empty);
 	if (_map->getPosBlock(pos) == arcade::Map::Object) {
 	  pos.x--;
@@ -206,4 +207,11 @@ void arcade::Centipede::move_centi() {
     }
 
   }
+}
+
+extern "C" {
+arcade::IGame *createGame(arcade::Vector2u const &dim) {
+  (void)dim;
+  return (new arcade::Centipede(dim));
+}
 }
