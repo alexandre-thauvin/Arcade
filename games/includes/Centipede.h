@@ -34,11 +34,13 @@ namespace                           arcade {
     virtual void                play();
     virtual std::vector<Vector2u> const&  getPos() const;
     void                        setchampi();
+    void 			move_centi();
    private:
     arcade::Map                 *_map;
     arcade::Personnage          *_tower;
     arcade::Vector2u            _dim;
     std::vector<Vector2u>	    _posPerso;
+    std::vector<Vector2u>	_posCenti;
     std::string                 _name;
     bool                        _state;
     bool                        _alive;
