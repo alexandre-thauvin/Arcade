@@ -63,7 +63,7 @@ arcade::Vector2u arcade::Snake::getDimension(void) const {
   return _dim;
 }
 
-arcade::Map *arcade::Snake::getMap(void) const {
+arcade::Map const *arcade::Snake::getMap(void) const {
   return _map;
 }
 

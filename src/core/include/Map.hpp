@@ -26,7 +26,8 @@ namespace arcade {
             Empty,
             Block,
             Player,
-            Object
+            Object,
+            Enemy
         };
         Map(Vector2u const &dim);
         ~Map();
