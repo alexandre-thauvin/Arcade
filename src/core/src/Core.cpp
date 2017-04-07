@@ -50,7 +50,7 @@ arcade::Core::Core(void) {
           std::bind(&arcade::Core::loadNextGfx, this)));
 
   _gfxlib[SDL]     = "./lib/lib_arcade_sdl.so";
-  _gfxlib[OPENGL]  = "./lib/lib_arcade_opengl.so";
+//  _gfxlib[OPENGL]  = "./lib/lib_arcade_opengl.so";
   _gfxlib[NCURSES] = "./lib/lib_arcade_ncurses.so";
 
   _gamelib[SNAKE]    = "games/lib_arcade_snake.so";
@@ -76,14 +76,14 @@ void arcade::Core::init(std::string const &lib, std::string const &conf) {
   (void) conf;
   try {
     signal(SIGINT, arcade_ragequit);
-    for (std::map<int, std::string>::iterator it = _gfxlib.begin();
-         it != _gfxlib.end(); ++it)
-      if (it->second == lib) {
-        _libId = it->first;
-        loadGfx(_libId);
-      }
+    if (lib.empty()) {
+      loadGfx(_libId);
+    } else {
+      Loader <IGFX> *gfx_loader = new Loader<IGFX>(_gfxlib[_libId]);
+      _gfx = gfx_loader->getInstance("createLib", Vector2u(SIZE_X, SIZE_Y));
+    }
     if (_gfx == NULL)
-      throw Error("Error: I can't Load GFX Library: ", lib, "", 0);
+      throw arcade::Error("Error: ", INFO);
   } catch (Error &e) {
     throw (e);
   }
@@ -172,6 +172,7 @@ void arcade::Core::drawMap(void) {
 void arcade::Core::menu(void) {
   arcade::DrawObject a;
   arcade::Vector2i   pos;
+  std::string        selector("[ ]");
 
   switch (_libId) {
     case 0:
@@ -183,24 +184,18 @@ void arcade::Core::menu(void) {
         a.setPosition(Vector2i((_menuId == i) ? 30 : 50,
                                SIZE_Y - (150 + (100 * (i + 1)))));
         _gfx->draw(a);
-
       }
       break;
     case 1:
       a.setSize(Vector2u(SIZE_X - 1, 1));
       a.setPosition(Vector2i(0, 0));
       _gfx->draw(a);
-      for (int i = 0; i <= GameSize; ++i) {
-        unsigned    first  = _gamelib[i].find("lib_");
-        unsigned    last   = _gamelib[i].find(".so");
-        std::string strNew = _gamelib[i].substr(first + 1, last - first - 1);
-        a.setText(strNew);
+      for (int i = 0; i < GameSize; ++i) {
         a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 1 : 2), 1));
         a.setPosition(Vector2i(5, i + 1));
+        a.setText((_menuId == i) ? selector.append(_gfxlib[i]) : selector.append(_gfxlib[i]));
         _gfx->draw(a);
       }
-      break;
-    case 2:
       break;
   }
 }
@@ -278,7 +273,6 @@ void arcade::Core::goEnter(void) {
       if (_menuId >= 0) {
         loadGame(_menuId);
         _state = GameState::PauseState;
-        _game->play();
         _gfx->setWindowSize(_game->getDimension() * 30);
         _gfx->setTitleWindow(_game->getGamesName());
       } else {
@@ -316,14 +310,18 @@ void arcade::Core::loadNextGfx(void) {
   loadGfx(_libId);
   if (_libId == SDL)
     _gfx->setWindowSize(_game->getDimension() * 30);
+  if (_state != MenuState)
+    _state = PauseState;
 }
 
 void arcade::Core::loadPrevGfx(void) {
   _gfx->close();
   _libId = (--_libId < 0) ? (GfxSize - 1) : _libId;
   loadGfx(_libId);
-  if (_libId == SDL && _state == PlayState)
+  if (_libId == SDL)
     _gfx->setWindowSize(_game->getDimension() * 30);
+  if (_state != MenuState)
+    _state = PauseState;
 }
 
 void arcade::Core::loadGame(int id) {
@@ -332,9 +330,10 @@ void arcade::Core::loadGame(int id) {
     delete _game;
   Loader <IGame> *game_loader = new Loader<IGame>(_gamelib[id % GameSize]);
   _game = game_loader->getInstance("createGame", Vector2u(20, 20));
-  _map  = _game->getMap();
   if (_game == NULL)
     throw arcade::Error("Error: ", INFO);
+  _map  = _game->getMap();
+  _gfx->setTitleWindow(_game->getGamesName());
 }
 
 void arcade::Core::loadNextGame(void) {

@@ -3,14 +3,13 @@ NAME	=	snake
 
 SRC	=	sources/Snake.cpp \
 		../src/core/src/Map.cpp \
-		sources/Personnage.cpp \
-		main.cpp
+		sources/Personnage.cpp
 
 LIB     =	lib_arcade_snake.so
 
 OBJ	=       $(SRC:.cpp=.o)
 
-GXX	=       g++
+GXX	=       g++-6
 
 RM	=       rm -rf
 
