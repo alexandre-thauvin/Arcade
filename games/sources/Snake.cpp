@@ -8,11 +8,13 @@ arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
   _posPerso.push_back(arcade::Vector2u(dim.x / 2, dim.y / 2));
   _posPerso.push_back(arcade::Vector2u(dim.x / 2 - 1, dim.y / 2));
   _posPerso.push_back(arcade::Vector2u(dim.x / 2 - 2, dim.y / 2));
+  _posPerso.push_back(arcade::Vector2u(dim.x / 2 - 3, dim.y / 2));
   _map = new arcade::Map(dim);
   _snake = new arcade::Personnage();
   _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y / 2), arcade::Map::Player);
   _map->setPosBlock(arcade::Vector2u(dim.x / 2 - 1, dim.y / 2), arcade::Map::Player);
   _map->setPosBlock(arcade::Vector2u(dim.x / 2 - 2, dim.y / 2), arcade::Map::Player);
+  _map->setPosBlock(arcade::Vector2u(dim.x / 2 - 3, dim.y / 2), arcade::Map::Player);
   _map->createObject(Vector2u(0, 0));
   _name = "Snake";
 }
@@ -62,7 +64,7 @@ arcade::Vector2u arcade::Snake::getDimension(void) const {
   return _dim;
 }
 
-arcade::Map *arcade::Snake::getMap(void) const {
+arcade::Map const *arcade::Snake::getMap(void) const {
   return _map;
 }
 
@@ -135,24 +137,50 @@ extern "C" {
 
 void				arcade::Snake::getMap()
 {
-  struct GetMap			getMap;
-
-  getMap.type = arcade::CommandType::GET_MAP;
-  getMap.width = _dim.x;
-  getMap.height = _dim.y;
-  //Todo: MakeMap
-  std::cout.write((char*)(&getMap), sizeof(getMap));
+  struct GetMap			*getMap;
+  
+  getMap = new GetMap[sizeof(getMap) + (_dim.x * _dim.y) * sizeof(TileType)];
+  getMap->type = arcade::CommandType::GET_MAP;
+  getMap->width = _dim.x;
+  getMap->height = _dim.y;
+  for (unsigned int i = 0; i < _dim.y; i++) {
+    for (unsigned int y = 0; y < _dim.x; y++) {
+      switch (_map->getPosBlock(Vector2u(i, y))) {
+      case arcade::Map::Player :
+	getMap->tile[i * y] = arcade::TileType::OTHER;
+	break;
+      case arcade::Map::Empty :
+	getMap->tile[i * y] = arcade::TileType::EMPTY;
+	break;
+      case arcade::Map::Block :
+	getMap->tile[i * y] = arcade::TileType::BLOCK;
+	break;
+      case arcade::Map::Object :
+	getMap->tile[i * y] = arcade::TileType::POWERUP;
+	break;
+      default:
+	break;
+      }
+    }
+  }
+  std::cout.write((char*)(getMap), sizeof(getMap));
 }
 
 void				        arcade::Snake::whereAmI()
 {
-  struct WhereAmI		    whereAmI;
+  struct WhereAmI			*whereAmI;
+  int					i;
 
-  whereAmI.type = arcade::CommandType::WHERE_AM_I;
-  whereAmI.lenght = (uint16_t)(this->_snake->getPos().size());
-  //TODO: Make map
-
-  std::cout.write((char*)&whereAmI, sizeof(whereAmI) - ((_dim.x * _dim.y) - whereAmI.lenght));
+  i = 0;
+  whereAmI = new arcade::WhereAmI[sizeof(WhereAmI) + _posPerso.size() * sizeof(Position)];
+  whereAmI->type = arcade::CommandType::WHERE_AM_I;
+  whereAmI->lenght = (uint16_t)(_posPerso.size());
+  for (std::vector<Vector2u>::iterator it = _posPerso.begin(); it != _posPerso.end(); it++) {
+    whereAmI->position[i].x = it->x;
+    whereAmI->position[i].y = it->y;
+    i++;
+  }
+  std::cout.write((char*)&whereAmI, sizeof(whereAmI)); // - ((_dim.x * _dim.y) - whereAmI->lenght)
 }
 
 extern "C" void				Play() {
@@ -160,33 +188,33 @@ extern "C" void				Play() {
   arcade::Snake		        snake(arcade::Vector2u(20, 20));
 
   while (!std::cout.eof())
-  {
-    lastInput = (arcade::CommandType)std::cin.get();
-    switch(lastInput)
     {
-      case arcade::CommandType::GO_UP :
-        snake.goUp();
-        break;
-      case arcade::CommandType::GO_DOWN :
-        snake.goDown();
-        break;
-      case arcade::CommandType::GO_LEFT :
-        snake.goLeft();
-        break;
-      case arcade::CommandType::GO_RIGHT :
-        snake.goRight();
-        break;
-      case arcade::CommandType::WHERE_AM_I :
-        snake.whereAmI();
-        break;
-      case arcade::CommandType::GET_MAP :
-        snake.getMap();
-        break;
-      case arcade::CommandType::PLAY :
-        snake.updateGame();
-        break;
-      default:
-        break;
+      lastInput = (arcade::CommandType)std::cin.get();
+      switch(lastInput)
+	{
+	case arcade::CommandType::GO_UP :
+	  snake.goUp();
+	  break;
+	case arcade::CommandType::GO_DOWN :
+	  snake.goDown();
+	  break;
+	case arcade::CommandType::GO_LEFT :
+	  snake.goLeft();
+	  break;
+	case arcade::CommandType::GO_RIGHT :
+	  snake.goRight();
+	  break;
+	case arcade::CommandType::WHERE_AM_I :
+	  snake.whereAmI();
+	  break;
+	case arcade::CommandType::GET_MAP :
+	  snake.getMap();
+	  break;
+	case arcade::CommandType::PLAY :
+	  snake.updateGame();
+	  break;
+	default:
+	  break;
+	}
     }
-  }
 }

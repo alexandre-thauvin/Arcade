@@ -1,12 +1,34 @@
+#include <string>
+#include <unistd.h>
+#include <algorithm>
 #include <iostream>
 #include "Core.hpp"
 
+int	check_error(char *av) {
+  std::string	to_check = av;
+
+  if (to_check.find(".so") == std::string::npos)
+    return 1;
+  if (access(av, X_OK) == -1)
+    return 1;
+  return 0;
+}
+
 int main(int ac, char **av) {
-  (void)av; //TODO: Gestion d'erreur.
-  (void)ac;
   arcade::Core core;
   try {
-    core.init("./lib/lib_arcade_sdl.so", "conf");
+    if (ac == 1)
+      core.init("", "conf");
+    else
+      {
+	if (check_error(av[1]) == 1)
+	  {
+	    std::cerr << "Fichier non trouvé ou invalide : " << av[1]  << std::endl;
+	    return 1;
+	  }
+	core.init(av[1], "conf");
+      }
+    core.play();
     std::cout << "GoodBye!" << std::endl;
   } catch (arcade::Error &e) {
     std::cerr << e.what() << std::endl;
