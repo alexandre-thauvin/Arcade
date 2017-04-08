@@ -18,7 +18,7 @@ void arcade::Centipede::play() {
 
 void arcade::Centipede::shoot() {
   _shoot = new arcade::Missile();
-  _shoot->setPos(_tower->getPos()[0]);
+//  _shoot->setPos(_tower->getPos()[0]);
 }
 
 void arcade::Centipede::goDown() {
@@ -119,13 +119,14 @@ bool arcade::Centipede::updateGame() {
     _posPerso.insert(it, newPos);
     _tower->setPos(_posPerso);
   }
-  if (_shoot)
-    _shoot->setPos(_shoot->get());
+//  if (_shoot)
+//    _shoot->setPos(_shoot->get());
   _map->clear();
   for (it = _posPerso.begin(); it != _posPerso.end(); it++) {
     _map->setPosBlock(*it, arcade::Map::Player);
   }
-//  move_centi();
+//  if (!move_centi())
+//    return (false);
   return true;
 }
 
@@ -164,33 +165,47 @@ void arcade::Centipede::setchampi() {
   _map->setPosBlock(arcade::Vector2u(4, 14), arcade::Map::Object);
 }
 
-void arcade::Centipede::move_centi() {
+bool arcade::Centipede::move_centi() {
   arcade::Vector2u pos;
-  for (pos.y = 0; pos.y < _dim.y; pos.y++) {
-    for (pos.x = 0; pos.x < _dim.x; pos.x++) {
-      if (_map->getPosBlock(pos) == arcade::Map::Centi) {
-        if (pos.x != _dim.x) {
-          pos.x++;
-        }
-        _map->setPosBlock(pos, arcade::Map::Empty);
-        if (_map->getPosBlock(pos) == arcade::Map::Object) {
-          pos.x--;
-          if (pos.y != _dim.y) {
-            pos.y++;
-            _map->setPosBlock(pos, arcade::Map::Centi);
-            pos.y--;
-          } else {
-            pos.y--;
-            _map->setPosBlock(pos, arcade::Map::Centi);
-            pos.y++;
-          }
-        }
-        _map->setPosBlock(pos, arcade::Map::Centi);
-        pos.x--;
+  for (pos.y = 0 ; pos.y < _dim.y; pos.y++)
+  {
+    for (pos.x = 0; pos.x < _dim.x ; pos.x++)
+    {
+      if (_map->getPosBlock(pos) == arcade::Map::Centi)
+      {
+	if (pos.x != _dim.x) {
+	  pos.x++;
+	}
+	_map->setPosBlock(pos, arcade::Map::Empty);
+	if (_map->getPosBlock(pos) == arcade::Map::Object) {
+	  pos.x--;
+	  if (pos.y != _dim.y) {
+	    pos.y++;
+	    if (_map->getPosBlock(pos) == arcade::Map::Player) {
+	      return false;
+	    }
+	    _map->setPosBlock(pos, arcade::Map::Centi);
+	    pos.y--;
+	  }
+	  else
+	  {
+	    pos.y--;
+	    if (_map->getPosBlock(pos) == arcade::Map::Player) {
+	      return false;
+	    }
+	    _map->setPosBlock(pos, arcade::Map::Centi);
+	    pos.y++;
+	  }
+	}
+	else if (_map->getPosBlock(pos) == arcade::Map::Player){
+	  return (false);
+	}
+	_map->setPosBlock(pos, arcade::Map::Centi);
+	pos.x--;
       }
     }
-
   }
+  return (true);
 }
 
 extern "C" {
