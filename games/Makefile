@@ -1,4 +1,4 @@
-GXX		=		g++-6
+GXX		=		g++
 
 CXXFLAGS        =               -W -Wall -Wextra -std=c++11
 CXXFLAGS        +=              -I./includes/ -I../src/core/include/

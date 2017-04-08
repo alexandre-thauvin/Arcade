@@ -70,11 +70,11 @@ arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
   _tower = new arcade::Personnage();
   setchampi();
 
- /* _map->setPosBlock(arcade::Vector2u(1, 1), arcade::Map::Centi);
+ _map->setPosBlock(arcade::Vector2u(1, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(2, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(3, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(4, 1), arcade::Map::Centi);
-  _map->setPosBlock(arcade::Vector2u(5, 1), arcade::Map::Centi);*/
+  _map->setPosBlock(arcade::Vector2u(5, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y - 4), arcade::Map::Enemy);
   _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y - 2), arcade::Map::Player);
   _dim = dim;

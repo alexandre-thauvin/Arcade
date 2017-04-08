@@ -17,6 +17,7 @@
 #include <string>
 #include <iostream>
 #include "Error.hpp"
+#include "Utils.hpp"
 
 template<typename T>
 class Loader {

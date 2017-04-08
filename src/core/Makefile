@@ -27,7 +27,7 @@ CORE			=		src/core
 
 GFX			=		lib/
 
-CC			=		g++-6
+CC			=		g++
 AR			=		ar
 RM			=		rm -Rf
 
