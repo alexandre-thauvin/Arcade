@@ -2,6 +2,7 @@
 // Created by thauvi_a on 3/20/17.
 //
 
+#include <fstream>
 #include "Snake.hpp"
 
 arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
@@ -140,23 +141,21 @@ void				arcade::Snake::getMap()
   struct GetMap			*getMap;
   
   getMap = new GetMap[sizeof(GetMap) + (_dim.x * _dim.y) * sizeof(TileType)];
-  getMap->type = arcade::CommandType::GET_MAP;
+  getMap->type = CommandType::GET_MAP
+    ;
   getMap->width = _dim.x;
   getMap->height = _dim.y;
   for (unsigned int i = 0; i < _dim.y; i++) {
     for (unsigned int y = 0; y < _dim.x; y++) {
       switch (_map->getPosBlock(Vector2u(i, y))) {
-      case arcade::Map::Player :
-	getMap->tile[i * y] = arcade::TileType::OTHER;
+      case Map::Empty :
+	getMap->tile[i + y * _dim.x] = TileType::EMPTY;
 	break;
-      case arcade::Map::Empty :
-	getMap->tile[i * y] = arcade::TileType::EMPTY;
+      case Map::Block :
+	getMap->tile[i + y * _dim.x] = TileType::BLOCK;
 	break;
-      case arcade::Map::Block :
-	getMap->tile[i * y] = arcade::TileType::BLOCK;
-	break;
-      case arcade::Map::Object :
-	getMap->tile[i * y] = arcade::TileType::POWERUP;
+      case Map::Object :
+	getMap->tile[i + y * _dim.x] = TileType::POWERUP;
 	break;
       default:
 	break;
@@ -173,25 +172,26 @@ void				        arcade::Snake::whereAmI()
 
   i = 0;
   whereAmI = new arcade::WhereAmI[sizeof(WhereAmI) + _posPerso.size() * sizeof(Position)];
-  whereAmI->type = arcade::CommandType::WHERE_AM_I;
+  whereAmI->type = CommandType::WHERE_AM_I;
   whereAmI->lenght = (uint16_t)(_posPerso.size());
   for (std::vector<Vector2u>::iterator it = _posPerso.begin(); it != _posPerso.end(); it++) {
-std::cout << "PASS\n";
     whereAmI->position[i].x = it->x;
     whereAmI->position[i].y = it->y;
     i++;
-}
-std::cout.write((char*)whereAmI, sizeof(WhereAmI) + _posPerso.size() * sizeof(Position));// + _posPerso.size() * sizeof(Position)
-delete(whereAmI);
+  }
+  std::cout.write((char*)whereAmI, sizeof(WhereAmI) + _posPerso.size() * sizeof(Position));
+  delete(whereAmI);
 }
 
 extern "C" void				Play() {
   arcade::CommandType		lastInput;
   arcade::Snake		        snake(arcade::Vector2u(20, 20));
+  std::ifstream is (0, std::ifstream::binary);
 
   while (!std::cout.eof())
     {
-      lastInput = (arcade::CommandType)std::cin.get();
+      is.read();
+    }
       switch(lastInput)
 	{
 	case arcade::CommandType::GO_UP :

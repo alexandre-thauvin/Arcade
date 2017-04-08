@@ -1,36 +1,43 @@
+GXX		=		g++-6
 
-NAME	=	snake
+CXXFLAGS        =               -W -Wall -Wextra -std=c++11
+CXXFLAGS        +=              -I./includes/ -I../src/core/include/
+CXXFLAGS        +=              -fPIC
 
-SRC	=	sources/Centipede.cpp \
-		../src/core/src/Map.cpp \
-		sources/Personnage.cpp
+RM		=		rm -rf
 
-LIB     =	lib_arcade_centipede.so
+LDFLAGS         +=              -shared
 
-OBJ	=       $(SRC:.cpp=.o)
+SRC_C		=		sources/Centipede.cpp \
+				../src/core/src/Map.cpp \
+				sources/Personnage.cpp
 
-GXX	=       g++
+SRC_S		=		sources/Snake.cpp \
+				../src/core/src/Map.cpp \
+				sources/Personnage.cpp
 
-RM	=       rm -rf
+LIB_C		=		lib_arcade_centipede.so
 
-CXXFLAGS=       -Wall -Werror -W -Wextra -I./includes/ -I../src/core/include/
+LIB_S		=		lib_arcade_snake.so
 
-$(NAME) :       $(OBJ)
-		$(GXX) -o $(NAME) $(CXXFLAGS) $(OBJ)
+OBJ_C		=		$(SRC_C:.cpp=.o)
 
-lib	:
-		$(eval CXXFLAGS += -shared -fPIC)
-		$(GXX) -o $(LIB) $(CXXFLAGS) $(SRC)
+OBJ_S		=		$(SRC_S:.cpp=.o)
 
-all	:       $(NAME)
+lib   :		$(OBJ_S) $(OBJ_C)      
+		$(GXX) $(LDFLAGS) -o $(LIB_S) $(OBJ_S)
+		$(GXX) $(LDFLAGS) -o $(LIB_C) $(OBJ_C)
+
+all	:       lib
 
 clean   :
-	        $(RM) $(OBJS)
+	        $(RM) $(OBJ_S)
+	        $(RM) $(OBJ_C)
 	        $(RM) $(SRCS)/*~
 	        $(RM) $(SRCS)/*#
 
 fclean  :       clean
-	        $(RM) $(NAME)
-		$(RM) $(LIB)
+		$(RM) $(LIB_C)
+		$(RM) $(LIB_S)
 
 re      :       fclean all

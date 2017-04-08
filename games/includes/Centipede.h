@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-#include "../../src/core/include/Map.hpp"
+#include "Map.hpp"
 #include "Personnage.hpp"
 #include "IGame.hpp"
 
@@ -35,6 +35,7 @@ namespace                           arcade {
     virtual std::vector<Vector2u> const&  getPos() const;
     void                        setchampi();
     void 			move_centi();
+      void shoot();
    private:
     arcade::Map                 *_map;
     arcade::Personnage          *_tower;

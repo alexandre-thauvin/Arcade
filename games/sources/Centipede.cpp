@@ -16,6 +16,10 @@ void arcade::Centipede::play() {
 
 }
 
+void arcade::Centipede::shoot() {
+
+}
+
 void arcade::Centipede::goDown() {
   _tower->goDown();
 }
@@ -178,40 +182,39 @@ void arcade::Centipede::setchampi() {
 void arcade::Centipede::move_centi() {
   arcade::Vector2u pos;
   for (pos.y = 0 ; pos.y < _dim.y; pos.y++)
-  {
-    for (pos.x = 0; pos.x < _dim.x ; pos.x++)
     {
-      if (_map->getPosBlock(pos) == arcade::Map::Centi)
-      {
-	if (pos.x != _dim.x) {
-	  pos.x++;
+      for (pos.x = 0; pos.x < _dim.x ; pos.x++)
+	{
+	  if (_map->getPosBlock(pos) == arcade::Map::Centi)
+	    {
+	      if (pos.x != _dim.x) {
+		pos.x++;
+	      }
+	      _map->setPosBlock(pos, arcade::Map::Empty);
+	      if (_map->getPosBlock(pos) == arcade::Map::Object) {
+		pos.x--;
+		if (pos.y != _dim.y) {
+		  pos.y++;
+		  _map->setPosBlock(pos, arcade::Map::Centi);
+		  pos.y--;
+		}
+		else
+		  {
+		    pos.y--;
+		    _map->setPosBlock(pos, arcade::Map::Centi);
+		    pos.y++;
+		  }
+	      }
+	      _map->setPosBlock(pos, arcade::Map::Centi);
+	      pos.x--;
+	    }
 	}
-	_map->setPosBlock(pos, arcade::Map::Empty);
-	if (_map->getPosBlock(pos) == arcade::Map::Object) {
-	  pos.x--;
-	  if (pos.y != _dim.y) {
-	    pos.y++;
-	    _map->setPosBlock(pos, arcade::Map::Centi);
-	    pos.y--;
-	  }
-	  else
-	  {
-	    pos.y--;
-	    _map->setPosBlock(pos, arcade::Map::Centi);
-	    pos.y++;
-	  }
-	}
-	_map->setPosBlock(pos, arcade::Map::Centi);
-	pos.x--;
-      }
     }
-
-  }
 }
 
 extern "C" {
-arcade::IGame *createGame(arcade::Vector2u const &dim) {
-  (void)dim;
-  return (new arcade::Centipede(dim));
-}
+  arcade::IGame *createGame(arcade::Vector2u const &dim) {
+    (void)dim;
+    return (new arcade::Centipede(dim));
+  }
 }

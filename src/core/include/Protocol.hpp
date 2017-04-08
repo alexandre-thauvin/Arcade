@@ -49,6 +49,7 @@ namespace		arcade
     uint16_t		x;
     uint16_t		y;
   } __attribute__((packed));
+
   struct		WhereAmI
   {
     CommandType		type;

@@ -4,6 +4,7 @@
 # include <string>
 # include <list>
 # include <vector>
+# include "Protocol.hpp"
 # include "Error.hpp"
 # include "Input.hpp"
 # include "Utils.hpp"
