@@ -3,7 +3,8 @@ NAME	=	snake
 
 SRC	=	sources/Centipede.cpp \
 		../src/core/src/Map.cpp \
-		sources/Personnage.cpp
+		sources/Personnage.cpp \
+		sources/Missile.cpp
 
 LIB     =	lib_arcade_centipede.so
 

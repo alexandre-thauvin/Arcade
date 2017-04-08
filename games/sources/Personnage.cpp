@@ -1,7 +1,7 @@
 #include "Personnage.hpp"
 
 arcade::Personnage::Personnage() {
-  goRight();
+  goNone();
 }
 
 arcade::Personnage& arcade::Personnage::operator=(Personnage const& pers) {
@@ -15,6 +15,10 @@ arcade::Personnage& arcade::Personnage::operator=(Personnage const& pers) {
 void	arcade::Personnage::goUp() {
   if (_dir != D_DOWN)
     _dir = D_UP;
+}
+
+void	arcade::Personnage::goNone() {
+    _dir = D_NONE;
 }
 
 void	arcade::Personnage::goDown() {

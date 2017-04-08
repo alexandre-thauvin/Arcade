@@ -22,13 +22,13 @@ namespace arcade {
     class Map {
     public:
         enum CaseMap {
-            Error = -1,
             Empty,
             Block,
             Player,
             Object,
             Enemy,
-            Centi
+            Centi,
+            Shoot
         };
         Map(Vector2u const &dim);
         ~Map();
