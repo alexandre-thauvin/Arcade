@@ -157,6 +157,11 @@ void arcade::Core::drawMap(void) {
                                    (unsigned char) 0));
           a.setText("|");
           break;
+        case arcade::Map::Centi:
+          a.setColor(arcade::Color((unsigned char) 255, (unsigned char) 0,
+                                   (unsigned char) 190));
+          a.setText("@");
+          break;
       }
       switch (_libId) {
         case 0:
