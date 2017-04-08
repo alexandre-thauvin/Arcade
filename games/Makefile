@@ -1,15 +1,15 @@
 
 NAME	=	snake
 
-SRC	=	sources/Snake.cpp \
+SRC	=	sources/Centipede.cpp \
 		../src/core/src/Map.cpp \
 		sources/Personnage.cpp
 
-LIB     =	lib_arcade_snake.so
+LIB     =	lib_arcade_centipede.so
 
 OBJ	=       $(SRC:.cpp=.o)
 
-GXX	=       g++-6
+GXX	=       g++
 
 RM	=       rm -rf
 

@@ -36,13 +36,13 @@ namespace                   arcade
         {
                             None,
                             KeyPressed,
-                            KeyReleased,
-                            TextEntered
+                            KeyReleased
         };
     };
 
     enum                    Input
     {
+                            NONE,
                             UP,
                             DOWN,
                             LEFT,
