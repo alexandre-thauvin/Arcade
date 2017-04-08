@@ -99,27 +99,26 @@ bool arcade::Core::play(void) {
     if (_input.find(input) != _input.end()) {
       _input[input]();
     }
+    if ((clock() - t) > 100000) {
     _gfx->clear();
-    switch (_state) {
-      case MenuState:
-        menu();
-        break;
-      case PlayState:
-        if ((clock() - t) > 100000) {
-          t       = clock();
+      t = clock();
+      switch (_state) {
+        case MenuState:
+          menu();
+          break;
+        case PlayState:
           if (!_game->updateGame()) {
             _state = MenuState;
             _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
           }
-        }
-        drawMap();
-        break;
-      case PauseState:
-        drawMap();
-        break;
+          drawMap();
+          break;
+        case PauseState:
+          drawMap();
+          break;
+      }
+      _gfx->display();
     }
-    usleep(MAIN_SLEEP);
-    _gfx->display();
   }
 }
 
