@@ -163,7 +163,7 @@ void				arcade::Snake::getMap()
       }
     }
   }
-  std::cout.write((char*)getMap, sizeof(GetMap) * (_dim.x * _dim.y) * sizeof(TileType));
+  std::cout.write((char*)getMap, sizeof(GetMap) + (_dim.x * _dim.y) * sizeof(TileType));
 }
 
 void				        arcade::Snake::whereAmI()
@@ -181,7 +181,7 @@ std::cout << "PASS\n";
     whereAmI->position[i].y = it->y;
     i++;
 }
-std::cout.write((char*)whereAmI, sizeof(WhereAmI) + ((_dim.x * _dim.y) - whereAmI->lenght));// + _posPerso.size() * sizeof(Position)
+std::cout.write((char*)whereAmI, sizeof(WhereAmI) + _posPerso.size() * sizeof(Position));// + _posPerso.size() * sizeof(Position)
 delete(whereAmI);
 }
 
