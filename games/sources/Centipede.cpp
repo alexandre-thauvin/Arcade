@@ -2,6 +2,7 @@
 // Created by thauvi_a on 4/6/17.
 //
 
+#include <zconf.h>
 #include "Centipede.h"
 
 bool arcade::Centipede::isPlayerAlive() {
@@ -73,8 +74,8 @@ arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
  _map->setPosBlock(arcade::Vector2u(1, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(2, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(3, 1), arcade::Map::Centi);
-  _map->setPosBlock(arcade::Vector2u(4, 1), arcade::Map::Centi);
-  _map->setPosBlock(arcade::Vector2u(5, 1), arcade::Map::Centi);
+//  _map->setPosBlock(arcade::Vector2u(4, 1), arcade::Map::Centi);
+  //_map->setPosBlock(arcade::Vector2u(5, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y - 4), arcade::Map::Enemy);
   _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y - 2), arcade::Map::Player);
   _dim = dim;
@@ -121,22 +122,23 @@ bool arcade::Centipede::updateGame() {
   }
 //  if (_shoot)
 //    _shoot->setPos(_shoot->get());
+
+  if (!move_centi()) {
+    //usleep(100000000000);
+    return false;
+  }
   _map->clear();
   for (it = _posPerso.begin(); it != _posPerso.end(); it++) {
     _map->setPosBlock(*it, arcade::Map::Player);
   }
-  //if (!move_centi())
-    //return (false);
   return true;
 }
 
 void arcade::Centipede::setchampi() {
-  _map->setPosBlock(arcade::Vector2u(10, 1), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(15, 1), arcade::Map::Object);
+  //_map->setPosBlock(arcade::Vector2u(10, 1), arcade::Map::Object);
+  //_map->setPosBlock(arcade::Vector2u(15, 1), arcade::Map::Object);
   _map->setPosBlock(arcade::Vector2u(10, 3), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(1, 3), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(1, 5), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(5, 5), arcade::Map::Object);
+  _map->setPosBlock(arcade::Vector2u(6, 5), arcade::Map::Object);
   _map->setPosBlock(arcade::Vector2u(6, 6), arcade::Map::Object);
   _map->setPosBlock(arcade::Vector2u(15, 6), arcade::Map::Object);
   _map->setPosBlock(arcade::Vector2u(4, 6), arcade::Map::Object);
@@ -152,7 +154,6 @@ void arcade::Centipede::setchampi() {
   _map->setPosBlock(arcade::Vector2u(15, 10), arcade::Map::Object);
   _map->setPosBlock(arcade::Vector2u(11, 10), arcade::Map::Object);
   _map->setPosBlock(arcade::Vector2u(2, 10), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(1, 11), arcade::Map::Object);
   _map->setPosBlock(arcade::Vector2u(3, 11), arcade::Map::Object);
   _map->setPosBlock(arcade::Vector2u(7, 12), arcade::Map::Object);
   _map->setPosBlock(arcade::Vector2u(17, 12), arcade::Map::Object);
@@ -167,41 +168,59 @@ void arcade::Centipede::setchampi() {
 
 bool arcade::Centipede::move_centi() {
   arcade::Vector2u pos;
+
+  unsigned int	x_tmp;
+  bool 		check = true;
+  bool 		check_entry;
   for (pos.y = 0 ; pos.y < _dim.y; pos.y++)
     {
       for (pos.x = 0 ; pos.x < _dim.x; pos.x++)
 	{
-	  if (_map->getPosBlock(pos) == arcade::Map::Centi)
-	    {
-	      _map->setPosBlock(pos, arcade::Map::Empty);
-	      //if (pos.x != _dim.x) {
-	      pos.x++;
-	      //}
-	      if (_map->getPosBlock(pos) == arcade::Map::Object) {
-		pos.x--;
-		if (pos.y != _dim.y + 1) {
-		  pos.y++;
-		  if (_map->getPosBlock(pos) == arcade::Map::Player) {
-		    return false;
-		  }
+	  check_entry = false;
+	  if (_map->getPosBlock(pos) == arcade::Map::Centi) {
+	      if (check) {
+		_map->setPosBlock(pos, arcade::Map::Empty);
+		check = false;
+	      }
+	      if (_map->getPosBlock(pos) == arcade::Map::Empty || _map->getPosBlock(pos) == arcade::Map::Centi){
+		std::cout << "pos = " << pos << std::endl;
+		pos.x++;
+		if (_map->getPosBlock(pos) == arcade::Map::Empty) {
 		  _map->setPosBlock(pos, arcade::Map::Centi);
+		}
+		else if (_map->getPosBlock(pos) == arcade::Map::Object) {
+		  pos.y++;
+		  pos.x--;
+		  x_tmp = pos.x;
+		  while(pos.x == arcade::Map::Centi)
+		    pos.x++;
+		  _map->setPosBlock(pos, arcade::Map::Centi);
+		  pos.x = x_tmp;
 		  pos.y--;
 		}
-		else
-		  {
-		    pos.y--;
-		    if (_map->getPosBlock(pos) == arcade::Map::Player) {
-		      return false;
-		    }
-		    _map->setPosBlock(pos, arcade::Map::Centi);
-		    pos.y++;
-		  }
+		check_entry = true;
 	      }
-	      else if (_map->getPosBlock(pos) == arcade::Map::Player){
-		return (false);
+	    if (!check_entry) {
+	      pos.x++;
+	    }
+	      if (_map->getPosBlock(pos) == arcade::Map::Player) {
+		return false;
 	      }
-	      _map->setPosBlock(pos, arcade::Map::Centi);
-	      pos.x--;
+	      else if (pos.x + 1 == _dim.x) {
+		pos.y++;
+		x_tmp = pos.x;
+		pos.x = 1;
+		while (_map->getPosBlock(pos) == arcade::Map::Centi)
+		  pos.x++;
+		_map->setPosBlock(pos, arcade::Map::Centi);
+		pos.x = x_tmp;
+		pos.y--;
+		//pos.x++;
+//		return false;
+	      }
+	    	if (!check_entry) {
+		  pos.x--;
+		}
 	    }
 	}
     }
