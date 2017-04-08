@@ -168,49 +168,50 @@ void arcade::Centipede::setchampi() {
 bool arcade::Centipede::move_centi() {
   arcade::Vector2u pos;
   for (pos.y = 0 ; pos.y < _dim.y; pos.y++)
-  {
-    for (pos.x = 0; pos.x < _dim.x ; pos.x++)
     {
-      if (_map->getPosBlock(pos) == arcade::Map::Centi)
-      {
-	_map->setPosBlock(pos, arcade::Map::Empty);
-	//if (pos.x != _dim.x) {
-	  pos.x++;
-	//}
-	if (_map->getPosBlock(pos) == arcade::Map::Object) {
-	  pos.x--;
-	  if (pos.y != _dim.y + 1) {
-	    pos.y++;
-	    if (_map->getPosBlock(pos) == arcade::Map::Player) {
-	      return false;
+      for (pos.x = 0 ; pos.x < _dim.x; pos.x++)
+	{
+	  if (_map->getPosBlock(pos) == arcade::Map::Centi)
+	    {
+	      _map->setPosBlock(pos, arcade::Map::Empty);
+	      //if (pos.x != _dim.x) {
+	      pos.x++;
+	      //}
+	      if (_map->getPosBlock(pos) == arcade::Map::Object) {
+		pos.x--;
+		if (pos.y != _dim.y + 1) {
+		  pos.y++;
+		  if (_map->getPosBlock(pos) == arcade::Map::Player) {
+		    return false;
+		  }
+		  _map->setPosBlock(pos, arcade::Map::Centi);
+		  pos.y--;
+		}
+		else
+		  {
+		    pos.y--;
+		    if (_map->getPosBlock(pos) == arcade::Map::Player) {
+		      return false;
+		    }
+		    _map->setPosBlock(pos, arcade::Map::Centi);
+		    pos.y++;
+		  }
+	      }
+	      else if (_map->getPosBlock(pos) == arcade::Map::Player){
+		return (false);
+	      }
+	      _map->setPosBlock(pos, arcade::Map::Centi);
+	      pos.x--;
 	    }
-	    _map->setPosBlock(pos, arcade::Map::Centi);
-	    pos.y--;
-	  }
-	  else
-	  {
-	    pos.y--;
-	    if (_map->getPosBlock(pos) == arcade::Map::Player) {
-	      return false;
-	    }
-	    _map->setPosBlock(pos, arcade::Map::Centi);
-	    pos.y++;
-	  }
 	}
-	else if (_map->getPosBlock(pos) == arcade::Map::Player){
-	  return (false);
-	}
-	_map->setPosBlock(pos, arcade::Map::Centi);
-	pos.x--;
-      }
     }
-  }
   return (true);
 }
 
 extern "C" {
-arcade::IGame *createGame(arcade::Vector2u const &dim) {
-  (void) dim;
-  return (new arcade::Centipede(dim));
+  arcade::IGame *createGame(arcade::Vector2u const &dim) {
+    (void) dim;
+    return (new arcade::Centipede(dim));
+  }
 }
-}
+  

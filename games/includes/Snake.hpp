@@ -8,10 +8,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-#include "../../src/core/include/Map.hpp"
+#include "Map.hpp"
 #include "Personnage.hpp"
 #include "IGame.hpp"
-#include "Protocol.hpp"
 
 namespace                           arcade {
     class                           Snake : public arcade::IGame {

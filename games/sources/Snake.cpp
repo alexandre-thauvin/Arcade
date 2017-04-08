@@ -140,7 +140,6 @@ arcade::IGame *createGame(arcade::Vector2u const &dim) {
 void				arcade::Snake::getMap()
 {
   struct GetMap			*getMap;
-
   getMap = new GetMap[sizeof(getMap) + (_dim.x * _dim.y) * sizeof(TileType)];
   getMap->type = arcade::CommandType::GET_MAP;
   getMap->width = _dim.x;
@@ -148,24 +147,21 @@ void				arcade::Snake::getMap()
   for (unsigned int i = 0; i < _dim.y; i++) {
     for (unsigned int y = 0; y < _dim.x; y++) {
       switch (_map->getPosBlock(Vector2u(i, y))) {
-        case arcade::Map::Player :
-          getMap->tile[i * y] = arcade::TileType::OTHER;
-          break;
-        case arcade::Map::Empty :
-          getMap->tile[i * y] = arcade::TileType::EMPTY;
-          break;
-        case arcade::Map::Block :
-          getMap->tile[i * y] = arcade::TileType::BLOCK;
-          break;
-        case arcade::Map::Object :
-          getMap->tile[i * y] = arcade::TileType::POWERUP;
-          break;
-        default:
-          break;
+      case Map::Empty :
+	getMap->tile[i + y * _dim.x] = TileType::EMPTY;
+	break;
+      case Map::Block :
+	getMap->tile[i + y * _dim.x] = TileType::BLOCK;
+	break;
+      case Map::Object :
+	getMap->tile[i + y * _dim.x] = TileType::POWERUP;
+	break;
+      default:
+	break;
       }
     }
   }
-  std::cout.write((char*)(getMap), sizeof(getMap));
+  std::cout.write((char*)getMap, sizeof(GetMap) + (_dim.x * _dim.y) * sizeof(TileType));
 }
 
 void				        arcade::Snake::whereAmI()
@@ -175,48 +171,50 @@ void				        arcade::Snake::whereAmI()
 
   i = 0;
   whereAmI = new arcade::WhereAmI[sizeof(WhereAmI) + _posPerso.size() * sizeof(Position)];
-  whereAmI->type = arcade::CommandType::WHERE_AM_I;
+  whereAmI->type = CommandType::WHERE_AM_I;
   whereAmI->lenght = (uint16_t)(_posPerso.size());
   for (std::vector<Vector2u>::iterator it = _posPerso.begin(); it != _posPerso.end(); it++) {
     whereAmI->position[i].x = it->x;
     whereAmI->position[i].y = it->y;
     i++;
   }
-  std::cout.write((char*)&whereAmI, sizeof(whereAmI)); // - ((_dim.x * _dim.y) - whereAmI->lenght)
+  std::cout.write((char*)whereAmI, sizeof(WhereAmI) + _posPerso.size() * sizeof(Position));
+  delete(whereAmI);
 }
 
 extern "C" void				Play() {
-  arcade::CommandType		lastInput;
-  arcade::Snake		        snake(arcade::Vector2u(20, 20));
-
+  arcade::CommandType			lastInput;
+  std::string				name;
+  arcade::Snake				snake(arcade::Vector2u(20, 20));
+  
   while (!std::cout.eof())
-  {
-    lastInput = (arcade::CommandType)std::cin.get();
-    switch(lastInput)
     {
-      case arcade::CommandType::GO_UP :
-        snake.goUp();
-        break;
-      case arcade::CommandType::GO_DOWN :
-        snake.goDown();
-        break;
-      case arcade::CommandType::GO_LEFT :
-        snake.goLeft();
-        break;
-      case arcade::CommandType::GO_RIGHT :
-        snake.goRight();
-        break;
-      case arcade::CommandType::WHERE_AM_I :
-        snake.whereAmI();
-        break;
-      case arcade::CommandType::GET_MAP :
-        snake.getMap();
-        break;
-      case arcade::CommandType::PLAY :
-        snake.updateGame();
-        break;
-      default:
-        break;
+      std::cin.read((char *)&lastInput, sizeof(arcade::CommandType));
+      switch(lastInput)
+	{
+	case arcade::CommandType::GO_UP :
+	  snake.goUp();
+	  break;
+	case arcade::CommandType::GO_DOWN :
+	  snake.goDown();
+	  break;
+	case arcade::CommandType::GO_LEFT :
+	  snake.goLeft();
+	  break;
+	case arcade::CommandType::GO_RIGHT :
+	  snake.goRight();
+	  break;
+	case arcade::CommandType::WHERE_AM_I :
+	  snake.whereAmI();
+	  break;
+	case arcade::CommandType::GET_MAP :
+	  snake.getMap();
+	  break;
+	case arcade::CommandType::PLAY :
+	  snake.updateGame();
+	  break;
+	default:
+	  break;
+	}
     }
-  }
 }

@@ -5,7 +5,7 @@
 ## Login   <thauvi_a@epitech.net>
 ##
 ## Started on  Mon Mar  6 14:29:08 2017 Alexandre Thauvin
-## Last update Wed Mar 29 18:47:40 2017 Paul THEIS
+## Last update Sat Apr  8 11:34:57 2017 Cedric
 ##
 
 DEBUG			?=		yes
@@ -27,7 +27,7 @@ CORE			=		src/core
 
 GFX			=		lib/
 
-CC			=		g++
+CC			=		g++-6
 AR			=		ar
 RM			=		rm -Rf
 

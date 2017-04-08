@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-#include "../../src/core/include/Map.hpp"
+#include "Map.hpp"
 #include "Personnage.hpp"
 #include "Missile.hpp"
 #include "IGame.hpp"
