@@ -53,7 +53,7 @@ arcade::Core::Core(void) {
   _gfxlib[NCURSES] = "./lib/lib_arcade_ncurses.so";
 
   _gamelib[SNAKE]    = "games/lib_arcade_snake.so";
-  _gamelib[CENTIPED] = "games/lib_arcade_snake.so";
+  _gamelib[CENTIPED] = "games/lib_arcade_centipede.so";
 
   _img[0]  = "assets/snake.png";
   _img[1]  = "assets/centipede.png";
@@ -152,6 +152,11 @@ void arcade::Core::drawMap(void) {
           a.setColor(arcade::Color((unsigned char) 238, (unsigned char) 110,
                                    (unsigned char) 115));
           a.setText("O");
+          break;
+        case arcade::Map::Shoot:
+          a.setColor(arcade::Color((unsigned char) 220, (unsigned char) 220,
+                                   (unsigned char) 0));
+          a.setText("|");
           break;
       }
       switch (_libId) {

@@ -2,7 +2,6 @@
 // Created by thauvi_a on 3/20/17.
 //
 
-#include <fstream>
 #include "Snake.hpp"
 
 arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
@@ -99,6 +98,8 @@ bool arcade::Snake::updateGame() {
     newPos.x = it->x - 1;
     newPos.y = it->y;
     break;
+    default:
+	break;
   }
   _posPerso.pop_back();
   if (_map->getPosBlock(newPos) == arcade::Map::Player)
@@ -184,14 +185,13 @@ void				        arcade::Snake::whereAmI()
 }
 
 extern "C" void				Play() {
-  arcade::CommandType		lastInput;
-  arcade::Snake		        snake(arcade::Vector2u(20, 20));
-  std::ifstream is (0, std::ifstream::binary);
+  arcade::CommandType			lastInput;
+  std::string				name;
+  arcade::Snake				snake(arcade::Vector2u(20, 20));
 
   while (!std::cout.eof())
     {
-      is.read();
-    }
+      std::cin.read((char *)&lastInput, sizeof(arcade::CommandType));
       switch(lastInput)
 	{
 	case arcade::CommandType::GO_UP :
