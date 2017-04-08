@@ -16,10 +16,6 @@ void arcade::Centipede::play() {
 
 }
 
-void arcade::Centipede::shoot() {
-
-}
-
 void arcade::Centipede::goDown() {
   _tower->goDown();
 }
