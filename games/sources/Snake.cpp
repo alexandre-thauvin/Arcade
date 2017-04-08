@@ -137,7 +137,7 @@ void				arcade::Snake::getMap()
 {
   struct GetMap			*getMap;
   
-  getMap = new GetMap[sizeof(getMap) + (_dim.x * _dim.y) * sizeof(TileType)];
+  getMap = new GetMap[sizeof(GetMap) + (_dim.x * _dim.y) * sizeof(TileType)];
   getMap->type = arcade::CommandType::GET_MAP;
   getMap->width = _dim.x;
   getMap->height = _dim.y;
@@ -161,7 +161,7 @@ void				arcade::Snake::getMap()
       }
     }
   }
-  std::cout.write((char*)(getMap), sizeof(getMap));
+  std::cout.write((char*)getMap, sizeof(GetMap) * (_dim.x * _dim.y) * sizeof(TileType));
 }
 
 void				        arcade::Snake::whereAmI()
@@ -174,11 +174,13 @@ void				        arcade::Snake::whereAmI()
   whereAmI->type = arcade::CommandType::WHERE_AM_I;
   whereAmI->lenght = (uint16_t)(_posPerso.size());
   for (std::vector<Vector2u>::iterator it = _posPerso.begin(); it != _posPerso.end(); it++) {
+std::cout << "PASS\n";
     whereAmI->position[i].x = it->x;
     whereAmI->position[i].y = it->y;
     i++;
-  }
-  std::cout.write((char*)&whereAmI, sizeof(whereAmI)); // - ((_dim.x * _dim.y) - whereAmI->lenght)
+}
+std::cout.write((char*)whereAmI, sizeof(WhereAmI) + ((_dim.x * _dim.y) - whereAmI->lenght));// + _posPerso.size() * sizeof(Position)
+delete(whereAmI);
 }
 
 extern "C" void				Play() {
