@@ -6,7 +6,13 @@ SRC	=	sources/Centipede.cpp \
 		sources/Personnage.cpp \
 		sources/Missile.cpp
 
-LIB     =	lib_arcade_centipede.so
+SRC1	= sources/Snake.cpp \
+	sources/Personnage.cpp \
+	../src/core/src/Map.cpp
+
+LIB_SNAKE     =	lib_arcade_snake.so
+
+LIB_CENTI	= lib_arcade_centipede.so
 
 OBJ	=       $(SRC:.cpp=.o)
 
@@ -21,7 +27,8 @@ $(NAME) :       $(OBJ)
 
 lib	:
 		$(eval CXXFLAGS += -shared -fPIC)
-		$(GXX) -o $(LIB) $(CXXFLAGS) $(SRC)
+		$(GXX) -o $(LIB_CENTI) $(CXXFLAGS) $(SRC)
+		$(GXX) -o $(LIB_SNAKE) $(CXXFLAGS) $(SRC1)
 
 all	:       $(NAME)
 

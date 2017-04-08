@@ -98,6 +98,8 @@ bool arcade::Snake::updateGame() {
     newPos.x = it->x - 1;
     newPos.y = it->y;
     break;
+    default:
+	break;
   }
   _posPerso.pop_back();
   if (_map->getPosBlock(newPos) == arcade::Map::Player)
