@@ -127,7 +127,8 @@ bool arcade::Centipede::updateGame() {
   for (it = _posPerso.begin(); it != _posPerso.end(); it++) {
     _map->setPosBlock(*it, arcade::Map::Player);
   }
-  move_centi();
+  if (!move_centi())
+    return (false);
   return true;
 }
 
@@ -175,7 +176,7 @@ void arcade::Centipede::setchampi() {
   _map->setPosBlock(arcade::Vector2u(18, 15), arcade::Map::Object);
 }
 
-void arcade::Centipede::move_centi() {
+bool arcade::Centipede::move_centi() {
   arcade::Vector2u pos;
   for (pos.y = 0 ; pos.y < _dim.y; pos.y++)
   {
@@ -191,22 +192,35 @@ void arcade::Centipede::move_centi() {
 	  pos.x--;
 	  if (pos.y != _dim.y) {
 	    pos.y++;
+	    if (_map->getPosBlock(pos) == arcade::Map::Player) {
+	      return false;
+	    }
 	    _map->setPosBlock(pos, arcade::Map::Centi);
 	    pos.y--;
 	  }
 	  else
 	  {
 	    pos.y--;
+	    if (_map->getPosBlock(pos) == arcade::Map::Player) {
+	      return false;
+	    }
 	    _map->setPosBlock(pos, arcade::Map::Centi);
 	    pos.y++;
 	  }
+	}
+	else if (_map->getPosBlock(pos) == arcade::Map::Player){
+	  return (false);
 	}
 	_map->setPosBlock(pos, arcade::Map::Centi);
 	pos.x--;
       }
     }
-
   }
+  return (true);
+}
+
+void arcade::Centipede::shoot() {
+
 }
 
 extern "C" {
