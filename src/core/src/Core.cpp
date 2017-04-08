@@ -19,6 +19,8 @@
 #define SIZE_X 400
 #define SIZE_Y 600
 
+static bool quit = true;
+
 arcade::Core::Core(void) {
   _state = GameState::MenuState;
   _input.insert(std::make_pair(
@@ -90,17 +92,17 @@ void arcade::Core::init(std::string const &lib, std::string const &conf) {
 }
 
 bool arcade::Core::play(void) {
-  arcade::InputT      input;
-  clock_t             t;
+  arcade::InputT input;
+  clock_t        t;
 
   t = clock();
-  while (true) {
+  while (quit) {
     input = _gfx->getInput();
     if (_input.find(input) != _input.end()) {
       _input[input]();
     }
     if ((clock() - t) > 100000) {
-    _gfx->clear();
+      _gfx->clear();
       t = clock();
       switch (_state) {
         case MenuState:
@@ -120,6 +122,7 @@ bool arcade::Core::play(void) {
       _gfx->display();
     }
   }
+  return true;
 }
 
 void arcade::Core::drawMap(void) {
@@ -181,7 +184,6 @@ void arcade::Core::drawMap(void) {
 void arcade::Core::menu(void) {
   arcade::DrawObject a;
   arcade::Vector2i   pos;
-  std::string        selector("[ ]");
 
   switch (_libId) {
     case 0:
@@ -196,13 +198,12 @@ void arcade::Core::menu(void) {
       }
       break;
     case 1:
-      a.setSize(Vector2u(SIZE_X - 1, 1));
-      a.setPosition(Vector2i(0, 0));
-      _gfx->draw(a);
-      for (int i = 0; i < GameSize; ++i) {
+      for (int i = -1; i < GameSize; ++i) {
         a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 1 : 2), 1));
-        a.setPosition(Vector2i(5, i + 1));
-        a.setText((_menuId == i) ? selector.append(_gfxlib[i]) : selector.append(_gfxlib[i]));
+        a.setPosition(Vector2i(5, 4 - (i + 1)));
+        a.setText(
+                (_menuId == i) ? std::string("[*]").append(!_gamelib[i].empty() ? _gamelib[i] : "Quitter") : std::string("[ ]").append(
+                        !_gamelib[i].empty() ? _gamelib[i] : "Quitter"));
         _gfx->draw(a);
       }
       break;
@@ -262,7 +263,7 @@ void arcade::Core::goRight(void) {
 void arcade::Core::goQuit(void) {
   switch (_state) {
     case MenuState:
-      arcade_ragequit(0);
+      quit = false;
       break;
     case PlayState:
       _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
@@ -284,7 +285,7 @@ void arcade::Core::goEnter(void) {
         _gfx->setWindowSize(_game->getDimension() * 30);
         _gfx->setTitleWindow(_game->getGamesName());
       } else {
-        arcade_ragequit(0);
+        quit = false;
       }
       break;
     case PlayState:
@@ -311,7 +312,8 @@ void arcade::Core::goShoot(void) {
 void arcade::Core::loadGfx(int id) {
   std::cout << "LoadGfx: " << _gfxlib[id % GfxSize] << std::endl;
   Loader <IGFX> *gfx_loader = new Loader<IGFX>(_gfxlib[id % GfxSize]);
-  if ((_gfx = gfx_loader->getInstance("createLib", Vector2u(SIZE_X, SIZE_Y))) == NULL)
+  if ((_gfx = gfx_loader->getInstance("createLib", Vector2u(SIZE_X, SIZE_Y))) ==
+      NULL)
     throw arcade::Error("Error: ", INFO);
 }
 
@@ -339,9 +341,10 @@ void arcade::Core::loadGame(int id) {
   if (_game)
     delete _game;
   Loader <IGame> *game_loader = new Loader<IGame>(_gamelib[id % GameSize]);
-  if ((_game = game_loader->getInstance("createGame", Vector2u(20, 20))) == NULL)
+  if ((_game = game_loader->getInstance("createGame", Vector2u(20, 20))) ==
+      NULL)
     throw arcade::Error("Error: ", INFO);
-  _map = _game->getMap();
+  _map       = _game->getMap();
   _gfx->setTitleWindow(_game->getGamesName());
 }
 
@@ -356,6 +359,5 @@ void arcade::Core::loadPrevGame(void) {
 void arcade_ragequit(int x) {
   (void) x;
   std::cout << std::endl << "OMFG! Don't ragequit!" << std::endl;
-  std::cout << "exit" << std::endl;
-  exit(1);
+  quit = false;
 }
