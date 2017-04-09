@@ -17,6 +17,7 @@ arcade::Snake::Snake(arcade::Vector2u const &dim) : _dim(dim) {
   _map->setPosBlock(arcade::Vector2u(dim.x / 2 - 3, dim.y / 2), arcade::Map::Player);
   _map->createObject(Vector2u(0, 0));
   _name = "Snake";
+  _score = 0;
   goRight();
 }
 

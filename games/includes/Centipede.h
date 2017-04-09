@@ -39,6 +39,7 @@ namespace arcade {
         virtual std::vector<Vector2u> const &getPos() const;
         void setchampi();
         bool move_centi();
+	void createNewCenti(Vector2u const&);
         void shoot();
     private:
         Map           *_map;

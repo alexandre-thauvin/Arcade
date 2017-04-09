@@ -1,6 +1,4 @@
 
-<!-- saved from url=(0092)https://intra.epitech.eu/module/2016/B-PAV-330/BDX-4-1/acti-237708/project/file/Protocol.hpp -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body cz-shortcut-listen="true">// Kind of Advanced Language Assistant Laboratory 2006-2042
 // Epitech 1999-2042
 // Jason Brillante brilla_a brilla_b
 // Have you played Atari today?
@@ -61,5 +59,3 @@ namespace		arcade
 }
 
 #endif	//		__ARCADE_PROTOCOL_HPP__
-
-</stdint.h></body></html>

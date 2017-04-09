@@ -2,7 +2,7 @@
 // Created by thauvi_a on 4/6/17.
 //
 
-#include <zconf.h>
+#include <ctime>
 #include "Centipede.h"
 
 bool arcade::Centipede::isPlayerAlive() {
@@ -70,7 +70,9 @@ std::vector <arcade::Vector2u> const &arcade::Centipede::getPos() const {
 arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
   std::vector<Vector2u>	pos;
 
+  _score = 0;
   _shoot = NULL;
+  std::srand(std::time(0));
   _posPerso.push_back(arcade::Vector2u(dim.x / 2, dim.y - 4));
   _map   = new arcade::Map(dim);
   _tower = new arcade::Personnage();
@@ -78,6 +80,9 @@ arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
   pos.push_back(arcade::Vector2u(2, 1));
   pos.push_back(arcade::Vector2u(3, 1));
   pos.push_back(arcade::Vector2u(4, 1));
+  pos.push_back(arcade::Vector2u(5, 1));
+  pos.push_back(arcade::Vector2u(6, 1));
+  pos.push_back(arcade::Vector2u(7, 1));
   _centi.push_back(new arcade::Centi(pos));
   _centi.front()->goRight();
   setchampi();
@@ -85,7 +90,10 @@ arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
   _map->setPosBlock(arcade::Vector2u(2, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(3, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(4, 1), arcade::Map::Centi);
-  _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y - 4), arcade::Map::Player);
+  _map->setPosBlock(arcade::Vector2u(5, 1), arcade::Map::Centi);
+  _map->setPosBlock(arcade::Vector2u(6, 1), arcade::Map::Centi);
+  _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y - 4),
+                    arcade::Map::Player);
   _dim = dim;
 }
 
@@ -129,6 +137,9 @@ bool arcade::Centipede::updateGame() {
     _tower->setPos(_posPerso);
   }
   _map->clear();
+  for (it = _posPerso.begin(); it != _posPerso.end(); it++) {
+    _map->setPosBlock(*it, arcade::Map::Player);
+  }
   if (!move_centi())
     return false;
   if (_shoot && _shoot->getAlive())
@@ -137,7 +148,7 @@ bool arcade::Centipede::updateGame() {
       if (_map->getPosBlock(_shoot->getPos()) == arcade::Map::Empty)
   	{
 	  _map->setPosBlock(Vector2u(_shoot->getPos().x, _shoot->getPos().y + 1), Map::Empty);
-	  _map->setPosBlock(_shoot->getPos(), Map::Centi);
+	  _map->setPosBlock(_shoot->getPos(), Map::Shoot);
 	}
       else
   	{
@@ -151,47 +162,41 @@ bool arcade::Centipede::updateGame() {
 	    _map->setPosBlock(Vector2u(_shoot->getPos().x, _shoot->getPos().y + 1), Map::Empty);
 	    _shoot->setAlive(false);
 	    break;
+	  case Map::Centi :
+	    //createNewCenti(_shoot->getPos());
+	    _map->setPosBlock(_shoot->getPos(), Map::Object);
 	  default :
 	    break;
 	  }
   	}
     }
-  for (it = _posPerso.begin(); it != _posPerso.end(); it++) {
-    _map->setPosBlock(*it, arcade::Map::Player);
-  }
   return true;
 }
 
+// void arcade::Centipede::createNewCenti(arcade::Vector2u const& pos) {
+//   int	i = -1;
+  
+//   for (std::list<Centi *>::iterator it = _centi.begin(); it != _centi.end(); it++) {
+//     for (std::vector<Vector2u>::const_iterator itv = (*it)->getPos().begin(); itv != (*it)->getPos().end(); itv++) {
+//       if (pos.x == (*itv).x && pos.y == (*itv).y)
+// 	i = 0;
+//       if (i >= 0)
+//       	{
+//       	  i++;
+//       	  (*it)->removeLastPos();
+//       	}
+//     }
+//   }
+//   std::cout << i << "\n";
+// }
+
 void arcade::Centipede::setchampi() {
-  _map->setPosBlock(arcade::Vector2u(10, 2), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(15, 1), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(6, 2), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(6, 5), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(10, 7), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(15, 7), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(4, 6), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(16, 1), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(9, 7), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(8, 7), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(7, 5), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(13, 7), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(14, 7), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(12, 10), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(8, 10), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(5, 10), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(15, 10), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(11, 10), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(18, 10), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(6, 10), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(7, 12), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(17, 12), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(6, 12), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(10, 12), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(9, 12), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(6, 14), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(12, 14), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(5, 14), arcade::Map::Object);
-  _map->setPosBlock(arcade::Vector2u(7, 14), arcade::Map::Object);
+  for (unsigned int y = 1; y < 19; ++y) {
+    for (unsigned int x = 1; x < 19; ++x) {
+      if ((std::rand() % 20) == 0)
+        _map->setPosBlock(arcade::Vector2u(x, y), arcade::Map::Object);
+    }
+  }
 }
 
 bool arcade::Centipede::move_centi() {
@@ -217,7 +222,7 @@ bool arcade::Centipede::move_centi() {
       default :
 	break;
       }
-      if ((newPos.x == 18 || newPos.x == 1) && newPos.y == 19)
+      if (newPos.y == 19 || _map->getPosBlock(newPos) == Map::Player)
 	return false;
       if ((*it)->getCentiDir() == D_DOWN && (*it)->getLastDir() == D_RIGHT)
 	(*it)->setCentiDir(D_LEFT);

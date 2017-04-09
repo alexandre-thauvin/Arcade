@@ -11,7 +11,7 @@ CXXFLAGS	+=		-I../../include/ -I../../../src/core/include/
 CXXFLAGS	+=		-fPIC
 
 LDFLAGS		+=		-L../../lib/ -shared
-LDFLAGS		+=		-lSDL2 -lSDL2_image
+LDFLAGS		+=		-lSDL2 -lSDL2_image -g
 
 OBJ 		=		$(SRC:.cpp=.o)
 

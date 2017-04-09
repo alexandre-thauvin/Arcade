@@ -85,19 +85,13 @@ void           arcade::GfxNCURSES::draw(DrawObject const& obj) {
   } else {
     mvprintw(pos.y, pos.x, obj.getText().c_str());
   }
-  // SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255 );
 }
 
 arcade::InputT	arcade::GfxNCURSES::getInput() {
   int input = getch();
   
   if (_input.find(input) != _input.end())
-    {
-      InputT in = _input[input];
-      in.type = InputT::KeyReleased;
-      in.unicode = input;
       return (_input[input]);
-    }
   return (InputT(InputT::None, Input::NONE, InputT::None));
 }
 

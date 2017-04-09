@@ -66,8 +66,5 @@ CMakeCache.txt/
 Supprimerait cmake_install.cmake
 Supprimerait obj/
 Supprimerait src/core/src/
-Supprimerait src/core/obj/
-
-!lib/libSDL2.so
-
+Supprimerait src/core/obj/ss
 Supprimerait lib/lib/

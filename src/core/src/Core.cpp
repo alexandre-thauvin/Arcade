@@ -1,5 +1,5 @@
 /* ************************************************************************** *
- *   Core.cpp
+ *
  *                                                       :::      ::::::::    *
  *                                                     :+: :+:    :+:    :+:  *
  *                                                    +:+   +:+   +:+    +:+  *
@@ -15,9 +15,6 @@
 #include "Core.hpp"
 #include "Loader.hpp"
 #include <time.h>
-
-#define SIZE_X 400
-#define SIZE_Y 600
 
 static bool quit = true;
 
@@ -86,7 +83,8 @@ void arcade::Core::init(std::string const &lib, std::string const &conf) {
     if (lib.empty()) {
       loadGfx(_libId);
     } else {
-      for (std::map<int, std::string>::iterator it = _gfxlib.begin(); it != _gfxlib.end(); ++it )
+      for (std::map<int, std::string>::iterator it = _gfxlib.begin();
+           it != _gfxlib.end(); ++it)
         if (it->second == lib) {
           loadGfx(it->first);
           _libId = it->first;
@@ -122,6 +120,9 @@ bool arcade::Core::play(void) {
             _state = MenuState;
             _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
           }
+          _gfx->setTitleWindow(std::string(_game->getGamesName()).append(
+                  std::string(" score: ").append(
+                          std::to_string(_game->getScore()))));
           drawMap();
           break;
         case PauseState:
@@ -205,7 +206,7 @@ void arcade::Core::menu(void) {
       for (int i = -1; i < GameSize; ++i) {
         a.setText(_img[i]);
         a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 100 : 140), 75));
-        a.setPosition(Vector2i((_menuId == i) ? 30 : 50,
+        a.setPosition(Vector2i((_menuId == i) ? 50 : 70,
                                SIZE_Y - (150 + (100 * (i + 1)))));
         _gfx->draw(a);
       }
@@ -215,7 +216,9 @@ void arcade::Core::menu(void) {
         a.setSize(Vector2u(SIZE_X - ((_menuId == i) ? 1 : 2), 1));
         a.setPosition(Vector2i(5, 4 - (i + 1)));
         a.setText(
-                (_menuId == i) ? std::string("[*]").append(!_gamelib[i].empty() ? _gamelib[i] : "Quitter") : std::string("[ ]").append(
+                (_menuId == i) ? std::string("[*]").append(
+                        !_gamelib[i].empty() ? _gamelib[i] : "Quitter")
+                               : std::string("[ ]").append(
                         !_gamelib[i].empty() ? _gamelib[i] : "Quitter"));
         _gfx->draw(a);
       }
@@ -376,14 +379,14 @@ void arcade::Core::loadGame(int id) {
 
 void arcade::Core::loadNextGame(void) {
   _gameId = (++_gameId > (GameSize - 1)) ? 0 : _gameId;
-  _state = MenuState;
+  _state  = MenuState;
   _menuId = _gameId;
   goEnter();
 }
 
 void arcade::Core::loadPrevGame(void) {
   _gameId = (--_gameId < 0) ? (GameSize - 1) : _gameId;
-  _state = MenuState;
+  _state  = MenuState;
   _menuId = _gameId;
   goEnter();
 }
