@@ -8,12 +8,15 @@
 namespace arcade {
     class Missile {
         Vector2u              _pos;
+      bool		      _alive;
     public:
-        Missile();
-        ~Missile() {};
+        Missile(Vector2u const&);
+      ~Missile() {_alive = false;};
 
         Missile &operator=(Missile const &);
-        void go();
+        void setAlive(bool);
+        bool const& getAlive() const;
+	void go();
         void setPos(Vector2u const &);
         Vector2u const &getPos() const;
     };

@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <list>
 #include "Map.hpp"
 #include "Personnage.hpp"
 #include "Missile.hpp"
@@ -39,10 +40,11 @@ namespace arcade {
         bool move_centi();
         void shoot();
     private:
-        arcade::Map           *_map;
-        arcade::Personnage    *_tower;
-        arcade::Missile       *_shoot;
-        arcade::Vector2u      _dim;
+        Map           *_map;
+        Personnage    *_tower;
+	std::list<Personnage*>    _centi;
+        Missile       *_shoot;
+        Vector2u      _dim;
         std::vector<Vector2u> _posPerso;
         std::vector<Vector2u> _posCenti;
         std::string           _name;
