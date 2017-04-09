@@ -17,14 +17,14 @@ namespace                       arcade {
         virtual                     ~IGame(void) {}
 
     virtual std::vector<arcade::Vector2u> const&	getPos() const = 0;
-        virtual std::string         getGamesName(void) const = 0; // get_name
-        virtual void                restart(void) = 0; // relance play
-        virtual bool                isPlayerAlive(void) = 0; // check_death
-        virtual bool                isPlayerWin(void) const = 0; // check_win
-        virtual size_t              getScore(void) const = 0; // get_score
-        virtual Vector2u            getDimension(void) const = 0; // get WIDTH
-        virtual bool                updateGame() = 0; //static += tick 20
-        virtual Map const           *getMap(void) const = 0; // Paul
+        virtual std::string         getGamesName(void) const = 0;
+        virtual void                restart(void) = 0;
+        virtual bool                isPlayerAlive(void) = 0;
+        virtual bool                isPlayerWin(void) const = 0;
+        virtual size_t              getScore(void) const = 0;
+        virtual Vector2u            getDimension(void) const = 0;
+        virtual bool                updateGame() = 0;
+        virtual Map const           *getMap(void) const = 0;
         virtual bool            move_player(void) = 0;
         virtual void            goUp(void) = 0;
         virtual void            goDown(void) = 0;

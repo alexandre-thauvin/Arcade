@@ -40,7 +40,8 @@ namespace arcade {
         }
 
         template<class FromT>
-        Vector2(const Vector2<FromT> &src): x(static_cast<T>(src.x)), y(static_cast<T>(src.y)) {
+        Vector2(const Vector2<FromT> &src): x(static_cast<T>(src.x)),
+                                            y(static_cast<T>(src.y)) {
         }
 
         template<class FromT>

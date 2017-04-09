@@ -1,12 +1,14 @@
-//
-// DrawObject.hpp for  in /home/aneopsy/cpp_arcade/src/core/include/
-//
-// Made by Paul THEIS
-// Login   <theis_p@epitech.eu>
-//
-// Started on  Wed Mar 29 17:48:48 2017 Paul THEIS
-// Last update Wed Mar 29 18:46:39 2017 Paul THEIS
-//
+/* ************************************************************************** *
+ *
+ *                                                       :::      ::::::::    *
+ *                                                     :+: :+:    :+:    :+:  *
+ *                                                    +:+   +:+   +:+    +:+  *
+ *   By: THEIS Paul                                  +#++:++#++:  +#++:++#+   *
+ *                                                   +#+     +#+  +#+         *
+ *   Created: 20/03/17                               #+#     #+#  #+#         *
+ *   Updated: 20/03/17                               #+#     #+#  #+#         *
+ *   Project: cpp_arcade
+ * ************************************************************************** */
 
 #ifndef _DRAWOBJECT_HPP_
 # define _DRAWOBJECT_HPP_

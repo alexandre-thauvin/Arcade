@@ -1,12 +1,14 @@
-//
-// IGFX.hpp for  in /home/aneopsy/cpp_arcade/src/core/include/
-//
-// Made by Paul THEIS
-// Login   <theis_p@epitech.eu>
-//
-// Started on  Tue Mar 28 16:38:42 2017 Paul THEIS
-// Last update Wed Mar 29 18:46:09 2017 Paul THEIS
-//
+/* ************************************************************************** *
+ *
+ *                                                       :::      ::::::::    *
+ *                                                     :+: :+:    :+:    :+:  *
+ *                                                    +:+   +:+   +:+    +:+  *
+ *   By: THEIS Paul                                  +#++:++#++:  +#++:++#+   *
+ *                                                   +#+     +#+  +#+         *
+ *   Created: 20/03/17                               #+#     #+#  #+#         *
+ *   Updated: 20/03/17                               #+#     #+#  #+#         *
+ *   Project: cpp_arcade
+ * ************************************************************************** */
 
 #ifndef _IGFX_HPP_
 # define _IGFX_HPP_
