@@ -3,7 +3,7 @@ all:
 	make -C ./src/core/
 	make -C ./lib/src/SDL/
 	make -C ./lib/src/NCURSES/
-	make -C ./lib/src/LAPIN/
+#	make -C ./lib/src/LAPIN/
 	make lib -C ./games/
 
 re:	fclean all
