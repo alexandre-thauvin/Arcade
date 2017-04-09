@@ -30,7 +30,7 @@ arcade::GfxSDL::GfxSDL(arcade::Vector2u const& dim) {
   _input[SDLK_z] = InputT(InputT::KeyPressed, Input::UP, InputT::None);
   _mainSize = dim;
   _isOpen = true;
-  _mainWindow = SDL_CreateWindow("Arcade", 0, 0, _mainSize.x, _mainSize.y , 0);
+  _mainWindow = SDL_CreateWindow("Arcade", 300, 400, _mainSize.x, _mainSize.y , 0);
   _renderer = SDL_CreateRenderer(_mainWindow, -1, 0);
 }
 

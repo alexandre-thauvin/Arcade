@@ -122,6 +122,7 @@ bool arcade::Core::play(void) {
             _state = MenuState;
             _gfx->setWindowSize(Vector2u(SIZE_X, SIZE_Y));
           }
+          _gfx->setTitleWindow(std::string(_game->getGamesName()).append(std::string(" score: ").append(std::to_string(_game->getScore()))));
           drawMap();
           break;
         case PauseState:
