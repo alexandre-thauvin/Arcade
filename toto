@@ -1,1 +1,4 @@
-1
+LoadGfx: ./lib/lib_arcade_sdl.so
+0
+LoadGfx: ./lib/lib_arcade_ncurses.so
+[?1049h[1;55r(B[m[4l[?7h[?1h=[?25l
