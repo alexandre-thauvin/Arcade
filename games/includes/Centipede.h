@@ -12,6 +12,7 @@
 #include "Map.hpp"
 #include "Personnage.hpp"
 #include "Missile.hpp"
+#include "Centi.hpp"
 #include "IGame.hpp"
 
 namespace arcade {
@@ -38,22 +39,22 @@ namespace arcade {
         virtual std::vector<Vector2u> const &getPos() const;
         void setchampi();
         bool move_centi();
+        void createNewCenti(Vector2u const &);
         void shoot();
         void getMap();
         void whereAmI();
     private:
-        Map                     *_map;
-        Personnage              *_tower;
-        std::list<Personnage *> _centi;
-        Missile                 *_shoot;
-        Vector2u                _dim;
-        std::vector<Vector2u>   _posPerso;
-        std::vector<Vector2u>   _posCenti;
-        std::string             _name;
-        bool                    _state;
-        bool                    _alive;
-        unsigned int            _score;
-        unsigned int            food;
+        Map                   *_map;
+        Personnage            *_tower;
+        std::list<Centi *>    _centi;
+        Missile               *_shoot;
+        Vector2u              _dim;
+        std::vector<Vector2u> _posPerso;
+        std::string           _name;
+        bool                  _state;
+        bool                  _alive;
+        unsigned int          _score;
+        unsigned int          food;
     };
 }
 

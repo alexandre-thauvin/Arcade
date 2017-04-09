@@ -11,7 +11,8 @@ LDFLAGS         +=              -shared
 SRC_C		=		sources/Centipede.cpp \
 				../src/core/src/Map.cpp \
 				sources/Personnage.cpp \
-				sources/Missile.cpp
+				sources/Missile.cpp \
+				sources/Centi.cpp
 
 SRC_S		=		sources/Snake.cpp \
 				../src/core/src/Map.cpp \

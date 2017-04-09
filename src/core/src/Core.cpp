@@ -317,7 +317,6 @@ void arcade::Core::goEnter(void) {
       }
       break;
     case PlayState:
-      _game->shoot();
       _state = GameState::PauseState;
       break;
     case PauseState:
