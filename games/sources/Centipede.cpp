@@ -73,6 +73,7 @@ arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
   _map   = new arcade::Map(dim);
   _tower = new arcade::Personnage();
   _centi.push_back(new arcade::Personnage());
+  _score = 0;
   setchampi();
   _map->setPosBlock(arcade::Vector2u(1, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(2, 1), arcade::Map::Centi);
@@ -81,6 +82,7 @@ arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
   _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y - 4),
                     arcade::Map::Player);
   _dim = dim;
+  _shoot = 0;
 }
 
 bool arcade::Centipede::updateGame() {
@@ -183,4 +185,96 @@ arcade::IGame *createGame(arcade::Vector2u const &dim) {
   return (new arcade::Centipede(dim));
 }
 }
-  
+
+/*
+ * Mouli
+ */
+
+void				arcade::Centipede::getMap()
+{
+  struct GetMap			*getMap;
+  getMap = new GetMap[sizeof(getMap) + (_dim.x * _dim.y) * sizeof(TileType)];
+  getMap->type = arcade::CommandType::GET_MAP;
+  getMap->width = _dim.x;
+  getMap->height = _dim.y;
+  for (unsigned int i = 0; i < _dim.y; i++) {
+    for (unsigned int y = 0; y < _dim.x; y++) {
+      switch (_map->getPosBlock(Vector2u(i, y))) {
+        case Map::Empty :
+          getMap->tile[i + y * _dim.x] = TileType::EMPTY;
+          break;
+        case Map::Block :
+          getMap->tile[i + y * _dim.x] = TileType::BLOCK;
+          break;
+        case Map::Object :
+          getMap->tile[i + y * _dim.x] = TileType::OBSTACLE;
+          break;
+        case Map::Shoot :
+          getMap->tile[i + y * _dim.x] = TileType::MY_SHOOT;
+          break;
+        case Map::Centi :
+          getMap->tile[i + y * _dim.x] = TileType::EVIL_DUDE;
+          break;
+        default:
+          break;
+      }
+    }
+  }
+  std::cout.write((char*)getMap, sizeof(GetMap) + (_dim.x * _dim.y) * sizeof(TileType));
+}
+
+void				        arcade::Centipede::whereAmI()
+{
+  struct WhereAmI			*whereAmI;
+  int					i;
+
+  i = 0;
+  whereAmI = new arcade::WhereAmI[sizeof(WhereAmI) + _posPerso.size() * sizeof(Position)];
+  whereAmI->type = CommandType::WHERE_AM_I;
+  whereAmI->lenght = (uint16_t)(_posPerso.size());
+  for (std::vector<Vector2u>::iterator it = _posPerso.begin(); it != _posPerso.end(); it++) {
+    whereAmI->position[i].x = it->x;
+    whereAmI->position[i].y = it->y;
+    i++;
+  }
+  std::cout.write((char*)whereAmI, sizeof(WhereAmI) + _posPerso.size() * sizeof(Position));
+}
+
+extern "C" void				Play() {
+  arcade::CommandType		lastInput;
+  arcade::Centipede			centipute(arcade::Vector2u(20, 20));
+
+  while (!std::cout.eof())
+  {
+    std::cin.read((char *)&lastInput, sizeof(arcade::CommandType));
+    switch(lastInput)
+    {
+      case arcade::CommandType::GO_UP :
+        centipute.goUp();
+        break;
+      case arcade::CommandType::GO_DOWN :
+        centipute.goDown();
+        break;
+      case arcade::CommandType::GO_LEFT :
+        centipute.goLeft();
+        break;
+      case arcade::CommandType::GO_RIGHT :
+        centipute.goRight();
+        break;
+      case arcade::CommandType::WHERE_AM_I :
+        centipute.whereAmI();
+        break;
+      case arcade::CommandType::GET_MAP :
+        centipute.getMap();
+        break;
+      case arcade::CommandType::SHOOT :
+        centipute.shoot();
+        break;
+      case arcade::CommandType::PLAY :
+        centipute.updateGame();
+        break;
+      default:
+        break;
+    }
+  }
+}

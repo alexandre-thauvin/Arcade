@@ -39,19 +39,21 @@ namespace arcade {
         void setchampi();
         bool move_centi();
         void shoot();
+        void getMap();
+        void whereAmI();
     private:
-        Map           *_map;
-        Personnage    *_tower;
-	std::list<Personnage*>    _centi;
-        Missile       *_shoot;
-        Vector2u      _dim;
-        std::vector<Vector2u> _posPerso;
-        std::vector<Vector2u> _posCenti;
-        std::string           _name;
-        bool                  _state;
-        bool                  _alive;
-        unsigned int          _score;
-        unsigned int          food;
+        Map                     *_map;
+        Personnage              *_tower;
+        std::list<Personnage *> _centi;
+        Missile                 *_shoot;
+        Vector2u                _dim;
+        std::vector<Vector2u>   _posPerso;
+        std::vector<Vector2u>   _posCenti;
+        std::string             _name;
+        bool                    _state;
+        bool                    _alive;
+        unsigned int            _score;
+        unsigned int            food;
     };
 }
 
