@@ -60,7 +60,7 @@ void arcade::Map::clear() {
 
   for (tmp.y = 0; tmp.y < _dim.y; ++tmp.y) {
     for (tmp.x = 0; tmp.x < _dim.x; ++tmp.x) {
-      if (_map[tmp.y][tmp.x] != Object && _map[tmp.y][tmp.x] != Centi) {
+      if (_map[tmp.y][tmp.x] != Object) {
         if (tmp.x == 0 || tmp.y == 0 || tmp.y == _dim.y - 1 ||
             tmp.x == _dim.x - 1)
           _map[tmp.y][tmp.x] = Block;

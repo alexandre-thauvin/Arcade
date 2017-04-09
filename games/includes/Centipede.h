@@ -12,6 +12,7 @@
 #include "Map.hpp"
 #include "Personnage.hpp"
 #include "Missile.hpp"
+#include "Centi.hpp"
 #include "IGame.hpp"
 
 namespace arcade {
@@ -42,11 +43,10 @@ namespace arcade {
     private:
         Map           *_map;
         Personnage    *_tower;
-	std::list<Personnage*>    _centi;
+	std::list<Centi*>    _centi;
         Missile       *_shoot;
         Vector2u      _dim;
         std::vector<Vector2u> _posPerso;
-        std::vector<Vector2u> _posCenti;
         std::string           _name;
         bool                  _state;
         bool                  _alive;

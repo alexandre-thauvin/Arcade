@@ -15,6 +15,7 @@ namespace arcade {
     };
 
     class Personnage {
+    protected:
         Direction             _dir;
         std::vector<Vector2u> _pos;
     public:

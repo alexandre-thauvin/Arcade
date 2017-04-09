@@ -18,7 +18,7 @@ void arcade::Centipede::play() {
 }
 
 void arcade::Centipede::shoot() {
-  if (_shoot && _shoot->getAlive())
+  if (_shoot != NULL && _shoot->getAlive())
     return ;
   else
     _shoot = new arcade::Missile(_posPerso[0]);
@@ -68,12 +68,19 @@ std::vector <arcade::Vector2u> const &arcade::Centipede::getPos() const {
 }
 
 arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
+  std::vector<Vector2u>	pos;
+
+  _shoot = NULL;
   _posPerso.push_back(arcade::Vector2u(dim.x / 2, dim.y - 4));
   _map   = new arcade::Map(dim);
   _tower = new arcade::Personnage();
-  _centi.push_back(new arcade::Personnage());
+  pos.push_back(arcade::Vector2u(1, 1));
+  pos.push_back(arcade::Vector2u(2, 1));
+  pos.push_back(arcade::Vector2u(3, 1));
+  pos.push_back(arcade::Vector2u(4, 1));
+  _centi.push_back(new arcade::Centi(pos));
+  _centi.front()->goRight();
   setchampi();
-
   _map->setPosBlock(arcade::Vector2u(1, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(2, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(3, 1), arcade::Map::Centi);
@@ -121,6 +128,9 @@ bool arcade::Centipede::updateGame() {
     _posPerso.insert(it, newPos);
     _tower->setPos(_posPerso);
   }
+  _map->clear();
+  if (!move_centi())
+    return false;
   if (_shoot && _shoot->getAlive())
     {
       _shoot->go();
@@ -146,9 +156,6 @@ bool arcade::Centipede::updateGame() {
 	  }
   	}
     }
-  if (!move_centi())
-    return false;
-  _map->clear();
   for (it = _posPerso.begin(); it != _posPerso.end(); it++) {
     _map->setPosBlock(*it, arcade::Map::Player);
   }
@@ -188,13 +195,48 @@ void arcade::Centipede::setchampi() {
 }
 
 bool arcade::Centipede::move_centi() {
-  // if ((_map->getPosBlock(_posCenti[0]) == Map::Block) ||
-  //     (_map->getPosBlock(_posCenti[0]) == Map::Object))
-  //   {
-  //     _posCenti[0].y -= 1;
-      
-  //   }
-    
+  Vector2u	newPos;
+
+  for (std::list<Centi *>::iterator it = _centi.begin(); it != _centi.end(); it++) {
+    Vector2u	pos((*it)->getPos()[0].x, (*it)->getPos()[0].y);
+      switch ((*it)->getCentiDir()) {
+      case D_RIGHT :
+	newPos.x = pos.x + 1;
+	newPos.y = pos.y;
+	(*it)->setLastDir(D_RIGHT);
+	break;
+      case D_LEFT :
+	newPos.x = pos.x - 1;
+	newPos.y = pos.y;
+	(*it)->setLastDir(D_LEFT);
+      break;
+      case D_DOWN :
+	newPos.x = pos.x;
+	newPos.y = pos.y + 1;
+	break;
+      default :
+	break;
+      }
+      if ((newPos.x == 18 || newPos.x == 1) && newPos.y == 19)
+	return false;
+      if ((*it)->getCentiDir() == D_DOWN && (*it)->getLastDir() == D_RIGHT)
+	(*it)->setCentiDir(D_LEFT);
+      if ((*it)->getCentiDir() == D_DOWN && (*it)->getLastDir() == D_LEFT)
+	(*it)->setCentiDir(D_RIGHT);
+      (*it)->removeLastPos();
+      (*it)->addFirstPos(newPos);
+      if (((*it)->getCentiDir() == D_RIGHT &&
+	   (_map->getPosBlock(Vector2u((*it)->getPos()[0].x + 1, (*it)->getPos()[0].y)) == Map::Block ||
+	    _map->getPosBlock(Vector2u((*it)->getPos()[0].x + 1, (*it)->getPos()[0].y)) == Map::Object))
+	  ||
+	  ((*it)->getCentiDir() == D_LEFT &&
+	   (_map->getPosBlock(Vector2u((*it)->getPos()[0].x - 1, (*it)->getPos()[0].y)) == Map::Block ||
+	    _map->getPosBlock(Vector2u((*it)->getPos()[0].x - 1, (*it)->getPos()[0].y)) == Map::Object)))
+      	(*it)->setCentiDir(D_DOWN);
+      for (std::vector<Vector2u>::const_iterator itv = (*it)->getPos().begin(); itv != (*it)->getPos().end(); itv++) {
+	_map->setPosBlock((*itv), Map::Centi);
+      }
+  }
   return (true);
 }
 
