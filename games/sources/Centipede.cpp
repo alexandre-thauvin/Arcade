@@ -18,8 +18,10 @@ void arcade::Centipede::play() {
 }
 
 void arcade::Centipede::shoot() {
-  _shoot = new arcade::Missile();
-//  _shoot->setPos(_tower->getPos()[0]);
+  if (_shoot && _shoot->getAlive())
+    return ;
+  else
+    _shoot = new arcade::Missile(_posPerso[0]);
 }
 
 void arcade::Centipede::goDown() {
@@ -75,7 +77,6 @@ arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
   _map->setPosBlock(arcade::Vector2u(2,18), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(3, 18), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(4, 18), arcade::Map::Centi);
-  _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y - 4), arcade::Map::Enemy);
   _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y - 4), arcade::Map::Player);
   _dim = dim;
 }
@@ -119,8 +120,26 @@ bool arcade::Centipede::updateGame() {
     _posPerso.insert(it, newPos);
     _tower->setPos(_posPerso);
   }
-//  if (_shoot)
-//    _shoot->setPos(_shoot->get());
+  if (_shoot && _shoot->getAlive())
+    {
+      _shoot->go();
+      if (_map->getPosBlock(_shoot->getPos()) == arcade::Map::Empty)
+  	{
+	  _map->setPosBlock(Vector2u(_shoot->getPos().x, _shoot->getPos().y + 1), Map::Empty);
+	  _map->setPosBlock(_shoot->getPos(), Map::Object);
+	}
+      else
+  	{
+	  if (_map->getPosBlock(_shoot->getPos()) == arcade::Map::Object)
+	    {
+	      _map->setPosBlock(_shoot->getPos(), Map::Empty);
+	      _map->setPosBlock(Vector2u(_shoot->getPos().x, _shoot->getPos().y + 1), Map::Empty);
+	    }
+	  else if (_map->getPosBlock(_shoot->getPos()) == arcade::Map::Block)
+	    _map->setPosBlock(Vector2u(_shoot->getPos().x, _shoot->getPos().y + 1), Map::Empty);
+  	  _shoot->setAlive(false);
+  	}
+    }
   if (!move_centi()) {
     return false;
   }
