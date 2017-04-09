@@ -50,6 +50,12 @@ arcade::Core::Core(void) {
   _input.insert(std::make_pair(
           InputT(InputT::KeyPressed, Input::NEXT_LIB, InputT::None),
           std::bind(&arcade::Core::loadNextGfx, this)));
+  _input.insert(std::make_pair(
+          InputT(InputT::KeyPressed, Input::PREV_GAME, InputT::None),
+          std::bind(&arcade::Core::loadPrevGame, this)));
+  _input.insert(std::make_pair(
+          InputT(InputT::KeyPressed, Input::NEXT_GAME, InputT::None),
+          std::bind(&arcade::Core::loadNextGame, this)));
 
   _gfxlib[SDL]     = "./lib/lib_arcade_sdl.so";
   _gfxlib[NCURSES] = "./lib/lib_arcade_ncurses.so";
@@ -296,6 +302,7 @@ void arcade::Core::goEnter(void) {
   switch (_state) {
     case MenuState:
       if (_menuId >= 0) {
+        _gameId = _menuId;
         loadGame(_menuId);
         _state = GameState::PauseState;
         _gfx->setWindowSize(_game->getDimension() * 30);
@@ -344,6 +351,8 @@ void arcade::Core::loadNextGfx(void) {
 
 void arcade::Core::loadPrevGfx(void) {
   _gfx->close();
+  if (_gfx)
+    delete _gfx;
   _libId = (--_libId < 0) ? (GfxSize - 1) : _libId;
   loadGfx(_libId);
   if (_state != MenuState) {
@@ -365,11 +374,17 @@ void arcade::Core::loadGame(int id) {
 }
 
 void arcade::Core::loadNextGame(void) {
-
+  _gameId = (++_gameId > (GameSize - 1)) ? 0 : _gameId;
+  _state = MenuState;
+  _menuId = _gameId;
+  goEnter();
 }
 
 void arcade::Core::loadPrevGame(void) {
-
+  _gameId = (--_gameId < 0) ? (GameSize - 1) : _gameId;
+  _state = MenuState;
+  _menuId = _gameId;
+  goEnter();
 }
 
 void arcade_ragequit(int x) {
