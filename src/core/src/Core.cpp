@@ -80,15 +80,17 @@ arcade::Core::~Core(void) {
 }
 
 void arcade::Core::init(std::string const &lib, std::string const &conf) {
-  (void) lib;
   (void) conf;
   try {
     signal(SIGINT, arcade_ragequit);
     if (lib.empty()) {
       loadGfx(_libId);
     } else {
-      Loader <IGFX> *gfx_loader = new Loader<IGFX>(_gfxlib[_libId]);
-      _gfx = gfx_loader->getInstance("createLib", Vector2u(SIZE_X, SIZE_Y));
+      for (std::map<int, std::string>::iterator it = _gfxlib.begin(); it != _gfxlib.end(); ++it )
+        if (it->second == lib) {
+          loadGfx(it->first);
+          _libId = it->first;
+        }
     }
     if (_gfx == NULL)
       throw arcade::Error("Error: ", INFO);
