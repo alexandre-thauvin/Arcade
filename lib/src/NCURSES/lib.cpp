@@ -92,12 +92,7 @@ arcade::InputT	arcade::GfxNCURSES::getInput() {
   int input = getch();
   
   if (_input.find(input) != _input.end())
-    {
-      InputT in = _input[input];
-      in.type = InputT::KeyReleased;
-      in.unicode = input;
       return (_input[input]);
-    }
   return (InputT(InputT::None, Input::NONE, InputT::None));
 }
 
