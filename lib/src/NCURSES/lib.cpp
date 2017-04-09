@@ -85,7 +85,6 @@ void           arcade::GfxNCURSES::draw(DrawObject const& obj) {
   } else {
     mvprintw(pos.y, pos.x, obj.getText().c_str());
   }
-  // SDL_SetRenderDrawColor(_renderer, 40, 44, 52, 255 );
 }
 
 arcade::InputT	arcade::GfxNCURSES::getInput() {
