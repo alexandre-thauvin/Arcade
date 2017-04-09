@@ -71,12 +71,13 @@ arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
   _posPerso.push_back(arcade::Vector2u(dim.x / 2, dim.y - 4));
   _map   = new arcade::Map(dim);
   _tower = new arcade::Personnage();
+  _centi.push_back(new arcade::Personnage());
   setchampi();
 
- _map->setPosBlock(arcade::Vector2u(1, 18), arcade::Map::Centi);
-  _map->setPosBlock(arcade::Vector2u(2,18), arcade::Map::Centi);
-  _map->setPosBlock(arcade::Vector2u(3, 18), arcade::Map::Centi);
-  _map->setPosBlock(arcade::Vector2u(4, 18), arcade::Map::Centi);
+  _map->setPosBlock(arcade::Vector2u(1, 1), arcade::Map::Centi);
+  _map->setPosBlock(arcade::Vector2u(2, 1), arcade::Map::Centi);
+  _map->setPosBlock(arcade::Vector2u(3, 1), arcade::Map::Centi);
+  _map->setPosBlock(arcade::Vector2u(4, 1), arcade::Map::Centi);
   _map->setPosBlock(arcade::Vector2u(dim.x / 2, dim.y - 4), arcade::Map::Player);
   _dim = dim;
 }
@@ -126,23 +127,27 @@ bool arcade::Centipede::updateGame() {
       if (_map->getPosBlock(_shoot->getPos()) == arcade::Map::Empty)
   	{
 	  _map->setPosBlock(Vector2u(_shoot->getPos().x, _shoot->getPos().y + 1), Map::Empty);
-	  _map->setPosBlock(_shoot->getPos(), Map::Object);
+	  _map->setPosBlock(_shoot->getPos(), Map::Centi);
 	}
       else
   	{
-	  if (_map->getPosBlock(_shoot->getPos()) == arcade::Map::Object)
-	    {
-	      _map->setPosBlock(_shoot->getPos(), Map::Empty);
-	      _map->setPosBlock(Vector2u(_shoot->getPos().x, _shoot->getPos().y + 1), Map::Empty);
-	    }
-	  else if (_map->getPosBlock(_shoot->getPos()) == arcade::Map::Block)
+	  switch (_map->getPosBlock(_shoot->getPos())) {
+	  case Map::Object :
+	    _map->setPosBlock(_shoot->getPos(), Map::Empty);
 	    _map->setPosBlock(Vector2u(_shoot->getPos().x, _shoot->getPos().y + 1), Map::Empty);
-  	  _shoot->setAlive(false);
+	    _shoot->setAlive(false);
+	    break;
+	  case Map::Block :
+	    _map->setPosBlock(Vector2u(_shoot->getPos().x, _shoot->getPos().y + 1), Map::Empty);
+	    _shoot->setAlive(false);
+	    break;
+	  default :
+	    break;
+	  }
   	}
     }
-  if (!move_centi()) {
+  if (!move_centi())
     return false;
-  }
   _map->clear();
   for (it = _posPerso.begin(); it != _posPerso.end(); it++) {
     _map->setPosBlock(*it, arcade::Map::Player);
@@ -183,63 +188,13 @@ void arcade::Centipede::setchampi() {
 }
 
 bool arcade::Centipede::move_centi() {
-  arcade::Vector2u pos;
-
-  unsigned int	x_tmp;
-  bool 		check = true;
-  for (pos.y = 0 ; pos.y < _dim.y; pos.y++){
-      for (pos.x = 0 ; pos.x < _dim.x; pos.x++){
-	  if (_map->getPosBlock(pos) == arcade::Map::Centi) {
-	      if (check) {
-		_map->setPosBlock(pos, arcade::Map::Empty);
-		check = false;
-	      }
-	      if (_map->getPosBlock(pos) == arcade::Map::Empty || _map->getPosBlock(pos) == arcade::Map::Centi){
-		pos.x++;
-		if (_map->getPosBlock(pos) == arcade::Map::Empty) {
-		  _map->setPosBlock(pos, arcade::Map::Centi);
-		}
-		else if (_map->getPosBlock(pos) == arcade::Map::Object) {
-
-		  pos.y++;
-		  pos.x--;
-		  x_tmp = pos.x;
-		  while(_map->getPosBlock(pos) == arcade::Map::Centi) {
-		    pos.x++;
-		  }
-		  _map->setPosBlock(pos, arcade::Map::Centi);
-		  pos.x = x_tmp;
-		  pos.x++;
-		  pos.y--;
-		}
-	      }
-	      pos.x++;
-	      if (_map->getPosBlock(pos) == arcade::Map::Player) {
-		return false;
-	      }
-	      else if (pos.x + 1 == _dim.x) {
-		pos.y++;
-		x_tmp = pos.x;
-		pos.x = 1;
-		while (_map->getPosBlock(pos) == arcade::Map::Centi)
-		  pos.x++;
-		_map->setPosBlock(pos, arcade::Map::Centi);
-		pos.x = x_tmp;
-		pos.y--;
-	      }
-	    if (pos.x == _dim.x && pos.y + 2 == _dim.y)
-	      {
-		x_tmp = 1;
-		for (pos.x = 18 ; _map->getPosBlock(pos) != arcade::Map::Empty; pos.x--) {
-		  _map->setPosBlock(arcade::Vector2u(x_tmp, 1), arcade::Map::Centi);
-		  _map->setPosBlock(pos, arcade::Map::Empty);
-		  x_tmp++;
-		}
-	      }
-	    pos.x--;
-	  }
-	}
-    }
+  // if ((_map->getPosBlock(_posCenti[0]) == Map::Block) ||
+  //     (_map->getPosBlock(_posCenti[0]) == Map::Object))
+  //   {
+  //     _posCenti[0].y -= 1;
+      
+  //   }
+    
   return (true);
 }
 
