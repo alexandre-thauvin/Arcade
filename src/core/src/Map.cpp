@@ -72,7 +72,7 @@ void arcade::Map::clear() {
 }
 
 arcade::Map::CaseMap arcade::Map::getPosBlock(Vector2u const &pos) const {
-  return _map[pos.y][pos.x]; //TODO: ERROR CHECK
+  return _map[pos.y][pos.x];
 }
 
 void
@@ -88,7 +88,7 @@ arcade::Map::CaseMap **arcade::Map::getMap() const {
   return _map;
 }
 
-void arcade::Map::createObject(Vector2u const& pos) {
+void arcade::Map::createObject(Vector2u const &pos) {
   Vector2u tmp;
 
   srand(time(NULL));
@@ -97,6 +97,6 @@ void arcade::Map::createObject(Vector2u const& pos) {
   while (_map[tmp.y][tmp.x] != Empty && tmp != pos) {
     tmp.x = rand() % _dim.x + 1;
     tmp.y = rand() % _dim.y + 1;
-    } 
+  }
   _map[tmp.y][tmp.x] = Object;
 }

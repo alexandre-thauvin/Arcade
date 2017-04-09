@@ -29,6 +29,8 @@
 # include "Map.hpp"
 
 # define MAIN_SLEEP 10000
+# define SIZE_X 400
+# define SIZE_Y 400
 
 namespace                       arcade {
     enum                        GameState {

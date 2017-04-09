@@ -61,10 +61,7 @@ arcade::InputT	arcade::GfxSDL::getInput() {
   if (event.type == SDL_KEYUP) {
     if (_input.find(event.key.keysym.sym) != _input.end())
       {
-        InputT in = _input[event.key.keysym.sym];
-        in.type = InputT::KeyPressed;
-        in.unicode = event.key.keysym.sym;
-        return (in);
+        return (_input[event.key.keysym.sym]);
       }
   }
   return (InputT(InputT::None, Input::NONE, InputT::None));
