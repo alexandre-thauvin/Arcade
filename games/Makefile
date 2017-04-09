@@ -1,4 +1,4 @@
-GXX		=		g++ -g
+GXX		=		g++
 
 CXXFLAGS        =               -W -Wall -Wextra -std=c++11
 CXXFLAGS        +=              -I./includes/ -I../src/core/include/
@@ -26,7 +26,7 @@ OBJ_C		=		$(SRC_C:.cpp=.o)
 
 OBJ_S		=		$(SRC_S:.cpp=.o)
 
-lib   :		$(OBJ_S) $(OBJ_C)      
+lib   :		$(OBJ_S) $(OBJ_C)
 		$(GXX) $(LDFLAGS) -o $(LIB_S) $(OBJ_S)
 		$(GXX) $(LDFLAGS) -o $(LIB_C) $(OBJ_C)
 

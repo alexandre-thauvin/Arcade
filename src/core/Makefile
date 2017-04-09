@@ -5,10 +5,10 @@
 ## Login   <thauvi_a@epitech.net>
 ##
 ## Started on  Mon Mar  6 14:29:08 2017 Alexandre Thauvin
-## Last update Sat Apr  8 11:34:57 2017 Cedric
+## Last update Sun Apr  9 23:11:45 2017 Alexandre Thauvin
 ##
 
-DEBUG			?=		yes
+DEBUG			?=		no
 
 VERSION			?=		0.1
 

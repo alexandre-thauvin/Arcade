@@ -1,4 +1,4 @@
-CXX		=		g++-6
+CXX		=		g++
 
 RM		=		rm -rf
 
@@ -11,7 +11,7 @@ CXXFLAGS	+=		-I../../include/ -I../../../src/core/include/
 CXXFLAGS	+=		-fPIC
 
 LDFLAGS		+=		-L../../lib/ -shared
-LDFLAGS		+=		-lSDL2 -lSDL2_image -g
+LDFLAGS		+=		-lSDL2 -lSDL2_image
 
 OBJ 		=		$(SRC:.cpp=.o)
 

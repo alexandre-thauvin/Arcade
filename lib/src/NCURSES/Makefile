@@ -1,4 +1,4 @@
-CXX		=		g++-6
+CXX		=		g++
 
 RM		=		rm -rf
 
