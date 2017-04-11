@@ -156,6 +156,7 @@ bool arcade::Centipede::updateGame() {
   	{
 	  switch (_map->getPosBlock(_shoot->getPos())) {
 	  case Map::Object :
+	    _score += 5;
 	    _map->setPosBlock(_shoot->getPos(), Map::Empty);
 	    _map->setPosBlock(Vector2u(_shoot->getPos().x, _shoot->getPos().y + 1), Map::Empty);
 	    _shoot->setAlive(false);
@@ -165,6 +166,7 @@ bool arcade::Centipede::updateGame() {
 	    _shoot->setAlive(false);
 	    break;
 	  case Map::Centi :
+	    _score += 10;
 	    createNewCenti(_shoot->getPos());
 	    _map->setPosBlock(_shoot->getPos(), Map::Object);
 	    _shoot->setAlive(false);
