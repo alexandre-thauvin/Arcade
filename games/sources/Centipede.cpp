@@ -84,7 +84,7 @@ arcade::Centipede::Centipede(arcade::Vector2u const &dim) {
   pos.push_back(arcade::Vector2u(5, 1));
   pos.push_back(arcade::Vector2u(6, 1));
   pos.push_back(arcade::Vector2u(7, 1));
-  _centi.push_back(new arcade::Centi(pos));
+  _centi.push_back(new arcade::Centi(pos, D_RIGHT));
   _centi.front()->goRight();
   setchampi();
   _map->setPosBlock(arcade::Vector2u(1, 1), arcade::Map::Centi);
@@ -165,8 +165,9 @@ bool arcade::Centipede::updateGame() {
 	    _shoot->setAlive(false);
 	    break;
 	  case Map::Centi :
-	    //createNewCenti(_shoot->getPos());
+	    createNewCenti(_shoot->getPos());
 	    _map->setPosBlock(_shoot->getPos(), Map::Object);
+	    _shoot->setAlive(false);
 	  default :
 	    break;
 	  }
@@ -175,22 +176,36 @@ bool arcade::Centipede::updateGame() {
   return true;
 }
 
-// void arcade::Centipede::createNewCenti(arcade::Vector2u const& pos) {
-//   int	i = -1;
-  
-//   for (std::list<Centi *>::iterator it = _centi.begin(); it != _centi.end(); it++) {
-//     for (std::vector<Vector2u>::const_iterator itv = (*it)->getPos().begin(); itv != (*it)->getPos().end(); itv++) {
-//       if (pos.x == (*itv).x && pos.y == (*itv).y)
-// 	i = 0;
-//       if (i >= 0)
-//       	{
-//       	  i++;
-//       	  (*it)->removeLastPos();
-//       	}
-//     }
-//   }
-//   std::cout << i << "\n";
-// }
+void arcade::Centipede::createNewCenti(arcade::Vector2u const& pos) {
+  int	i;
+  std::vector<Vector2u> newCenti;
+  std::list<Centi *>::iterator it = _centi.begin();
+
+  for (; it != _centi.end(); it++) {
+    i = -1;
+    for (std::vector<Vector2u>::const_iterator itv = (*it)->getPos().begin(); itv != (*it)->getPos().end(); itv++) {
+      if (i >= 0) {
+	newCenti.push_back(*itv);
+	i++;
+      }
+      if (pos.x == (*itv).x && pos.y == (*itv).y)
+	i = 0;
+    }
+    if (i > -1 && i != 0)
+      {
+	_centi.push_back(new arcade::Centi(newCenti, (*it)->getDir()));
+	break ;
+      }
+  }
+  if (i > -1)
+    {
+      while (i > 0)
+	{
+	  (*it)->removeLastPos();
+	  i--;
+	}
+    }
+}
 
 void arcade::Centipede::setchampi() {
   for (unsigned int y = 1; y < 19; ++y) {
@@ -205,7 +220,7 @@ bool arcade::Centipede::move_centi() {
   Vector2u	newPos;
 
   for (std::list<Centi *>::iterator it = _centi.begin(); it != _centi.end(); it++) {
-    Vector2u	pos((*it)->getPos()[0].x, (*it)->getPos()[0].y);
+    Vector2u	pos((*it)->getPos().front().x, (*it)->getPos().front().y);
       switch ((*it)->getCentiDir()) {
       case D_RIGHT :
 	newPos.x = pos.x + 1;
@@ -233,12 +248,14 @@ bool arcade::Centipede::move_centi() {
       (*it)->removeLastPos();
       (*it)->addFirstPos(newPos);
       if (((*it)->getCentiDir() == D_RIGHT &&
-	   (_map->getPosBlock(Vector2u((*it)->getPos()[0].x + 1, (*it)->getPos()[0].y)) == Map::Block ||
-	    _map->getPosBlock(Vector2u((*it)->getPos()[0].x + 1, (*it)->getPos()[0].y)) == Map::Object))
+	   (_map->getPosBlock(Vector2u((*it)->getPos().front().x + 1, (*it)->getPos().front().y)) == Map::Block ||
+	    _map->getPosBlock(Vector2u((*it)->getPos().front().x + 1, (*it)->getPos().front().y)) == Map::Centi ||
+	    _map->getPosBlock(Vector2u((*it)->getPos().front().x + 1, (*it)->getPos().front().y)) == Map::Object))
 	  ||
 	  ((*it)->getCentiDir() == D_LEFT &&
-	   (_map->getPosBlock(Vector2u((*it)->getPos()[0].x - 1, (*it)->getPos()[0].y)) == Map::Block ||
-	    _map->getPosBlock(Vector2u((*it)->getPos()[0].x - 1, (*it)->getPos()[0].y)) == Map::Object)))
+	   (_map->getPosBlock(Vector2u((*it)->getPos().front().x - 1, (*it)->getPos().front().y)) == Map::Block ||
+	    _map->getPosBlock(Vector2u((*it)->getPos().front().x - 1, (*it)->getPos().front().y)) == Map::Centi ||
+	    _map->getPosBlock(Vector2u((*it)->getPos().front().x - 1, (*it)->getPos().front().y)) == Map::Object)))
       	(*it)->setCentiDir(D_DOWN);
       for (std::vector<Vector2u>::const_iterator itv = (*it)->getPos().begin(); itv != (*it)->getPos().end(); itv++) {
 	_map->setPosBlock((*itv), Map::Centi);

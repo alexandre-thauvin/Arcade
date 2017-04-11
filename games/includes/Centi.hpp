@@ -9,9 +9,10 @@ namespace arcade {
     Direction	centiDir;
     Direction	lastDir;
   public:
-    Centi(std::vector<Vector2u> const&);
+    Centi(std::vector<Vector2u> const&, Direction);
     ~Centi() {}
     void	removeLastPos();
+    void	removeMidPos(std::vector<Vector2u>::const_iterator const&);
     void	addFirstPos(Vector2u );
     Direction const& getLastDir() const;
     void	setLastDir(Direction const&);
